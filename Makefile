@@ -1,50 +1,62 @@
-# Nom du compilateur
-CC = gcc
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2020/08/27 16:09:01 by asoursou          #+#    #+#              #
+#    Updated: 2024/01/22 18:02:00 by rogalio          ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
-# Options de compilation
-CFLAGS = -Wall -Wextra -Werror
+# COMPILATION
+FT		:= libft
+CC		:= clang
+CFLAGS	:= -Wall -Wextra -Werror -Wpedantic -Wvla -Ofast -fno-builtin
+DFLAGS	= -MP -MMD -MF $(BUILD)/$*.d -MT $@
+IFLAGS	:= -isystem./$(FT)/inc -I./include -I./inc/private
+LDFLAGS	:= -L./$(FT) -lft
 
-# Nom de l'exécutable
-NAME = minishell
+# DIRECTORIES
+BUILD	:= .build
+SUB_DIR	:= $(wildcard src/*/.)
+SUB_DIR	:= $(SUB_DIR:src/%/.=$(BUILD)/%/)
 
-# Dossiers
-SRC_DIR = src
-OBJ_DIR = obj
-INC_DIR = includes
-LIBFT_DIR = libft
+# FILES
+NAME	:= minishell
+SRC		:= $(wildcard src/*/*.c) $(wildcard src/*.c)
+SRC		:= $(SRC:src/%=%)
+DEP		:= $(SRC:%.c=$(BUILD)/%.d)
+OBJ		:= $(SRC:%.c=$(BUILD)/%.o)
 
-# Fichiers source (.c) et objet (.o)
-SRCS = $(wildcard $(SRC_DIR)/*.c)
-OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
+$(NAME): $(OBJ)
+	make -j -C $(FT)
+	$(CC) $(CFLAGS) $(IFLAGS) $^ -o $@ $(LDFLAGS)
 
-# Règle par défaut
 all: $(NAME)
 
-# Règle pour créer l'exécutable
-$(NAME): $(OBJS) libft
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) -L$(LIBFT_DIR) -lft
+bonus: all
 
-# Règle pour créer les fichiers objet
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
-	mkdir -p $(OBJ_DIR)
-	$(CC) $(CFLAGS) -I$(INC_DIR) -I$(LIBFT_DIR) -c $< -o $@
-
-# Règle pour compiler la libft
-libft:
-	make -C $(LIBFT_DIR)
-
-# Règle pour nettoyer les fichiers objet
 clean:
-	rm -rf $(OBJ_DIR)
-	make -C $(LIBFT_DIR) clean
+	make -C $(FT) $@
+	rm -rf $(BUILD)
 
-# Règle pour nettoyer tout ce qui peut être regénéré
 fclean: clean
-	rm -f $(NAME)
-	make -C $(LIBFT_DIR) fclean
+	make -C $(FT) $@
+	rm -rf $(NAME)
 
-# Règle pour recompiler
 re: fclean all
 
-# Règle pour éviter des conflits avec des fichiers portant le nom des règles
-.PHONY: all clean fclean re libft
+$(BUILD):
+	mkdir $@
+
+$(SUB_DIR): | $(BUILD)
+	mkdir $@
+
+$(BUILD)/%.o: src/%.c | $(SUB_DIR)
+	$(CC) $(CFLAGS) $(DFLAGS) $(IFLAGS) -c $< -o $@
+
+-include $(DEP)
+
+.PHONY: all bonus clean fclean re

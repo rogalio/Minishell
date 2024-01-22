@@ -6,18 +6,21 @@
 /*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 13:02:19 by rogalio           #+#    #+#             */
-/*   Updated: 2024/01/10 17:28:01 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/01/22 18:26:17 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "minishell.h"
+#include "token.h"
+
 
 int		main(int argc, char **argv, char **envp)
 {
     (void)argc;
     (void)argv;
     (void)envp;
-    ft_putstr_fd("Hello World !\n", 1);
 
+    t_token *t = token_new(TOKEN_WORD, "Hello World !");
+    token_print(t);
     return (0);
 }
