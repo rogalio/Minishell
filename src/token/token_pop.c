@@ -1,41 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   token_pop.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/10 13:02:19 by rogalio           #+#    #+#             */
-/*   Updated: 2024/01/23 11:15:57 by rogalio          ###   ########.fr       */
+/*   Created: 2024/01/22 19:38:37 by rogalio           #+#    #+#             */
+/*   Updated: 2024/01/22 19:38:39 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 #include "token.h"
-#include "parser.h"
 
-
-int		main(int argc, char **argv, char **envp)
+char	*token_pop(t_token *t)
 {
-    (void)argc;
-    (void)argv;
-    (void)envp;
+	char *value;
 
-
-    t_token *t = token_new(TOKEN_REDIRECT, ">> hello world || echo cava ");
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    return (0);
+	value = t->value;
+	if (token_is_dynamic(t))
+		ft_free(t);
+	return (value);
 }
