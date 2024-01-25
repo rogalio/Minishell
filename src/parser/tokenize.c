@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/23 10:56:18 by rogalio           #+#    #+#             */
-/*   Updated: 2024/01/23 11:02:43 by rogalio          ###   ########.fr       */
+/*   Created: 2024/01/25 12:19:30 by rogalio           #+#    #+#             */
+/*   Updated: 2024/01/25 13:26:23 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,3 +64,5 @@ t_list				*tokenize(const char *s)
 	}
 	return (ft_list_rev(l));
 }
+
+
