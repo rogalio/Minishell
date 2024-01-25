@@ -6,7 +6,7 @@
 /*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 11:14:00 by rogalio           #+#    #+#             */
-/*   Updated: 2024/01/25 14:45:26 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/01/25 17:24:53 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,6 @@ t_list *ft_lst_new(void *content)
     l->next = NULL;
     return (l);
 }
-
-
-
-
-
 
 t_list *ft_lstadd_back(t_list **alst, t_list *new)
 {

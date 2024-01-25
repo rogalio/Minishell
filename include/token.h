@@ -6,7 +6,7 @@
 /*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 16:43:08 by rogalio           #+#    #+#             */
-/*   Updated: 2024/01/22 18:00:16 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/01/25 18:42:14 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,19 +19,12 @@
 
 /*
 ** All known symbols type.
-** TOKEN_WILDCARD is only used during word expansion.
 */
 enum		e_token_type
 {
 	TOKEN_WORD,
-	TOKEN_MULTILINE,
 	TOKEN_REDIRECT,
 	TOKEN_PIPE,
-	TOKEN_SEMICOLON,
-	TOKEN_LOGICAL_OP,
-	TOKEN_PAR_LEFT,
-	TOKEN_PAR_RIGHT,
-	TOKEN_WILDCARD
 };
 typedef enum e_token_type	t_token_type;
 
@@ -44,6 +37,7 @@ struct		s_token
 {
 	t_token_type	type;
 	char			*value;
+
 };
 typedef struct s_token	t_token;
 

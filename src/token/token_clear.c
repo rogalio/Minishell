@@ -6,13 +6,15 @@
 /*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 18:14:55 by rogalio           #+#    #+#             */
-/*   Updated: 2024/01/22 18:19:26 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/01/25 17:37:31 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "token.h"
 #include "libft.h"
 
+
+/*
 void    token_clear(t_token *t)
 {
 	if (!token_is_dynamic(t))
@@ -20,3 +22,6 @@ void    token_clear(t_token *t)
 	ft_free(t->value);
 	ft_free(t);
 }
+
+*/
+

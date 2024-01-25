@@ -6,7 +6,7 @@
 /*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 19:40:36 by rogalio           #+#    #+#             */
-/*   Updated: 2024/01/25 12:09:13 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/01/25 19:08:08 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,10 @@ typedef struct s_pda	t_pda;
 /*
 ** This function is called by is_valid.
 */
-void	pda_init(t_pda *p);
+//void	pda_init(t_pda *p);
+int		pda_init(t_list *list);
+int pda_verify(t_list *tokens);
+int validate_tokens(t_list *tokens);
 
 /*
 ** Checks if the given list of tokens is a valid expression.
