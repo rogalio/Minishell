@@ -6,7 +6,7 @@
 /*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 13:02:19 by rogalio           #+#    #+#             */
-/*   Updated: 2024/01/25 20:14:24 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/01/26 18:24:57 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int		main(int argc, char **argv, char **envp)
     (void)envp;
 
 
-    int verify = validate_tokens(tokenize2(" cat  | > file"));
+    int verify = validate_tokens(tokenize2(" cat -e 'hello world' "));
     if (verify == 1)
         printf("valid\n");
     else
