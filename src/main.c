@@ -6,7 +6,7 @@
 /*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 13:02:19 by rogalio           #+#    #+#             */
-/*   Updated: 2024/01/29 18:54:06 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/01/29 19:00:09 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,34 +20,37 @@
 // - les sigle quotes dans tokenize
 
 
-void printAST(ASTNode *node, int level) {
+void printTree(ASTNode *node, int space) {
     if (node == NULL) {
         return;
     }
 
-    // Création de l'indentation
-    for (int i = 0; i < level; i++) {
-        printf("    ");
+    // Augmenter la distance entre les niveaux
+    space += 10;
+
+    // Traiter le nœud droit en premier (dessus)
+    printTree(node->right, space);
+
+    // Afficher le nœud courant après l'espace
+    printf("\n");
+    for (int i = 10; i < space; i++) {
+        printf(" ");
+    }
+    if (node->type == AST_PIPE) {
+        printf("[PIPE]\n");
+    } else if (node->type == AST_REDIRECTION) {
+        printf("[REDIRECT] %s\n", node->value ? node->value : "null");
+    } else { // AST_COMMAND
+        printf("[COMMAND] %s\n", node->value ? node->value : "null");
     }
 
-    // Affichage du type de nœud et de sa valeur
-    switch (node->type) {
-        case AST_COMMAND:
-            printf("[COMMAND] %s\n", node->value ? node->value : "null");
-            break;
-        case AST_REDIRECTION:
-            printf("[REDIRECT] %s\n", node->value ? node->value : "null");
-            break;
-        case AST_PIPE:
-            printf("[PIPE]\n");
-            break;
-    }
-
-    // Appels récursifs pour les enfants gauche et droit
-    printAST(node->left, level + 1);
-    printAST(node->right, level + 1);
+    // Traiter le nœud gauche (dessous)
+    printTree(node->left, space);
 }
 
+void printAST(ASTNode *root) {
+    printTree(root, 0);
+}
 
 int		main(int argc, char **argv, char **envp)
 {
@@ -70,7 +73,7 @@ int		main(int argc, char **argv, char **envp)
    ASTNode *root = parseInput(test);
    (void)root;
 
-   printAST(root, 0);
+   printAST(root);
 
 
 
