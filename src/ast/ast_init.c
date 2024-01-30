@@ -6,7 +6,7 @@
 /*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 17:17:35 by rogalio           #+#    #+#             */
-/*   Updated: 2024/01/29 18:46:35 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/01/30 13:16:59 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,7 @@ typedef struct ASTNode {
     struct ASTNode *right; // Utilisé pour les pipes
 } ASTNode;
 
-// Fonctions auxiliaires (à implémenter)
-
-
-ASTNode* createASTNode(ASTNodeType type, char *value)
-{
+ASTNode* createASTNode(ASTNodeType type, char *value) {
     ASTNode *node = malloc(sizeof(ASTNode));
     node->type = type;
     node->value = value;
@@ -40,47 +36,73 @@ ASTNode* createASTNode(ASTNodeType type, char *value)
     return node;
 }
 
-void attachLeft(ASTNode *node, ASTNode *left) {
-    node->left = left;
+void attachLeft(ASTNode *parent, ASTNode *child) {
+    parent->left = child;
 }
 
-void attachRight(ASTNode *node, ASTNode *right) {
-    node->right = right;
+void attachRight(ASTNode *parent, ASTNode *child) {
+    parent->right = child;
 }
+
+
+
+
 
 ASTNode* parseCommand(t_list **currentToken) {
     t_token *token = (t_token *)(*currentToken)->content;
-    ASTNode *commandNode = createASTNode(AST_COMMAND, token->value);
+    ASTNode *commandNode = createASTNode(AST_COMMAND, ft_strdup(token->value));
+    ASTNode *lastNode = NULL;
+
     *currentToken = (*currentToken)->next;
-    while (*currentToken) {
+    while (*currentToken && ((t_token *)(*currentToken)->content)->type == TOKEN_WORD) {
         token = (t_token *)(*currentToken)->content;
-        if (token->type == TOKEN_WORD) {
-            ASTNode *argumentNode = createASTNode(AST_COMMAND, token->value);
-            attachRight(commandNode, argumentNode);
-            *currentToken = (*currentToken)->next;
+        ASTNode *argNode = createASTNode(AST_COMMAND, ft_strdup(token->value));
+        if (!lastNode) {
+            commandNode->right = argNode; // Attache le premier argument à la commande
         } else {
-            break;
+            lastNode->right = argNode; // Attache les arguments suivants au précédent
         }
+        lastNode = argNode; // Mise à jour du dernier nœud
+        *currentToken = (*currentToken)->next;
     }
+
     return commandNode;
 }
 
-ASTNode* parseInput(t_list *tokens)
-{
+ASTNode* parseInput(t_list *tokens) {
     t_list *currentToken = tokens;
-    ASTNode *root = parseCommand(&currentToken);
+    ASTNode *root = NULL;
+    ASTNode *lastNode = NULL;
+
     while (currentToken) {
         t_token *token = (t_token *)currentToken->content;
+
         if (token->type == TOKEN_PIPE) {
-            currentToken = currentToken->next;
-            ASTNode *right = parseCommand(&currentToken);
             ASTNode *pipeNode = createASTNode(AST_PIPE, NULL);
-            attachLeft(pipeNode, root);
-            attachRight(pipeNode, right);
-            root = pipeNode;
-        } else {
-            break;
+            if (root == NULL) {
+                root = pipeNode;
+            } else {
+                attachLeft(pipeNode, root);
+                root = pipeNode;
+            }
+            lastNode = pipeNode;
+            currentToken = currentToken->next;
+        } else if (token->type == TOKEN_REDIRECT) {
+            ASTNode *redirectionNode = createASTNode(AST_REDIRECTION, ft_strdup(token->value));
+            attachLeft(redirectionNode, lastNode);
+            lastNode = redirectionNode;
+            currentToken = currentToken->next;
+        } else if (token->type == TOKEN_WORD) {
+            ASTNode *commandNode = parseCommand(&currentToken);
+            if (lastNode) {
+                attachRight(lastNode, commandNode);
+            } else {
+                root = commandNode;
+            }
+            lastNode = commandNode;
         }
     }
+
     return root;
 }
+
