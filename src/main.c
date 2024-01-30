@@ -6,7 +6,7 @@
 /*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 13:02:19 by rogalio           #+#    #+#             */
-/*   Updated: 2024/01/30 13:18:13 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/01/30 18:57:24 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,83 +14,43 @@
 #include "token.h"
 #include "parser.h"
 #include "ast.h"
+#include "rdp.h"
 
 
 // probleme a traiter :
 // - les sigle quotes dans tokenize
 // - faut il gerer les argumenrs ezt leur option dans une seul variable ou independament
 
-/*
-void printTree(ASTNode *node, int space) {
-    if (node == NULL) {
-        return;
-    }
 
-    // Augmenter la distance entre les niveaux
-    space += 10;
+void printCommand(t_command *command) {
+    if (command == NULL) return;
 
-    // Traiter le nœud droit en premier (dessus)
-    printTree(node->right, space);
-
-    // Afficher le nœud courant après l'espace
-    printf("\n");
-    for (int i = 10; i < space; i++) {
-        printf(" ");
-    }
-    if (node->type == AST_PIPE) {
-        printf("[PIPE]\n");
-    } else if (node->type == AST_REDIRECTION) {
-        printf("[REDIRECT] %s\n", node->value ? node->value : "null");
-    } else { // AST_COMMAND
-        printf("[COMMAND] %s\n", node->value ? node->value : "null");
-    }
-
-    // Traiter le nœud gauche (dessous)
-    printTree(node->left, space);
-}
-
-void printAST(ASTNode *root) {
-    printTree(root, 0);
-}
-
-*/
-
-void printCommandAndArguments(ASTNode *commandNode) {
-    printf("[COMMAND] %s", commandNode->value ? commandNode->value : "null");
-    ASTNode *argNode = commandNode->right;
-    while (argNode != NULL) {
-        printf(" %s", argNode->value ? argNode->value : "null");
-        argNode = argNode->right;
+    printf("Command: %s ", command->cmd);
+    for (int i = 0; i < command->arg_count; i++) {
+        printf("%s ", command->args[i]);
     }
     printf("\n");
 }
 
-void printTree(ASTNode *node, int space) {
-    if (node == NULL) {
-        return;
-    }
+void printRedirection(t_redirection *redirection) {
+    if (redirection == NULL) return;
 
-    space += 10;
-    printTree(node->right, space);
-
-    printf("\n");
-    for (int i = 10; i < space; i++) {
-        printf(" ");
-    }
-
-    if (node->type == AST_PIPE) {
-        printf("[PIPE]\n");
-    } else if (node->type == AST_REDIRECTION) {
-        printf("[REDIRECT] %s\n", node->value ? node->value : "null");
-    } else if (node->type == AST_COMMAND) {
-        printCommandAndArguments(node);
-    }
-
-    printTree(node->left, space);
+    printf("Redirection: %s %s\n", redirection->type, redirection->file);
 }
 
-void printAST(ASTNode *root) {
-    printTree(root, 0);
+void print_pipeline(t_pipeline *pipeline) {
+    if (pipeline == NULL) return;
+
+    for (int i = 0; i < pipeline->command_count; i++) {
+        printCommand(pipeline->commands[i]);
+        if (i < pipeline->command_count - 1) {
+            printf("|\n"); // Indique un pipe entre les commandes
+        }
+    }
+
+    for (int i = 0; i < pipeline->redirect_count; i++) {
+        printRedirection(pipeline->redirects[i]);
+    }
 }
 
 
@@ -110,13 +70,14 @@ int		main(int argc, char **argv, char **envp)
 
     */
 
-   t_list *test = tokenize2("cat -e hello world | test -e  > test.txt  ");
+   t_list *test = tokenize2(" < cat -e hello world | cat -e > file");;
+    t_pipeline *pipeline = parse_rdp(test);
+    print_pipeline(pipeline);
+
+
 
    /*
-
-   */
-
-  while (test)
+     while (test)
    {
        t_token *token = (t_token *)test->content;
        printf("type : %d  ", token->type);
@@ -125,17 +86,7 @@ int		main(int argc, char **argv, char **envp)
    }
 
 
-/*
-
- ASTNode *root = parseInput(test);
-   (void)root;
-
-   printAST(root);
-
-*/
-
-
-
+   */
 
     return (0);
 }

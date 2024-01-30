@@ -6,12 +6,14 @@
 /*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 17:17:35 by rogalio           #+#    #+#             */
-/*   Updated: 2024/01/30 13:16:59 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/01/30 18:02:44 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "token.h"
 #include "parser.h"
+// import fot printf
+#include <stdio.h>
 
 typedef enum
 {
@@ -45,64 +47,57 @@ void attachRight(ASTNode *parent, ASTNode *child) {
 }
 
 
-
-
-
+/*
 ASTNode* parseCommand(t_list **currentToken) {
-    t_token *token = (t_token *)(*currentToken)->content;
-    ASTNode *commandNode = createASTNode(AST_COMMAND, ft_strdup(token->value));
-    ASTNode *lastNode = NULL;
-
+    ASTNode *commandNode = createASTNode(AST_COMMAND, ((t_token *)(*currentToken)->content)->value);
     *currentToken = (*currentToken)->next;
     while (*currentToken && ((t_token *)(*currentToken)->content)->type == TOKEN_WORD) {
-        token = (t_token *)(*currentToken)->content;
-        ASTNode *argNode = createASTNode(AST_COMMAND, ft_strdup(token->value));
-        if (!lastNode) {
-            commandNode->right = argNode; // Attache le premier argument à la commande
-        } else {
-            lastNode->right = argNode; // Attache les arguments suivants au précédent
-        }
-        lastNode = argNode; // Mise à jour du dernier nœud
+        ASTNode *argNode = createASTNode(AST_COMMAND, ((t_token *)(*currentToken)->content)->value);
+        attachLeft(argNode, commandNode->right);
+        attachRight(argNode, NULL);
+        attachLeft(commandNode, argNode);
         *currentToken = (*currentToken)->next;
     }
-
     return commandNode;
 }
 
 ASTNode* parseInput(t_list *tokens) {
+// prend en compte pipe en top priorite puis redirection puis word . mettre une commande par noeux
     t_list *currentToken = tokens;
     ASTNode *root = NULL;
-    ASTNode *lastNode = NULL;
-
+    ASTNode *currentNode = NULL;
     while (currentToken) {
-        t_token *token = (t_token *)currentToken->content;
-
-        if (token->type == TOKEN_PIPE) {
+        if (((t_token *)currentToken->content)->type == TOKEN_PIPE) {
             ASTNode *pipeNode = createASTNode(AST_PIPE, NULL);
+            attachLeft(pipeNode, currentNode);
+            attachRight(pipeNode, NULL);
+            currentNode = pipeNode;
             if (root == NULL) {
                 root = pipeNode;
-            } else {
-                attachLeft(pipeNode, root);
-                root = pipeNode;
             }
-            lastNode = pipeNode;
-            currentToken = currentToken->next;
-        } else if (token->type == TOKEN_REDIRECT) {
-            ASTNode *redirectionNode = createASTNode(AST_REDIRECTION, ft_strdup(token->value));
-            attachLeft(redirectionNode, lastNode);
-            lastNode = redirectionNode;
-            currentToken = currentToken->next;
-        } else if (token->type == TOKEN_WORD) {
+        } else if (((t_token *)currentToken->content)->type == TOKEN_REDIRECT) {
+            ASTNode *redirectionNode = createASTNode(AST_REDIRECTION, ((t_token *)currentToken->content)->value);
+            attachLeft(redirectionNode, currentNode);
+            attachRight(redirectionNode, NULL);
+            currentNode = redirectionNode;
+            if (root == NULL) {
+                root = redirectionNode;
+            }
+        } else if (((t_token *)currentToken->content)->type == TOKEN_WORD) {
             ASTNode *commandNode = parseCommand(&currentToken);
-            if (lastNode) {
-                attachRight(lastNode, commandNode);
-            } else {
+            attachLeft(commandNode, currentNode);
+            attachRight(commandNode, NULL);
+            currentNode = commandNode;
+            if (root == NULL) {
                 root = commandNode;
             }
-            lastNode = commandNode;
         }
+        currentToken = currentToken->next;
     }
-
     return root;
 }
+
+*/
+
+
 
