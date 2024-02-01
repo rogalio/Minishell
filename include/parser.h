@@ -6,7 +6,7 @@
 /*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 19:40:36 by rogalio           #+#    #+#             */
-/*   Updated: 2024/01/25 19:08:08 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/02/01 18:25:00 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,5 @@ int		is_valid(t_list *tokens);
 ** Returns the new list of tokens.
 */
 t_list	*tokenize(const char *s);
-t_list	*tokenize2(const char *s);
 
 #endif
