@@ -6,14 +6,14 @@
 #    By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/08/27 16:09:01 by asoursou          #+#    #+#              #
-#    Updated: 2024/01/22 18:02:00 by rogalio          ###   ########.fr        #
+#    Updated: 2024/01/30 18:59:33 by rogalio          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # COMPILATION
 FT		:= libft
 CC		:= clang
-CFLAGS	:= -Wall -Wextra -Werror -Wpedantic -Wvla -Ofast -fno-builtin
+CFLAGS	:= -Wall -Wextra -Werror
 DFLAGS	= -MP -MMD -MF $(BUILD)/$*.d -MT $@
 IFLAGS	:= -isystem./$(FT)/inc -I./include -I./inc/private
 LDFLAGS	:= -L./$(FT) -lft

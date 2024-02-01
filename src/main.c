@@ -6,92 +6,51 @@
 /*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 13:02:19 by rogalio           #+#    #+#             */
-/*   Updated: 2024/01/30 13:18:13 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/02/01 20:16:45 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "token.h"
 #include "parser.h"
-#include "ast.h"
+#include "rdp.h"
 
 
 // probleme a traiter :
 // - les sigle quotes dans tokenize
 // - faut il gerer les argumenrs ezt leur option dans une seul variable ou independament
 
-/*
-void printTree(ASTNode *node, int space) {
-    if (node == NULL) {
-        return;
+
+void printCommand(t_command *command) {
+    if (!command) return;
+
+    printf("Command: %s\n", command->cmd);
+    printf("Arguments: ");
+    for (int i = 0; i < command->arg_count; i++) {
+        printf("%s ", command->args[i]);
     }
-
-    // Augmenter la distance entre les niveaux
-    space += 10;
-
-    // Traiter le nœud droit en premier (dessus)
-    printTree(node->right, space);
-
-    // Afficher le nœud courant après l'espace
     printf("\n");
-    for (int i = 10; i < space; i++) {
-        printf(" ");
-    }
-    if (node->type == AST_PIPE) {
-        printf("[PIPE]\n");
-    } else if (node->type == AST_REDIRECTION) {
-        printf("[REDIRECT] %s\n", node->value ? node->value : "null");
-    } else { // AST_COMMAND
-        printf("[COMMAND] %s\n", node->value ? node->value : "null");
-    }
 
-    // Traiter le nœud gauche (dessous)
-    printTree(node->left, space);
-}
-
-void printAST(ASTNode *root) {
-    printTree(root, 0);
-}
-
-*/
-
-void printCommandAndArguments(ASTNode *commandNode) {
-    printf("[COMMAND] %s", commandNode->value ? commandNode->value : "null");
-    ASTNode *argNode = commandNode->right;
-    while (argNode != NULL) {
-        printf(" %s", argNode->value ? argNode->value : "null");
-        argNode = argNode->right;
+    if (command->redirect) {
+        printf("Redirection: %s %s\n", command->redirect->type, command->redirect->file);
     }
     printf("\n");
 }
 
-void printTree(ASTNode *node, int space) {
-    if (node == NULL) {
-        return;
-    }
+void print_pipeline(t_pipeline *pipeline) {
+    if (!pipeline) return;
 
-    space += 10;
-    printTree(node->right, space);
+    for (int i = 0; i < pipeline->command_count; i++) {
+        printCommand(pipeline->commands[i]);
+    }
+    printf("Pipe positions: ");
+    for (int i = 0; i < pipeline->pipe_count; i++) {
+        printf("%d ", pipeline->pipe_positions[i]);
+    }
 
     printf("\n");
-    for (int i = 10; i < space; i++) {
-        printf(" ");
-    }
-
-    if (node->type == AST_PIPE) {
-        printf("[PIPE]\n");
-    } else if (node->type == AST_REDIRECTION) {
-        printf("[REDIRECT] %s\n", node->value ? node->value : "null");
-    } else if (node->type == AST_COMMAND) {
-        printCommandAndArguments(node);
-    }
-
-    printTree(node->left, space);
 }
 
-void printAST(ASTNode *root) {
-    printTree(root, 0);
-}
 
 
 int		main(int argc, char **argv, char **envp)
@@ -110,13 +69,14 @@ int		main(int argc, char **argv, char **envp)
 
     */
 
-   t_list *test = tokenize2("cat -e hello world | test -e  > test.txt  ");
+   t_list *test = tokenize("wc -l < out.txt | ls -l >> out.txt ");
+    t_pipeline *pipeline = parse_rdp(test);
+   print_pipeline(pipeline);
+
+
 
    /*
-
-   */
-
-  while (test)
+     while (test)
    {
        t_token *token = (t_token *)test->content;
        printf("type : %d  ", token->type);
@@ -125,17 +85,7 @@ int		main(int argc, char **argv, char **envp)
    }
 
 
-/*
-
- ASTNode *root = parseInput(test);
-   (void)root;
-
-   printAST(root);
-
-*/
-
-
-
+   */
 
     return (0);
 }
