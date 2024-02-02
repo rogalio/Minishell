@@ -6,7 +6,7 @@
 /*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 18:03:55 by rogalio           #+#    #+#             */
-/*   Updated: 2024/02/02 11:00:28 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/02/02 16:49:04 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,24 +16,22 @@
 
 #define MAX_ARGS 10
 
-typedef struct s_redirection {
-    char *type; // "<", ">", ">>", etc.
+typedef struct s_redirection
+{
+    char *type;
     char *file;
 } t_redirection;
 
-typedef struct s_command {
-    char *cmd;
-    char **args; // Tableau de chaînes pour les arguments
-    int arg_count;
-    int is_piped;
-    t_redirection *redirect; // Redirection associée à la commande
+typedef struct s_command
+{
+    char **args;
+    t_redirection *redirect;
 } t_command;
 
-typedef struct s_pipeline {
-    t_command **commands; // Tableau de commandes
-    int command_count; // Nombre de commandes
-    int *pipe_positions; // Positions des pipes
-    int pipe_count; // Nombre de pipes
+typedef struct s_pipeline
+{
+    t_command **commands;
+    int command_count;
 } t_pipeline;
 
 t_pipeline *parse_rdp(t_list *tokens);
