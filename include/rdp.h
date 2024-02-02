@@ -6,7 +6,7 @@
 /*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 18:03:55 by rogalio           #+#    #+#             */
-/*   Updated: 2024/02/01 19:57:17 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/02/02 11:00:28 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ typedef struct s_command {
     char *cmd;
     char **args; // Tableau de chaînes pour les arguments
     int arg_count;
+    int is_piped;
     t_redirection *redirect; // Redirection associée à la commande
 } t_command;
 
