@@ -6,7 +6,7 @@
 /*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 13:02:19 by rogalio           #+#    #+#             */
-/*   Updated: 2024/02/02 17:03:34 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/02/02 19:03:28 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int		main(int argc, char **argv, char **envp)
 
     */
 
-    t_list *test = tokenize(" cat -e  | grep -e ""hello"" << file.txt <");
+    t_list *test = tokenize(" cat -e  | grep -e ""hello"" << file.txt  | wc -l");
     t_pipeline *pipeline = parse_rdp(test);
     print_pipeline(pipeline);
 
