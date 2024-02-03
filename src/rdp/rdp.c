@@ -6,7 +6,7 @@
 /*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 17:52:57 by rogalio           #+#    #+#             */
-/*   Updated: 2024/02/02 20:27:38 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/02/03 20:03:15 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,24 +121,20 @@ void add_argument_to_command(t_command *command, char *arg)
 
 }
 
-void handle_redirection(t_list **token_list, t_command *cmd)
+void handle_redirection(t_token token, t_command *command)
 {
-    t_token *token;
-    t_token *file_token;
-
-    token = (t_token *)(*token_list)->content;
-    cmd->redirect = malloc(sizeof(t_redirection));
-    if (!cmd->redirect)
+    if (!command->redirect)
     {
-        fprintf(stderr, "Allocation error in handle_redirection\n");
-        free_command(cmd);
-        exit(EXIT_FAILURE);
+        command->redirect = malloc(sizeof(t_redirection));
+        if (!command->redirect)
+        {
+            fprintf(stderr, "Allocation error in handle_redirection\n");
+            free_command(command);
+            exit(EXIT_FAILURE);
+        }
     }
-
-    cmd->redirect->type = ft_strdup(token->value);
-    *token_list = (*token_list)->next;
-    file_token = (t_token *)(*token_list)->content;
-    cmd->redirect->file = ft_strdup(file_token->value);
+    command->redirect->type = ft_strdup(token.value);
+    command->redirect->file = ft_strdup(token.value);
 }
 
 void handle_word(t_command **current_command, char *word)
@@ -156,33 +152,32 @@ void handle_pipe(t_pipeline *pipeline, t_command **current_command)
     *current_command = create_command();
 }
 
-void handle_token(t_list **token_list, t_pipeline *pipeline, t_command **current_command)
+void handle_token(t_token *token, t_pipeline *pipeline, t_command **current_command)
 {
-    t_token *token;
 
-    token = (t_token *)(*token_list)->content;
-    if (token->type == TOKEN_PIPE)
+    if (token->type == TOKEN_WORD)
+        handle_word(current_command, token->value);
+    else if (token->type == TOKEN_PIPE)
         handle_pipe(pipeline, current_command);
     else if (token->type == TOKEN_REDIRECT)
-        handle_redirection(token_list, *current_command);
+        handle_redirection(*token, *current_command);
     else
-        handle_word(current_command, token->value);
-    *token_list = (*token_list)->next;
+       printf("Unknown token type\n");
 }
 
 
-t_pipeline *parse_rdp(t_list *tokens)
+t_pipeline *parse_rdp(t_token_list *tokens)
 {
-    t_pipeline *pipeline;
-    t_command *last_command;
+        t_pipeline *pipeline;
+        t_command *last_command;
 
-    pipeline = init_pipeline();
-    if (!pipeline)
-        return NULL;
-    last_command = NULL;
-    while (tokens)
-        handle_token(&tokens, pipeline, &last_command);
-    if (last_command)
-        add_command_to_pipeline(pipeline, last_command);
-    return pipeline;
+        pipeline = init_pipeline();
+        if (!pipeline)
+            return NULL;
+        last_command = NULL;
+        while (tokens->token)
+            handle_token(tokens->token, pipeline, &last_command);
+        if (last_command)
+            add_command_to_pipeline(pipeline, last_command);
+        return pipeline;
 }
