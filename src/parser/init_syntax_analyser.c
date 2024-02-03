@@ -6,7 +6,7 @@
 /*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 17:42:55 by rogalio           #+#    #+#             */
-/*   Updated: 2024/02/03 19:30:49 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/02/03 19:44:09 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,16 +50,15 @@ t_state transition_q3(t_token *token)
 }
 
 
-int init_syntax_analyzer(t_list *tokens)
+int init_syntax_analyzer(t_token_list *tokens)
 {
     t_state state;
     t_token *token;
 
     state = STATE_Q0;
-
     while (tokens)
     {
-        token = (t_token *)tokens->content;
+        token = tokens->token;
         if (state == STATE_Q0)
             state = transition_q0(token);
         else if (state == STATE_Q1)
@@ -68,11 +67,9 @@ int init_syntax_analyzer(t_list *tokens)
             state = transition_q2(token);
         else if (state == STATE_Q3)
             state = transition_q3(token);
-        else
-            state = STATE_ERROR;
         if (state == STATE_ERROR)
-            return (0);
+            return 0;
         tokens = tokens->next;
     }
-    return (state == STATE_Q0 || state == STATE_Q1);
+    return (state == STATE_Q1);
 }

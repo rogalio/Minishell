@@ -6,7 +6,7 @@
 /*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 13:02:19 by rogalio           #+#    #+#             */
-/*   Updated: 2024/02/03 19:27:11 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/02/03 19:43:56 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,11 @@ int		main(int argc, char **argv, char **envp)
 
     */
 
-    t_token_list *token_list = build_token_list(" cat -e  'hello world'  |   >  file.txt  ");
-    print_token_list(token_list);
-
+    t_token_list *token_list = build_token_list(" cat");
+    int verify = init_syntax_analyzer(token_list);
+    if (verify == 1)
+        printf("valid\n");
+    else
+        printf("invalid\n");
     return (0);
 }
