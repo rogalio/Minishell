@@ -6,7 +6,7 @@
 /*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 16:43:08 by rogalio           #+#    #+#             */
-/*   Updated: 2024/01/25 18:42:14 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/02/03 19:26:51 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <stdbool.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include "libft.h"
 
 /*
 ** All known symbols type.
@@ -37,40 +38,27 @@ struct		s_token
 {
 	t_token_type	type;
 	char			*value;
-
 };
 typedef struct s_token	t_token;
 
-t_token		*token_new(t_token_type type, char *value);
-void		token_clear(t_token *t);
 
-/*
-** Tries to find a token from the lexer in the given string s.
-** Returns the address of the static token if found in the lexer.
-** Returns NULL if the token is not recognized.
-*/
-t_token		*token_find(const char *s);
+struct s_token_list
+{
+	t_token			*token;
+	struct s_token_list	*next;
+};
+typedef struct s_token_list	t_token_list;
 
-/*
-** Returns true if the token is a TOKEN_WORD or a TOKEN_MULTILINE.
-*/
-bool		token_is_dynamic(const t_token *t);
 
-/*
-** Destroy a token if it is dynamic, without destroying its content.
-** Returns the value stored in the token.
-*/
-char		*token_pop(t_token *t);
 
-/*
-** Prints a token to the standard ouput.
-*/
-void		token_print(const t_token *t);
 
-/*
-** Returns a token structure, from a generic pointer type.
-*/
-t_token		*token(void *content);
+t_token *new_word_token(const char *str);
+t_token		*new_token(t_token_type type, char *value);
+void		print_token(const t_token *t);
+t_token *parse_token(const char *str);
+t_token_list *new_token_list(t_token *token);
+t_token *parse_token(const char *str);
+void	print_token_list(t_token_list *list);
 
 
 #endif

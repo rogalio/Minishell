@@ -1,24 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   token_new.c                                        :+:      :+:    :+:   */
+/*   print_token_list.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/22 17:45:14 by rogalio           #+#    #+#             */
-/*   Updated: 2024/01/22 18:01:05 by rogalio          ###   ########.fr       */
+/*   Created: 2024/02/03 19:09:42 by rogalio           #+#    #+#             */
+/*   Updated: 2024/02/03 19:26:33 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "token.h"
 
-t_token    *token_new(t_token_type type, char *value)
+void print_token_list(t_token_list *list)
 {
-  t_token		*t;
+    t_token_list *temp;
 
-  if (!(t = (t_token *)malloc(sizeof(t_token))))
-    return (NULL);
-  t->type = type;
-  t->value = value;
-  return (t);
+    temp = list;
+    while (temp)
+    {
+        print_token(temp->token);
+        temp = temp->next;
+    }
 }

@@ -1,27 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   token_clear.c                                      :+:      :+:    :+:   */
+/*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/22 18:14:55 by rogalio           #+#    #+#             */
-/*   Updated: 2024/01/25 17:37:31 by rogalio          ###   ########.fr       */
+/*   Created: 2024/02/03 18:37:23 by rogalio           #+#    #+#             */
+/*   Updated: 2024/02/03 18:46:05 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "token.h"
-#include "libft.h"
+#ifndef UTILS_H
+# define UTILS_H
 
+# include <libft.h>
 
-/*
-void    token_clear(t_token *t)
-{
-	if (!token_is_dynamic(t))
-		return ;
-	ft_free(t->value);
-	ft_free(t);
-}
+int skip_whitespace(const char **str);
 
-*/
-
+#endif

@@ -1,29 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   token_pop.c                                        :+:      :+:    :+:   */
+/*   new_word_token.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/22 19:38:37 by rogalio           #+#    #+#             */
-/*   Updated: 2024/01/25 17:36:55 by rogalio          ###   ########.fr       */
+/*   Created: 2024/02/03 18:34:10 by rogalio           #+#    #+#             */
+/*   Updated: 2024/02/03 19:21:21 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "token.h"
 
-
-/*
-char	*token_pop(t_token *t)
+t_token *new_word_token(const char *str)
 {
-	char *value;
+    char *word;
+    int i;
 
-	value = t->value;
-	if (token_is_dynamic(t))
-		ft_free(t);
-	return (value);
+    i = 0;
+    while (str[i] && !ft_isspace(str[i]))
+        i++;
+    word = ft_strndup(str, i);
+    return new_token(TOKEN_WORD, word);
 }
-
-*/
-

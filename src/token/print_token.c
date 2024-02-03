@@ -1,23 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   token_is_dynamic.c                                 :+:      :+:    :+:   */
+/*   print_token.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/22 17:12:59 by rogalio           #+#    #+#             */
-/*   Updated: 2024/01/25 17:36:20 by rogalio          ###   ########.fr       */
+/*   Created: 2024/01/22 18:21:48 by rogalio           #+#    #+#             */
+/*   Updated: 2024/02/03 19:23:22 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "token.h"
+#include "libft.h"
 
-
-/*
-bool		token_is_dynamic(const t_token *t)
+void    print_token(const t_token *t)
 {
-  return (t->type == TOKEN_WORD || t->type == TOKEN_MULTILINE);
+  ft_printf(" type = %d, value = %s \n", t->type, t->value);
 }
-
-*/
-

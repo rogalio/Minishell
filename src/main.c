@@ -6,7 +6,7 @@
 /*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 13:02:19 by rogalio           #+#    #+#             */
-/*   Updated: 2024/02/02 19:03:28 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/02/03 19:27:11 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,27 +75,8 @@ int		main(int argc, char **argv, char **envp)
 
     */
 
-    t_list *test = tokenize(" cat -e  | grep -e ""hello"" << file.txt  | wc -l");
-    t_pipeline *pipeline = parse_rdp(test);
-    print_pipeline(pipeline);
-
-
-
-
-
-   /*
-
-      while (test)
-   {
-       t_token *token = (t_token *)test->content;
-       printf("type : %d  ", token->type);
-       printf("value : %s\n", token->value);
-       test = test->next;
-   }
-
-
-
-   */
+    t_token_list *token_list = build_token_list(" cat -e  'hello world'  |   >  file.txt  ");
+    print_token_list(token_list);
 
     return (0);
 }

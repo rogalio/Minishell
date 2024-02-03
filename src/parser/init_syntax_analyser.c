@@ -1,26 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pda_init.c                                         :+:      :+:    :+:   */
+/*   init_syntax_analyser.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 17:42:55 by rogalio           #+#    #+#             */
-/*   Updated: 2024/01/29 17:25:44 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/02/03 19:30:49 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 #include "token.h"
-
-typedef enum e_state
-{
-  STATE_Q0,
-  STATE_Q1,
-  STATE_Q2,
-  STATE_Q3,
-  STATE_ERROR,
-} t_state;
 
 t_state transition_q0(t_token *token)
 {
@@ -59,7 +50,7 @@ t_state transition_q3(t_token *token)
 }
 
 
-int validate_tokens(t_list *tokens)
+int init_syntax_analyzer(t_list *tokens)
 {
     t_state state;
     t_token *token;
