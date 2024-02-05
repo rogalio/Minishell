@@ -6,7 +6,7 @@
 /*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 17:52:57 by rogalio           #+#    #+#             */
-/*   Updated: 2024/02/05 18:55:31 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/02/05 19:13:03 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,38 +15,6 @@
 #include <stdio.h>
 #include "rdp.h"
 
-void free_command(t_command *cmd)
-{
-    if (!cmd) return;
-    for (int i = 0; cmd->args && cmd->args[i]; i++)
-    {
-        free(cmd->args[i]);
-    }
-    free(cmd->args);
-    if (cmd->redirect_in)
-    {
-        free(cmd->redirect_in->type);
-        free(cmd->redirect_in->file);
-        free(cmd->redirect_in);
-    }
-    if (cmd->redirect_out)
-    {
-        free(cmd->redirect_out->type);
-        free(cmd->redirect_out->file);
-        free(cmd->redirect_out);
-    }
-    free(cmd);
-}
-
-void free_pipeline(t_pipeline *pipeline)
-{
-    if (!pipeline) return;
-    for (int i = 0; i < pipeline->command_count; i++) {
-        free_command(pipeline->commands[i]);
-    }
-    free(pipeline->commands);
-    free(pipeline);
-}
 
 t_pipeline *init_pipeline()
 {
@@ -70,12 +38,11 @@ t_command *create_command(void)
 
 void add_command_to_pipeline(t_pipeline *pipeline, t_command *cmd)
 {
+    t_command **new_commands;
 
-    t_command **new_commands = realloc(pipeline->commands, sizeof(t_command *) * (pipeline->command_count + 1));
-    if (!new_commands) {
+    new_commands = realloc(pipeline->commands, sizeof(t_command *) * (pipeline->command_count + 1));
+    if (!new_commands)
      printf("Allocation error in add_command_to_pipeline\n");
-    }
-
     pipeline->commands = new_commands;
     pipeline->commands[pipeline->command_count++] = cmd;
 }
@@ -112,14 +79,17 @@ void append_argument(char **args, int position, char *arg)
 
 void add_argument_to_command(t_command *command, char *arg)
 {
+    int i;
+    int count;
+    char **new_args;
 
-
-
-    int count = count_args(command);
-    char **new_args = allocate_new_args(command, count + 1);
-    for (int i = 0; i < count; i++)
+    i = 0;
+    count = count_args(command);
+    new_args = allocate_new_args(command, count + 1);
+    while (i < count)
     {
-        new_args[i] = command->args[i];
+        append_argument(new_args, i, command->args[i]);
+        i++;
     }
     append_argument(new_args, count, arg);
     free(command->args);

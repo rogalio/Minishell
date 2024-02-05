@@ -6,7 +6,7 @@
 /*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 18:03:55 by rogalio           #+#    #+#             */
-/*   Updated: 2024/02/05 18:36:53 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/02/05 19:08:30 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,5 +45,7 @@ typedef struct s_pipeline
 
 t_pipeline *parse_rdp(t_token_list *tokens);
 void print_pipeline(t_pipeline *pipeline);
+void free_command(t_command *cmd);
+void free_pipeline(t_pipeline *pipeline);
 
 #endif

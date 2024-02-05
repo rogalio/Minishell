@@ -6,7 +6,7 @@
 /*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 13:02:19 by rogalio           #+#    #+#             */
-/*   Updated: 2024/02/05 19:02:13 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/02/05 19:07:00 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,13 @@ int		main(int argc, char **argv, char **envp)
 
 
 
-    t_token_list *token_list = build_token_list(" cat -e >> file1 ");
-    print_token_list(token_list);
+    t_token_list *token_list = build_token_list("cat -e < infile1 > outfile1 | grep -v a > test >> outfile2 | wc -l > outfile3");
     int verify = init_syntax_analyzer(token_list);
     if (verify == 1)
     {
         t_pipeline *pipeline = parse_rdp(token_list);
         (void)pipeline;
         print_pipeline(pipeline);
-
     }
     else
     {
