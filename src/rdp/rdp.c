@@ -6,7 +6,7 @@
 /*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 17:52:57 by rogalio           #+#    #+#             */
-/*   Updated: 2024/02/05 17:02:19 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/02/05 18:28:49 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,23 +103,21 @@ void append_argument(char **args, int position, char *arg)
 
 void add_argument_to_command(t_command *command, char *arg)
 {
-    int count;
-    char **new_args;
 
-    count = count_args(command);
-    new_args = allocate_new_args(command, count + 1);
-    if (!new_args)
+
+
+    int count = count_args(command);
+    char **new_args = allocate_new_args(command, count + 1);
+    for (int i = 0; i < count; i++)
     {
-        fprintf(stderr, "Allocation error in add_argument_to_command\n");
-        free_command(command);
-        exit(EXIT_FAILURE);
+        new_args[i] = command->args[i];
     }
+    append_argument(new_args, count, arg);
+    free(command->args);
     command->args = new_args;
-    append_argument(command->args, count, arg);
-
 }
 
-void handle_redirection(t_token token, t_command *command)
+void handle_redirection(t_token_list **tokens, t_command *command)
 {
     if (!command->redirect)
     {
@@ -131,8 +129,13 @@ void handle_redirection(t_token token, t_command *command)
             exit(EXIT_FAILURE);
         }
     }
-    command->redirect->type = ft_strdup(token.value);
-    command->redirect->file = ft_strdup(token.next->value);
+    command->redirect->type = ft_strdup((*tokens)->token->value);
+
+    // Avancer pour obtenir le nom du fichier
+    *tokens = (*tokens)->next;
+    if (*tokens && (*tokens)->token && (*tokens)->token->type == TOKEN_WORD)
+        command->redirect->file = ft_strdup((*tokens)->token->value);
+
 }
 
 void handle_word(t_command **current_command, char *word)
@@ -140,6 +143,7 @@ void handle_word(t_command **current_command, char *word)
     if (!*current_command)
         *current_command = create_command();
     add_argument_to_command(*current_command, word);
+
 }
 
 void handle_pipe(t_pipeline *pipeline, t_command **current_command)
@@ -150,17 +154,14 @@ void handle_pipe(t_pipeline *pipeline, t_command **current_command)
     *current_command = create_command();
 }
 
-void handle_token(t_token *token, t_pipeline *pipeline, t_command **current_command)
+void handle_token(t_token_list **tokens, t_pipeline *pipeline, t_command **current_command)
 {
-
-    if (token->type == TOKEN_WORD)
-        handle_word(current_command, token->value);
-    else if (token->type == TOKEN_PIPE)
+    if ((*tokens)->token->type == TOKEN_WORD)
+        handle_word(current_command, (*tokens)->token->value);
+    else if ((*tokens)->token->type == TOKEN_REDIRECT)
+        handle_redirection(tokens, *current_command);
+    else if ((*tokens)->token->type == TOKEN_PIPE)
         handle_pipe(pipeline, current_command);
-    else if (token->type == TOKEN_REDIRECT)
-        handle_redirection(*token, *current_command);
-    else
-       printf("Unknown token type\n");
 }
 
 
@@ -175,11 +176,10 @@ t_pipeline *parse_rdp(t_token_list *tokens)
         last_command = NULL;
         while (tokens)
         {
-            handle_token(tokens->token, pipeline, &last_command);
+            handle_token(&tokens, pipeline, &last_command);
             tokens = tokens->next;
         }
         if (last_command)
             add_command_to_pipeline(pipeline, last_command);
-
         return pipeline;
 }

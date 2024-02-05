@@ -6,7 +6,7 @@
 /*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 20:04:04 by rogalio           #+#    #+#             */
-/*   Updated: 2024/02/03 20:09:35 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/02/05 17:23:05 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,16 @@ void print_redirection(t_redirection *redirect)
   }
 }
 
+int ft_strslen(char **strs)
+{
+  int i;
+
+  i = 0;
+  while (strs[i])
+    i++;
+  return (i);
+}
+
 void print_command(t_command *cmd)
 {
   if (!cmd)
@@ -34,13 +44,10 @@ void print_command(t_command *cmd)
     return;
   }
 
-  printf("Command: ");
-  for (int i = 0; cmd->args && cmd->args[i]; i++)
+  for (int i = 0; i < ft_strslen(cmd->args); i++)
   {
-    printf("%s ", cmd->args[i]);
+    printf("Argument %d: %s\n", i + 1, cmd->args[i]);
   }
-  printf("\n");
-
   print_redirection(cmd->redirect);
 }
 
@@ -57,6 +64,6 @@ void print_pipeline(t_pipeline *pipeline)
   {
     printf("Command %d:\n", i + 1);
     print_command(pipeline->commands[i]);
-    printf("\n");
   }
+
 }
