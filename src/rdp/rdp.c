@@ -6,7 +6,7 @@
 /*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 17:52:57 by rogalio           #+#    #+#             */
-/*   Updated: 2024/02/03 20:03:15 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/02/05 17:02:19 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,7 @@ void add_command_to_pipeline(t_pipeline *pipeline, t_command *cmd)
 
     t_command **new_commands = realloc(pipeline->commands, sizeof(t_command *) * (pipeline->command_count + 1));
     if (!new_commands) {
-        fprintf(stderr, "Allocation error in add_command_to_pipeline\n");
-        free_pipeline(pipeline);
-        exit(EXIT_FAILURE);
+     printf("Allocation error in add_command_to_pipeline\n");
     }
 
     pipeline->commands = new_commands;
@@ -134,7 +132,7 @@ void handle_redirection(t_token token, t_command *command)
         }
     }
     command->redirect->type = ft_strdup(token.value);
-    command->redirect->file = ft_strdup(token.value);
+    command->redirect->file = ft_strdup(token.next->value);
 }
 
 void handle_word(t_command **current_command, char *word)
@@ -175,9 +173,13 @@ t_pipeline *parse_rdp(t_token_list *tokens)
         if (!pipeline)
             return NULL;
         last_command = NULL;
-        while (tokens->token)
+        while (tokens)
+        {
             handle_token(tokens->token, pipeline, &last_command);
+            tokens = tokens->next;
+        }
         if (last_command)
             add_command_to_pipeline(pipeline, last_command);
+
         return pipeline;
 }

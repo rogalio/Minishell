@@ -6,7 +6,7 @@
 /*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 13:02:19 by rogalio           #+#    #+#             */
-/*   Updated: 2024/02/03 20:11:19 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/02/05 16:53:48 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ int		main(int argc, char **argv, char **envp)
     if (verify == 1)
     {
         t_pipeline *pipeline = parse_rdp(token_list);
+        (void)pipeline;
         print_pipeline(pipeline);
 
     }
