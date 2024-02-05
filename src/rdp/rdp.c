@@ -6,7 +6,7 @@
 /*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 17:52:57 by rogalio           #+#    #+#             */
-/*   Updated: 2024/02/05 18:28:49 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/02/05 18:55:31 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,22 @@
 void free_command(t_command *cmd)
 {
     if (!cmd) return;
-    for (int i = 0; cmd->args && cmd->args[i]; i++) {
+    for (int i = 0; cmd->args && cmd->args[i]; i++)
+    {
         free(cmd->args[i]);
     }
     free(cmd->args);
-    if (cmd->redirect) {
-        free(cmd->redirect->type);
-        free(cmd->redirect->file);
-        free(cmd->redirect);
+    if (cmd->redirect_in)
+    {
+        free(cmd->redirect_in->type);
+        free(cmd->redirect_in->file);
+        free(cmd->redirect_in);
+    }
+    if (cmd->redirect_out)
+    {
+        free(cmd->redirect_out->type);
+        free(cmd->redirect_out->file);
+        free(cmd->redirect_out);
     }
     free(cmd);
 }
@@ -55,7 +63,8 @@ t_command *create_command(void)
     t_command *cmd = malloc(sizeof(t_command));
     if (!cmd) return NULL;
     cmd->args = NULL;
-    cmd->redirect = NULL;
+    cmd->redirect_in = NULL;
+    cmd->redirect_out = NULL;
     return cmd;
 }
 
@@ -119,24 +128,37 @@ void add_argument_to_command(t_command *command, char *arg)
 
 void handle_redirection(t_token_list **tokens, t_command *command)
 {
-    if (!command->redirect)
-    {
-        command->redirect = malloc(sizeof(t_redirection));
-        if (!command->redirect)
-        {
-            fprintf(stderr, "Allocation error in handle_redirection\n");
-            free_command(command);
-            exit(EXIT_FAILURE);
-        }
-    }
-    command->redirect->type = ft_strdup((*tokens)->token->value);
+    // Vérifier le type de redirection
+    char *redirection_type = (*tokens)->token->value;
 
     // Avancer pour obtenir le nom du fichier
     *tokens = (*tokens)->next;
-    if (*tokens && (*tokens)->token && (*tokens)->token->type == TOKEN_WORD)
-        command->redirect->file = ft_strdup((*tokens)->token->value);
+    char *file_name = (*tokens)->token->value;
 
+    // Traiter les redirections d'entrée (input)
+    if (ft_strcmp(redirection_type, "<") == 0 || ft_strcmp(redirection_type, "<<") == 0) {
+        if (!command->redirect_in) {
+            command->redirect_in = malloc(sizeof(t_redirection_in));
+        } else {
+            free(command->redirect_in->type);
+            free(command->redirect_in->file);
+        }
+        command->redirect_in->type = ft_strdup(redirection_type);
+        command->redirect_in->file = ft_strdup(file_name);
+    }
+    // Traiter les redirections de sortie (output)
+    else if (ft_strcmp(redirection_type, ">") == 0 || ft_strcmp(redirection_type, ">>") == 0) {
+        if (!command->redirect_out) {
+            command->redirect_out = malloc(sizeof(t_redirection_out));
+        } else {
+            free(command->redirect_out->type);
+            free(command->redirect_out->file);
+        }
+        command->redirect_out->type = ft_strdup(redirection_type);
+        command->redirect_out->file = ft_strdup(file_name);
+    }
 }
+
 
 void handle_word(t_command **current_command, char *word)
 {

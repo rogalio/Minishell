@@ -6,7 +6,7 @@
 /*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 13:02:19 by rogalio           #+#    #+#             */
-/*   Updated: 2024/02/05 18:26:18 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/02/05 19:02:13 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ int		main(int argc, char **argv, char **envp)
 
 
 
-    t_token_list *token_list = build_token_list(" cat -e <file  >testg | grep -v a > file2  | wc -l ");
+    t_token_list *token_list = build_token_list(" cat -e >> file1 ");
+    print_token_list(token_list);
     int verify = init_syntax_analyzer(token_list);
     if (verify == 1)
     {

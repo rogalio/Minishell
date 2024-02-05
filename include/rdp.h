@@ -6,7 +6,7 @@
 /*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 18:03:55 by rogalio           #+#    #+#             */
-/*   Updated: 2024/02/03 20:09:26 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/02/05 18:36:53 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,23 @@
 
 #define MAX_ARGS 10
 
-typedef struct s_redirection
+typedef struct s_redirection_in
 {
     char *type;
     char *file;
-} t_redirection;
+} t_redirection_in;
+
+typedef struct s_redirection_out
+{
+    char *type;
+    char *file;
+} t_redirection_out;
 
 typedef struct s_command
 {
     char **args;
-    t_redirection *redirect;
+    t_redirection_in *redirect_in;
+    t_redirection_out *redirect_out;
 } t_command;
 
 typedef struct s_pipeline

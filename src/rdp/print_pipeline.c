@@ -6,7 +6,7 @@
 /*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 20:04:04 by rogalio           #+#    #+#             */
-/*   Updated: 2024/02/05 17:23:05 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/02/05 18:46:03 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,30 @@
 #include "token.h"
 
 
-void print_redirection(t_redirection *redirect)
+void print_redirection_in(t_redirection_in *redirection_in)
 {
-  if (redirect)
+  if (!redirection_in)
   {
-    printf("Redirection type: %s, file: %s\n", redirect->type, redirect->file);
+    printf("No redirection in\n");
+    return;
   }
-  else
+
+  printf("Redirection in:\n");
+  printf("Type: %s\n", redirection_in->type);
+  printf("File: %s\n", redirection_in->file);
+}
+
+void print_redirection_out(t_redirection_out *redirection_out)
+{
+  if (!redirection_out)
   {
-    printf("No redirection\n");
+    printf("No redirection out\n");
+    return;
   }
+
+  printf("Redirection out:\n");
+  printf("Type: %s\n", redirection_out->type);
+  printf("File: %s\n", redirection_out->file);
 }
 
 int ft_strslen(char **strs)
@@ -44,11 +58,14 @@ void print_command(t_command *cmd)
     return;
   }
 
-  for (int i = 0; i < ft_strslen(cmd->args); i++)
+  printf("Command with %d argument(s):\n", ft_strslen(cmd->args));
+  for (int i = 0; cmd->args && cmd->args[i]; i++)
   {
     printf("Argument %d: %s\n", i + 1, cmd->args[i]);
   }
-  print_redirection(cmd->redirect);
+  print_redirection_in(cmd->redirect_in);
+  print_redirection_out(cmd->redirect_out);
+  printf("\n");
 }
 
 void print_pipeline(t_pipeline *pipeline)
@@ -65,5 +82,4 @@ void print_pipeline(t_pipeline *pipeline)
     printf("Command %d:\n", i + 1);
     print_command(pipeline->commands[i]);
   }
-
 }
