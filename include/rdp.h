@@ -6,7 +6,7 @@
 /*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 18:03:55 by rogalio           #+#    #+#             */
-/*   Updated: 2024/02/06 13:14:16 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/02/06 17:15:46 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ typedef struct s_pipeline
     int command_count;
 } t_pipeline;
 
-t_pipeline *parse_rdp(t_token_list *tokens);
+t_pipeline *parse_rdp(t_token_list *tokens, char **envp);
 void print_pipeline(t_pipeline *pipeline);
 void free_command(t_command *cmd);
 void free_pipeline(t_pipeline *pipeline);
@@ -52,7 +52,7 @@ void append_argument(char **args, int position, char *arg);
 void add_argument_to_command(t_command *command, char *arg);
 
 void handle_redirection(t_token_list **tokens, t_command *command);
-void handle_word(t_command **current_command, char *word);
+void handle_word(t_command **current_command, char *word, char **envp);
 void handle_pipe(t_pipeline *pipeline, t_command **current_command);
 
 #endif
