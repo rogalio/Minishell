@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   build_token_list.c                                 :+:      :+:    :+:   */
+/*   init_token_list.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 12:19:30 by rogalio           #+#    #+#             */
-/*   Updated: 2024/02/05 19:01:59 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/02/06 13:16:55 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static void add_token_to_list(t_token_list **list, t_token *token)
     }
 }
 
-t_token_list *build_token_list(const char *str)
+t_token_list *init_token_list(const char *str)
 {
     t_token_list *list;
     t_token *token;

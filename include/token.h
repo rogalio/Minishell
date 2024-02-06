@@ -6,7 +6,7 @@
 /*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 16:43:08 by rogalio           #+#    #+#             */
-/*   Updated: 2024/02/03 19:36:51 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/02/06 13:30:49 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ t_token *parse_token(const char *str);
 t_token_list *new_token_list(t_token *token);
 t_token *parse_token(const char *str);
 void	print_token_list(t_token_list *list);
+void free_token_list(t_token_list *list);
 
 
 #endif

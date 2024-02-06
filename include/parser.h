@@ -6,7 +6,7 @@
 /*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 19:40:36 by rogalio           #+#    #+#             */
-/*   Updated: 2024/02/03 19:37:04 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/02/06 13:27:25 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ typedef enum e_state
 } t_state;
 
 int init_syntax_analyzer(t_token_list *tokens);
-t_token_list	*build_token_list(const char *s);
+t_token_list	*init_token_list(const char *s);
 
 
 

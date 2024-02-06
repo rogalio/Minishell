@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_pipeline.c                                   :+:      :+:    :+:   */
+/*   rdp_print.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 20:04:04 by rogalio           #+#    #+#             */
-/*   Updated: 2024/02/05 18:46:03 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/02/06 11:43:58 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,30 +14,30 @@
 #include "token.h"
 
 
-void print_redirection_in(t_redirection_in *redirection_in)
+void print_redirection_in(t_redirection *redirection)
 {
-  if (!redirection_in)
+  if (!redirection)
   {
     printf("No redirection in\n");
     return;
   }
 
   printf("Redirection in:\n");
-  printf("Type: %s\n", redirection_in->type);
-  printf("File: %s\n", redirection_in->file);
+  printf("Type: %s\n", redirection->type);
+  printf("File: %s\n", redirection->file);
 }
 
-void print_redirection_out(t_redirection_out *redirection_out)
+void print_redirection_out(t_redirection *redirection)
 {
-  if (!redirection_out)
+  if (!redirection)
   {
     printf("No redirection out\n");
     return;
   }
 
   printf("Redirection out:\n");
-  printf("Type: %s\n", redirection_out->type);
-  printf("File: %s\n", redirection_out->file);
+  printf("Type: %s\n", redirection->type);
+  printf("File: %s\n", redirection->file);
 }
 
 int ft_strslen(char **strs)

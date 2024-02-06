@@ -1,19 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_token.c                                      :+:      :+:    :+:   */
+/*   free_token_list.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/22 18:21:48 by rogalio           #+#    #+#             */
-/*   Updated: 2024/02/03 19:23:22 by rogalio          ###   ########.fr       */
+/*   Created: 2024/02/06 13:30:23 by rogalio           #+#    #+#             */
+/*   Updated: 2024/02/06 13:30:35 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "token.h"
-#include "libft.h"
 
-void    print_token(const t_token *t)
+static void free_token(t_token *token)
 {
-  ft_printf(" type = %d, value = %s \n", t->type, t->value);
+    free(token->value);
+    free(token);
+}
+
+void free_token_list(t_token_list *list)
+{
+    t_token_list *temp;
+
+    while (list)
+    {
+        temp = list;
+        list = list->next;
+        free_token(temp->token);
+        free(temp);
+    }
 }
