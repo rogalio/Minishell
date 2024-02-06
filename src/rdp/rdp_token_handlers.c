@@ -6,12 +6,13 @@
 /*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 12:46:02 by rogalio           #+#    #+#             */
-/*   Updated: 2024/02/06 17:16:39 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/02/06 18:55:59 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rdp.h"
 #include "parser.h"
+
 
 void init_redirection(t_redirection **redirect, const char *type, const char *file)
 {
