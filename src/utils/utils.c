@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
+/*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 18:37:07 by rogalio           #+#    #+#             */
-/*   Updated: 2024/02/03 18:48:22 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/02/13 19:13:24 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
 #include "libft.h"
 
-int skip_whitespace(const char **str)
+int	skip_whitespace(const char **str)
 {
-    while (ft_isspace(**str))
-        (*str)++;
-    return **str;
+	while (ft_isspace(**str))
+		(*str)++;
+	return (**str);
 }
