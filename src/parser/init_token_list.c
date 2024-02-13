@@ -6,7 +6,7 @@
 /*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 12:19:30 by rogalio           #+#    #+#             */
-/*   Updated: 2024/02/06 13:16:55 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/02/13 15:12:48 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ t_token_list *init_token_list(const char *str)
     t_token *token;
 
     list = NULL;
+    printf("str = %s\n", str);
     while (*str)
     {
         if (skip_whitespace(&str) == 0)
@@ -58,4 +59,3 @@ t_token_list *init_token_list(const char *str)
     }
     return list;
 }
-
