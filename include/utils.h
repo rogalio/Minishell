@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
+/*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 18:37:23 by rogalio           #+#    #+#             */
-/*   Updated: 2024/02/03 18:46:05 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/02/13 18:44:38 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,6 @@
 
 # include <libft.h>
 
-int skip_whitespace(const char **str);
+int	skip_whitespace(const char **str);
 
 #endif
