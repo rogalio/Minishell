@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 12:19:30 by rogalio           #+#    #+#             */
-/*   Updated: 2024/02/13 18:49:35 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/02/15 14:54:11 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,6 @@ t_token	*find_next_token(const char **str)
 	return (token);
 }
 
-/*
-gérer le retour en cas d'erreur de  add_token_to_list
-*/
 static void	add_token_to_list(t_token_list **list, t_token *token)
 {
 	t_token_list		*new_elem;
