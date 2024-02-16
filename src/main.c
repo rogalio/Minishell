@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 13:02:19 by rogalio           #+#    #+#             */
-/*   Updated: 2024/02/16 20:17:28 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/02/16 20:22:36 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	main(int argc, char **argv, char **envp)
 	t_token_list	*token_list;
 	t_pipeline		*pipeline;
 	int				verify;
-	const char		str[] = "echo \"hello \'haha\' \'world\' you > file.txt > file3";
+	const char		str[] = "echo \"hello \'haha\' \'world\' you \" > file.txt > file3";
 
 	(void)argc;
 	(void)argv;
