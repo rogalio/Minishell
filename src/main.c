@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 13:02:19 by rogalio           #+#    #+#             */
-/*   Updated: 2024/02/16 19:59:29 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/02/16 20:17:28 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	main(int argc, char **argv, char **envp)
 	t_token_list	*token_list;
 	t_pipeline		*pipeline;
 	int				verify;
-	const char		str[] = "echo \"hello \'haha\' \'world\' you \" > file.txt > file3";
+	const char		str[] = "echo \"hello \'haha\' \'world\' you > file.txt > file3";
 
 	(void)argc;
 	(void)argv;
@@ -46,7 +46,8 @@ int	main(int argc, char **argv, char **envp)
 /*
 Tokens :
 - Gerer les dbles quotes (a mettre seuls dans la liste de token), verifier
-qu'ils sont fermes
+qu'ils sont fermés
+==> OK, mais dans gestion d'erreur gérer le cas unclosed quotes
 
 - verifier que seuls des chars/cmdes autorises sont utilises (regex) :
 espace, chevrons, quotes (dbles et simples), pipe, dollars, alphanum,
