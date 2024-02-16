@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 13:02:19 by rogalio           #+#    #+#             */
-/*   Updated: 2024/02/15 14:52:22 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/02/16 19:59:29 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	main(int argc, char **argv, char **envp)
 	t_token_list	*token_list;
 	t_pipeline		*pipeline;
 	int				verify;
-	const char		str[] = "echo hello > file.txt > file3";
+	const char		str[] = "echo \"hello \'haha\' \'world\' you \" > file.txt > file3";
 
 	(void)argc;
 	(void)argv;
@@ -30,6 +30,7 @@ int	main(int argc, char **argv, char **envp)
 		return (1);
 	token_list = init_token_list(str);
 	print_token_list(token_list);
+	printf("\n\n");
 	verify = init_syntax_analyzer(token_list);
 	if (verify)
 	{

@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 17:45:14 by rogalio           #+#    #+#             */
-/*   Updated: 2024/02/13 19:10:52 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/02/16 19:39:27 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,9 @@ t_token	*new_word_token(const char *str)
 	int		i;
 
 	i = 0;
-	while (str[i] && !ft_isspace(str[i]))
-		i++;
-	word = ft_strndup(str, i);
+	if (str[i] && (str[i] == '\'' || str[i] == '\"'))
+		word = handle_quotes(str);
+	else
+		word = handle_rest(str);
 	return (new_token(TOKEN_WORD, word));
 }
