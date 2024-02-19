@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 16:43:08 by rogalio           #+#    #+#             */
-/*   Updated: 2024/02/13 18:44:07 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/02/16 19:42:04 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,5 +55,8 @@ t_token_list	*new_token_list(t_token *token);
 t_token			*parse_token(const char *str);
 void			print_token_list(t_token_list *list);
 void			free_token_list(t_token_list *list);
+
+char			*handle_quotes(const char *str);
+char			*handle_rest(const char *str);
 
 #endif
