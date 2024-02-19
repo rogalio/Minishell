@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 13:02:19 by rogalio           #+#    #+#             */
-/*   Updated: 2024/02/16 20:22:36 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/02/19 15:51:23 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 #include "token.h"
 #include "parser.h"
 #include "rdp.h"
+
+#include "builtins.h"
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -26,6 +28,9 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	(void)envp;
+
+
+	env(envp);
 	if (!check_regex(str))
 		return (1);
 	token_list = init_token_list(str);
