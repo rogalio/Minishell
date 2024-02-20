@@ -6,7 +6,7 @@
 /*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 13:02:19 by rogalio           #+#    #+#             */
-/*   Updated: 2024/02/19 15:51:23 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/02/20 13:57:51 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,14 @@
 
 #include "builtins.h"
 
+	void print_envp(char **envp){
+    int i = 0;
+    while (envp[i]) {
+        printf("%s\n", envp[i]);
+        i++;
+    }
+	}
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_token_list	*token_list;
@@ -27,10 +35,8 @@ int	main(int argc, char **argv, char **envp)
 
 	(void)argc;
 	(void)argv;
-	(void)envp;
 
-
-	env(envp);
+	printf("\n\n");
 	if (!check_regex(str))
 		return (1);
 	token_list = init_token_list(str);
