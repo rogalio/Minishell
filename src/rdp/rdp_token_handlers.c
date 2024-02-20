@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 12:46:02 by rogalio           #+#    #+#             */
-/*   Updated: 2024/02/13 19:08:47 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/02/19 17:58:34 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,12 +54,13 @@ void	handle_redirection(t_token_list **token_list, t_command *command)
 
 void	handle_word(t_command **current_command, char *word, char **envp)
 {
-	if (!*current_command)
-		*current_command = create_command();
+	//if (!*current_command)
+		//*current_command = create_command();
 	expand_variables_and_handle_quotes(&word, envp);
 	add_argument_to_command(*current_command, word);
 }
 
+/*
 void	handle_pipe(t_pipeline *pipeline, t_command **current_command)
 {
 	if (!*current_command)
@@ -67,3 +68,4 @@ void	handle_pipe(t_pipeline *pipeline, t_command **current_command)
 	add_command_to_pipeline(pipeline, *current_command);
 	*current_command = create_command();
 }
+*/

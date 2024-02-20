@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 12:47:30 by rogalio           #+#    #+#             */
-/*   Updated: 2024/02/13 18:52:11 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/02/19 18:00:52 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ t_command	*create_command(void)
 	return (cmd);
 }
 
+/*
 int	count_args(t_command *cmd)
 {
 	int	count;
@@ -34,6 +35,7 @@ int	count_args(t_command *cmd)
 		count++;
 	return (count);
 }
+*/
 
 char	**allocate_new_args(t_command *cmd, int new_count)
 {
@@ -57,6 +59,13 @@ void	append_argument(char **args, int position, char *arg)
 
 void	add_argument_to_command(t_command *command, char *arg)
 {
+	new_args[count] = ft_strdup(arg);
+	new_args[count + 1] = NULL;
+	command->args = new_args;
+}
+
+/*void	add_argument_to_command(t_command *command, char *arg)
+{
 	int		count;
 	char	**new_args;
 
@@ -72,3 +81,4 @@ void	add_argument_to_command(t_command *command, char *arg)
 	new_args[count + 1] = NULL;
 	command->args = new_args;
 }
+*/
