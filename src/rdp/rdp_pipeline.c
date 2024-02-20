@@ -6,23 +6,24 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 12:48:57 by rogalio           #+#    #+#             */
-/*   Updated: 2024/02/20 14:04:38 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/02/20 18:18:34 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rdp.h"
 
-t_command	**init_commands(int cmd_count, t_token_list *token_list)
+t_command	**init_commands(t_pipeline *pipeline, t_token_list *token_list)
 {
 	t_command	**commands;
-	//int			nb_cmd;
+	int			nb_cmd;
 
-	//nb_cmd = 0;
-	commands = malloc(cmd_count * sizeof(t_command *));
+	nb_cmd = 0;
+	pipeline->command_count = get_pipe_count(token_list) + 1;
+	commands = malloc(pipeline->command_count * sizeof(t_command *));
 	if (!commands)
 		return (NULL);
-	//while (nb_cmd < cmd_count)
-		//ft_bzero(commands[nb_cmd++], sizeof(t_command *));
+	// while (nb_cmd < pipeline->command_count)
+	// 	ft_bzero(commands[nb_cmd++], sizeof(t_command *));
 	ft_bzero(commands, sizeof(t_command **));
 	return (commands);
 }
@@ -32,15 +33,15 @@ int	init_cmds_args(t_pipeline *pipeline, t_token_list *token_list)
 	int	cmd;
 
 	cmd = 0;
-	get_args_count(pipeline, token_list, &cmd);
-	while (cmd >= 0)
+	get_args_count(pipeline, token_list);
+	while (cmd < pipeline->command_count)
 	{
 		pipeline->commands[cmd]->args = \
 		malloc((pipeline->commands[cmd]->args_count + 1) * sizeof(char *));
 		if (!pipeline->commands[cmd]->args)
 			return (0);
 		ft_bzero(pipeline->commands[cmd]->args, sizeof(char **));
-		cmd--;
+		cmd++;
 	}
 	return (1);
 }
@@ -54,8 +55,7 @@ t_pipeline	*init_pipeline(t_token_list *token_list)
 	if (!pipeline)
 		return (NULL);
 	//ft_bzero(pipeline, sizeof(t_pipeline));
-	pipeline->command_count = get_pipe_count(token_list) + 1;
-	pipeline->commands = init_commands(pipeline->command_count, token_list);
+	pipeline->commands = init_commands(pipeline, token_list);
 	if (!pipeline->commands)
 		return (NULL);
 	if (!init_cmds_args(pipeline, token_list))

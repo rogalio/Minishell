@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 17:52:57 by rogalio           #+#    #+#             */
-/*   Updated: 2024/02/20 14:10:25 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/02/20 16:56:53 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,27 +16,29 @@
 #include "rdp.h"
 
 void	handle_token(t_token_list **token_list, t_pipeline *pipeline, \
-t_command **current_command, char **envp)
+int *index, char **envp)
 {
 	if ((*token_list)->token->type == TOKEN_WORD)
-		handle_word(current_command, (*token_list)->token->value, envp);
+		handle_word(index, (*token_list)->token->value, pipeline, envp);
 	else if ((*token_list)->token->type == TOKEN_REDIRECT)
-		handle_redirection(token_list, *current_command);
-	//else
-		//handle_pipe(pipeline, current_command);
+		handle_redirection(token_list, pipeline->commands[index[0]]);
+	else
+	{
+		index[0]++;
+		index[1] = 0;
+	}
 }
 
 void	fill_pipeline(t_token_list *token_list, t_pipeline	\
 *pipeline, char **envp)
 {
-	int	cmd;
-	int	arg;
+	int	index[2];
 
-	cmd = 0;
-	arg = 0;
+	index[0] = 0;
+	index[1] = 0;
 	while (token_list)
 	{
-		handle_token(&token_list, pipeline, &last_command, envp);
+		handle_token(&token_list, pipeline, index, envp);
 		token_list = token_list->next;
 	}
 }
