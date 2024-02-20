@@ -6,32 +6,18 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 12:48:57 by rogalio           #+#    #+#             */
-/*   Updated: 2024/02/19 17:49:44 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/02/20 14:04:38 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rdp.h"
 
-int	get_pipe_count(t_token_list *token_list)
-{
-	int	nb_pipe;
-
-	nb_pipe = 0;
-	while (token_list)
-	{
-		if (token_list->token->type == TOKEN_PIPE)
-			nb_pipe++;
-		token_list = token_list->next;
-	}
-	return (nb_pipe);
-}
-
 t_command	**init_commands(int cmd_count, t_token_list *token_list)
 {
 	t_command	**commands;
-	int			nb_cmd;
+	//int			nb_cmd;
 
-	nb_cmd = 0;
+	//nb_cmd = 0;
 	commands = malloc(cmd_count * sizeof(t_command *));
 	if (!commands)
 		return (NULL);
@@ -59,6 +45,7 @@ int	init_cmds_args(t_pipeline *pipeline, t_token_list *token_list)
 	return (1);
 }
 
+//mettre get_pipe_count dans init_commands ?
 t_pipeline	*init_pipeline(t_token_list *token_list)
 {
 	t_pipeline	*pipeline;
@@ -69,6 +56,8 @@ t_pipeline	*init_pipeline(t_token_list *token_list)
 	//ft_bzero(pipeline, sizeof(t_pipeline));
 	pipeline->command_count = get_pipe_count(token_list) + 1;
 	pipeline->commands = init_commands(pipeline->command_count, token_list);
+	if (!pipeline->commands)
+		return (NULL);
 	if (!init_cmds_args(pipeline, token_list))
 		return (NULL);
 	return (pipeline);

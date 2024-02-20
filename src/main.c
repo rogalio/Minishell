@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 13:02:19 by rogalio           #+#    #+#             */
-/*   Updated: 2024/02/19 13:26:38 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/02/20 13:49:36 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,6 @@ fonction, la liste pour déterminer le nb de cmdes et le nb d'args pour
 chaque commande (ajouter dans structure commande le nb d'args ?) ?
 - ajouter une structure pour les heredocs
 - add_argument_to_command : enlever le realloc
-- add_command_to_pipeline : enlever le realloc
+- add_command_to_pipeline : enlever le realloc --> OK
 
 */

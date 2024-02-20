@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 18:03:55 by rogalio           #+#    #+#             */
-/*   Updated: 2024/02/19 17:50:20 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/02/20 14:06:42 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ typedef struct s_redirection
 typedef struct s_command
 {
 	char			**args;
+	int				args_count;
 	t_redirection	*redirect_in;
 	t_redirection	*redirect_out;
-	int				args_count;
 }t_command;
 
 typedef struct s_pipeline
@@ -59,5 +59,6 @@ void		handle_pipe(t_pipeline *pipeline, t_command **current_command);
 
 void		get_args_count(t_pipeline *pipeline, t_token_list *token_list, \
 int *cmd);
+int			get_pipe_count(t_token_list *token_list);
 
 #endif

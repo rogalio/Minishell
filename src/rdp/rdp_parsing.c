@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 17:52:57 by rogalio           #+#    #+#             */
-/*   Updated: 2024/02/19 17:56:32 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/02/20 14:10:25 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,11 @@ t_command **current_command, char **envp)
 void	fill_pipeline(t_token_list *token_list, t_pipeline	\
 *pipeline, char **envp)
 {
+	int	cmd;
+	int	arg;
+
+	cmd = 0;
+	arg = 0;
 	while (token_list)
 	{
 		handle_token(&token_list, pipeline, &last_command, envp);
