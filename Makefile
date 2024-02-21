@@ -6,7 +6,7 @@
 #    By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/08/27 16:09:01 by asoursou          #+#    #+#              #
-#    Updated: 2024/02/03 18:36:17 by rogalio          ###   ########.fr        #
+#    Updated: 2024/02/21 17:00:04 by rogalio          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ CC		:= clang
 CFLAGS	:= -Wall -Wextra -Werror
 DFLAGS	= -MP -MMD -MF $(BUILD)/$*.d -MT $@
 IFLAGS	:= -isystem./$(FT)/inc -I./include -I./inc/private
-LDFLAGS	:= -L./$(FT) -lft
+LDFLAGS	:= -L./$(FT) -lft -lreadline
 
 # DIRECTORIES
 BUILD	:= .build

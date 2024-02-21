@@ -1,23 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   prompt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/10 13:02:19 by rogalio           #+#    #+#             */
-/*   Updated: 2024/02/21 19:05:52 by rogalio          ###   ########.fr       */
+/*   Created: 2024/02/21 18:36:47 by rogalio           #+#    #+#             */
+/*   Updated: 2024/02/21 19:03:34 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "prompt.h"
+#ifndef PROMPT_H
+# define PROMPT_H
 
-int	main(int argc, char **argv, char **envp)
-{
-	(void)argc;
-	(void)argv;
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <string.h>
+#include <stdbool.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+#include "libft.h"
 
-	display_welcome_message();
-	run_shell(envp);
-	return (0);
-}
+#include <readline/readline.h>
+#include <readline/history.h>
+
+char *display_prompt(void);
+void display_welcome_message(void);
+void run_shell(char **envp);
+
+
+#endif
