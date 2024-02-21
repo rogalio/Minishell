@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 17:45:36 by cabdli            #+#    #+#             */
-/*   Updated: 2024/02/20 18:24:33 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/02/21 21:14:33 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,13 @@ void	get_args_count(t_pipeline *pipeline, t_token_list *token_list)
 	{
 		if (token_list->token->type == TOKEN_WORD)
 		{
-			printf("In init_cmds_args\n");
-			pipeline->commands->args_count++;
+			if (pipeline->commands && pipeline->commands[cmd])
+					pipeline->commands[cmd]->args_count++;
 		}
 		else if (token_list->token->type == TOKEN_REDIRECT)
 			token_list = token_list->next;
 		else
-			pipeline->commands += 1;
+			cmd += 1;
 		token_list = token_list->next;
 	}
 }

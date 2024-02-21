@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 18:37:23 by rogalio           #+#    #+#             */
-/*   Updated: 2024/02/13 18:44:38 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/02/21 21:35:37 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 # define UTILS_H
 
 # include <libft.h>
+# include <stdio.h>
 
 int	skip_whitespace(const char **str);
+int	check_regex(const char *s);
 
 #endif

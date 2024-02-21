@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 17:52:57 by rogalio           #+#    #+#             */
-/*   Updated: 2024/02/20 16:56:53 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/02/21 21:27:54 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,8 @@ void	fill_pipeline(t_token_list *token_list, t_pipeline	\
 t_pipeline	*parse_rdp(t_token_list *token_list, char **envp)
 {
 	t_pipeline	*pipeline;
-	//t_command	*last_command;
 
 	pipeline = init_pipeline(token_list);
 	fill_pipeline(token_list, pipeline, envp);
-	//last_command = NULL;
-	//if (last_command)
-		//add_command_to_pipeline(pipeline, last_command);
 	return (pipeline);
 }

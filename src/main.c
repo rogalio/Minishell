@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 13:02:19 by rogalio           #+#    #+#             */
-/*   Updated: 2024/02/20 16:55:48 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/02/21 22:11:37 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 #include "token.h"
 #include "parser.h"
 #include "rdp.h"
+#include "utils.h"
 
 int	main(int argc, char **argv, char **envp)
 {
 	t_token_list	*token_list;
 	t_pipeline		*pipeline;
-	int				verify;
-	const char		str[] = "echo \"hello \'haha\' \'world\' you \" > file.txt > file3";
+	const char		str[] = "echo \"hello \'haha\' $HOME you \" > file.txt > file3 | cat file3";
 
 	(void)argc;
 	(void)argv;
@@ -31,8 +31,7 @@ int	main(int argc, char **argv, char **envp)
 	token_list = init_token_list(str);
 	print_token_list(token_list);
 	printf("\n\n");
-	verify = init_syntax_analyzer(token_list);
-	if (verify)
+	if (init_syntax_analyzer(token_list))
 	{
 		pipeline = parse_rdp(token_list, envp);
 		print_pipeline(pipeline);
@@ -49,18 +48,17 @@ Tokens :
 qu'ils sont fermés
 ==> OK, mais dans gestion d'erreur gérer le cas unclosed quotes
 
-- verifier que seuls des chars/cmdes autorises sont utilises (regex) :
-espace, chevrons, quotes (dbles et simples), pipe, dollars, alphanum,
+- Regex :
 en cas d'erreur, envoyer un msg d'erreur et afficher de nouveau le prompt
 pour la commande suivante
 ==> Ajouter '?'
-==> OK
 
-- parse_rdp : avant d'entrer dans la boucle, parcourir, dans differentes
-fonction, la liste pour déterminer le nb de cmdes et le nb d'args pour
-chaque commande (ajouter dans structure commande le nb d'args ?) ?
-- ajouter une structure pour les heredocs
-- add_argument_to_command : enlever le realloc
-- add_command_to_pipeline : enlever le realloc --> OK
+- parse_rdp :
+Ajouter un init_heredoc, car dans ce cas on ne supprime pas les type
+et file différents, mais on ajoute juste des files (pour sortir des heredocs
+successifs) + ajouter une structure heredoc avec un char **file pour enregistrer
+les differents mdp de sortie de heredocs + nb de heredocs dans la structure
+
+- Ajouter heredoc dans print_pipeline
 
 */

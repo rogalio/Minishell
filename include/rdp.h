@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 18:03:55 by rogalio           #+#    #+#             */
-/*   Updated: 2024/02/20 18:17:13 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/02/21 21:42:17 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,6 @@ void		add_command_to_pipeline(t_pipeline *pipeline, t_command *cmd);
 
 t_command	*create_command(void);
 int			count_args(t_command *cmd);
-char		**allocate_new_args(t_command *cmd, int new_count);
-void		append_argument(char **args, int position, char *arg);
 void		add_argument_to_command(t_command *command, char *arg);
 
 void		handle_redirection(t_token_list **token_list, t_command *command);
