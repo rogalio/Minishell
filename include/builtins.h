@@ -6,7 +6,7 @@
 /*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 15:47:29 by rogalio           #+#    #+#             */
-/*   Updated: 2024/02/21 16:04:08 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/02/21 16:19:28 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,16 @@
 #include <unistd.h>
 #include "libft.h"
 
+
+typedef struct s_env
+{
+  char	*name;
+  char	*value;
+  struct s_env	*next;
+}	t_env;
 typedef struct s_data
 {
-  char	**env;
+  t_env	*env;
   char	**args;
 }	t_data;
 
@@ -31,12 +38,7 @@ typedef struct s_builtins
   int	(*func)(t_data *);
 }	t_builtins;
 
-typedef struct s_env
-{
-  char	*name;
-  char	*value;
-  struct s_env	*next;
-}	t_env;
+
 
 
 
@@ -48,6 +50,8 @@ void echo(t_data *data);
 int cd(t_data *data);
 
 int pwd();
+
+int unset(t_data *data);
 
 
 

@@ -6,7 +6,7 @@
 /*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 15:50:14 by rogalio           #+#    #+#             */
-/*   Updated: 2024/02/20 13:02:14 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/02/21 16:18:27 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ t_env   *init_env(char **envp)
     while (envp[i]) {
         new_node = create_env_node(envp[i]);
         if (!new_node)
-            return NULL; // Gestion d'erreur simplifiée
+            return NULL;
         head = add_to_env_list(head, new_node);
         i++;
     }
