@@ -6,7 +6,7 @@
 /*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 15:47:29 by rogalio           #+#    #+#             */
-/*   Updated: 2024/02/21 15:14:11 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/02/21 15:30:45 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <stdlib.h>
 # include <string.h>
 #include <unistd.h>
+#include "libft.h"
 
 typedef struct s_data
 {
@@ -41,6 +42,10 @@ typedef struct s_env
 
 void	print_env(t_env *env);
 t_env	*init_env(char **envp);
+
+void echo(t_data *data);
+
+int cd(t_data *data);
 
 
 
