@@ -6,7 +6,7 @@
 /*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 15:50:14 by rogalio           #+#    #+#             */
-/*   Updated: 2024/02/21 16:18:27 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/02/22 16:59:06 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,21 +48,50 @@ t_env   *add_to_env_list(t_env *head, t_env *new_node)
     return head;
 }
 
+
+char   *get_env_var(t_env *env, char *name)
+{
+    while (env)
+    {
+        if (strcmp(env->name, name) == 0)
+            return env->value;
+        env = env->next;
+    }
+    return NULL;
+}
+
 t_env   *init_env(char **envp)
 {
-    t_env   *head = NULL;
-    t_env   *new_node;
+    t_env   *env;
     int     i;
 
+    env = NULL;
     i = 0;
-    while (envp[i]) {
-        new_node = create_env_node(envp[i]);
-        if (!new_node)
-            return NULL;
-        head = add_to_env_list(head, new_node);
+    while (envp[i])
+    {
+        env = add_to_env_list(env, create_env_node(envp[i]));
         i++;
     }
-    return head;
+    return env;
+}
+
+void set_env_var(t_env *env, char *name, char *value)
+{
+    while (env)
+    {
+        if (strcmp(env->name, name) == 0)
+        {
+            if (env->value)
+                free(env->value);
+            env->value = strdup(value);
+            return;
+        }
+        env = env->next;
+    }
+    env = malloc(sizeof(t_env));
+    env->name = strdup(name);
+    env->value = strdup(value);
+    env->next = NULL;
 }
 
 void    print_env(t_env *env)

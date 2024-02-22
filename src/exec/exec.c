@@ -6,11 +6,12 @@
 /*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 15:03:34 by rogalio           #+#    #+#             */
-/*   Updated: 2024/02/22 13:08:06 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/02/22 16:51:39 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec.h"
+#include "builtins.h"
 
 
 
@@ -48,50 +49,122 @@ char **ft_split2(char const *s, char c)
     return (tab);
 }
 
-char	*find_path(char *cmd, char **envp)
+void	free_tab(char **tab)
 {
-	char	**paths;
-	char	*path;
-	int		i;
-	char	*part_path;
+    int	i;
 
-	i = 0;
-	while (ft_strnstr(envp[i], "PATH", 4) == 0)
-		i++;
-	paths = ft_split2(envp[i] + 5, ':');
-	i = 0;
-	while (paths[i])
-	{
-		part_path = ft_strjoin(paths[i], "/");
-		path = ft_strjoin(part_path, cmd);
-		free(part_path);
-		if (access(path, F_OK) == 0)
-			return (path);
-		free(path);
-		i++;
-	}
-	i = -1;
-	while (paths[++i])
-		free(paths[i]);
-	free(paths);
-	return (0);
+    i = 0;
+    while (tab[i])
+    {
+        free(tab[i]);
+        i++;
+    }
+    free(tab);
 }
 
-void	execute_command(t_command *cmd, char **envp)
+char	*find_path(char *cmd)
 {
+    char	**paths;
     char	*path;
+    char	*tmp;
+    int		i;
 
-    path = find_path(cmd->args[0], envp);
+    path = getenv("PATH");
+    if (!path)
+        return (NULL);
+    paths = ft_split2(path, ':');
+    i = 0;
+    while (paths[i])
+    {
+        tmp = ft_strjoin(paths[i], "/");
+        path = ft_strjoin(tmp, cmd);
+        free(tmp);
+        if (access(path, F_OK) == 0)
+        {
+            free_tab(paths);
+            return (path);
+        }
+        free(path);
+        i++;
+    }
+    free_tab(paths);
+    return (NULL);
+}
+
+char **env_to_char_array(t_env *env)
+{
+    int i;
+    char **envp;
+    t_env *tmp;
+
+    i = 0;
+    tmp = env;
+    while (tmp)
+    {
+        i++;
+        tmp = tmp->next;
+    }
+    envp = malloc(sizeof(char *) * (i + 1));
+    i = 0;
+    tmp = env;
+    while (tmp)
+    {
+        envp[i] = ft_strjoin(tmp->name, "=");
+        envp[i] = ft_strjoin(envp[i], tmp->value);
+        i++;
+        tmp = tmp->next;
+    }
+    envp[i] = NULL;
+    return (envp);
+}
+
+bool check_if_builtins(char *cmd, char **args, t_env *env)
+{
+    t_builtins builtins[] = {
+        {"echo", echo},
+        {"cd", cd},
+        {"pwd", pwd},
+        {"unset", unset},
+        {"exit", exit_shell},
+        {NULL, NULL}
+    };
+    t_data data; // Création d'une instance de t_data
+    int i;
+
+    data.env = env; // Ajustez selon la manière dont vous gérez l'environnement
+    data.args = args;
+    i = 0;
+    while (builtins[i].name)
+    {
+        if (strcmp(builtins[i].name, cmd) == 0)
+        {
+            builtins[i].func(&data);
+            return (true);
+        }
+        i++;
+    }
+    return (false);
+}
+
+void	execute_command(t_command *command, t_env *env)
+{
+    char	**args;
+    char	*path;
+    t_data data;
+
+    data.env = env;
+    args = command->args;
+    if (check_if_builtins(args[0], args, env))
+        return ;
+    path = find_path(args[0]);
     if (!path)
     {
-        perror("Command not found");
+        printf("minishell: %s: command not found\n", args[0]);
         exit(EXIT_FAILURE);
     }
-    if (execve(path, cmd->args, envp) == -1)
-    {
-        perror("Error executing command");
-        exit(EXIT_FAILURE);
-    }
+    execve(path, args, env_to_char_array(env));
+    perror("execve");
+    exit(EXIT_FAILURE);
 }
 
 void	redirect_if_needed(t_command *cmd)
@@ -134,10 +207,11 @@ int create_pipe(int pipe_fds[2])
 }
 
 // Fonction pour initialiser un processus enfant
-void init_child_process(t_command *command, int pipe_fds[2], int in_fd, char **envp)
+void init_child_process(t_command *command, int pipe_fds[2], int in_fd, t_env *envp)
 {
     close(pipe_fds[0]);
-    if (in_fd != 0) {
+    if (in_fd != 0)
+    {
         dup2(in_fd, STDIN_FILENO);
         close(in_fd);
     }
@@ -190,7 +264,10 @@ void	execute_pipeline(t_pipeline *pipeline, char **envp)
     int		in_fd;
     int		i;
     pid_t	pid;
+    t_env    *env;
 
+
+    env = init_env(envp);
     in_fd = 0;
     i = 0;
     while (i < pipeline->command_count)
@@ -199,7 +276,7 @@ void	execute_pipeline(t_pipeline *pipeline, char **envp)
         pid = fork();
         check_pid_error(pid);
         if (is_child_process(pid))
-            init_child_process(pipeline->commands[i], pipe_fds, in_fd, envp);
+            init_child_process(pipeline->commands[i], pipe_fds, in_fd, env);
         else
             handle_parent_process(pipe_fds, &in_fd);
         i++;

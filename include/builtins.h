@@ -6,7 +6,7 @@
 /*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 15:47:29 by rogalio           #+#    #+#             */
-/*   Updated: 2024/02/21 16:19:28 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/02/22 16:59:19 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,13 @@ typedef struct s_builtins
 
 void	print_env(t_env *env);
 t_env	*init_env(char **envp);
+void set_env_var(t_env *env, char *name, char *value);
+void    free_env(t_env *env);
+char   *get_env_var(t_env *env, char *name);
 
-void echo(t_data *data);
+int exit_shell(t_data *data);
+
+int echo(t_data *data);
 
 int cd(t_data *data);
 
