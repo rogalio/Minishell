@@ -6,7 +6,7 @@
 /*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 15:03:34 by rogalio           #+#    #+#             */
-/*   Updated: 2024/02/13 15:39:50 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/02/22 13:08:06 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,68 @@ void	redirect_if_needed(t_command *cmd)
     }
 }
 
+// Fonction pour créer un pipe et gérer les erreurs
+int create_pipe(int pipe_fds[2])
+{
+    if (pipe(pipe_fds) == -1)
+    {
+        perror("pipe");
+        exit(EXIT_FAILURE);
+    }
+    return (0);
+}
+
+// Fonction pour initialiser un processus enfant
+void init_child_process(t_command *command, int pipe_fds[2], int in_fd, char **envp)
+{
+    close(pipe_fds[0]);
+    if (in_fd != 0) {
+        dup2(in_fd, STDIN_FILENO);
+        close(in_fd);
+    }
+    redirect_if_needed(command);
+    execute_command(command, envp);
+    exit(EXIT_FAILURE);
+}
+
+// Fonction pour gérer un processus parent |
+void handle_parent_process(int pipe_fds[2], int *in_fd)
+{
+    close(pipe_fds[1]);
+    if (*in_fd != 0)
+        close(*in_fd);
+    *in_fd = pipe_fds[0];
+}
+
+
+void wait_for_children_to_finish(int command_count)
+{
+    while (command_count > 0)
+    {
+        wait(NULL);
+        command_count--;
+    }
+}
+
+// fonction check if pid = -1
+void check_pid_error(pid_t pid)
+{
+    if (pid == -1)
+    {
+        perror("fork");
+        exit(EXIT_FAILURE);
+    }
+}
+
+
+// function to check if pid is 0
+bool is_child_process(pid_t pid)
+{
+    return (pid == 0);
+}
+
+
+
 void	execute_pipeline(t_pipeline *pipeline, char **envp)
 {
     int		pipe_fds[2];
@@ -133,39 +195,17 @@ void	execute_pipeline(t_pipeline *pipeline, char **envp)
     i = 0;
     while (i < pipeline->command_count)
     {
-        pipe(pipe_fds);
+        create_pipe(pipe_fds);
         pid = fork();
-        if (pid == 0)
-        {
-            close(pipe_fds[0]);
-            if (i < pipeline->command_count - 1)
-                dup2(pipe_fds[1], STDOUT_FILENO);
-            if (in_fd != 0)
-            {
-                dup2(in_fd, STDIN_FILENO);
-                close(in_fd);
-            }
-            redirect_if_needed(pipeline->commands[i]);
-            execute_command(pipeline->commands[i], envp);
-            exit(EXIT_FAILURE);
-        }
-        else if (pid > 0)
-        {
-            waitpid(pid, NULL, 0);
-            close(pipe_fds[1]);
-            if (in_fd != 0)
-                close(in_fd);
-            in_fd = pipe_fds[0];
-        }
+        check_pid_error(pid);
+        if (is_child_process(pid))
+            init_child_process(pipeline->commands[i], pipe_fds, in_fd, envp);
         else
-        {
-            perror("fork");
-            exit(EXIT_FAILURE);
-        }
+            handle_parent_process(pipe_fds, &in_fd);
         i++;
     }
-    if (in_fd != 0)
-        close(in_fd);
+    wait_for_children_to_finish(pipeline->command_count);
 }
+
 
 
