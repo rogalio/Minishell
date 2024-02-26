@@ -6,7 +6,7 @@
 /*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 15:03:34 by rogalio           #+#    #+#             */
-/*   Updated: 2024/02/22 16:51:39 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/02/22 19:31:28 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -283,6 +283,5 @@ void	execute_pipeline(t_pipeline *pipeline, char **envp)
     }
     wait_for_children_to_finish(pipeline->command_count);
 }
-
 
 
