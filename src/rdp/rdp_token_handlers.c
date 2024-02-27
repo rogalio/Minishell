@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 12:46:02 by rogalio           #+#    #+#             */
-/*   Updated: 2024/02/21 21:51:56 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/02/27 13:06:01 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,30 @@ const char *file)
 	(*redirect)->file = ft_strdup(file);
 }
 
+void	init_heredoc(t_token_list **token_list, t_heredoc **heredoc, \
+char *type)
+{
+	t_token_list	*tmp_list;
+	int				nb_heredocs;
+	int				i;
+
+	tmp_list = (*token_list)->next;
+	nb_heredocs = 1;
+	i = 0;
+	nb_heredocs = get_nb_heredocs(tmp_list);
+	(*heredoc) = create_heredoc(nb_heredocs);
+	if (!(*heredoc))
+		exit(EXIT_FAILURE);
+	(*heredoc)->type = ft_strdup(type);
+	while (i < nb_heredocs)
+	{
+		(*heredoc)->file[i] = ft_strdup((*token_list)->token->value);
+		if ((nb_heredocs > 1) && (i != (nb_heredocs - 1)))
+			*token_list = (*token_list)->next->next;
+		i++;
+	}
+}
+
 void	handle_redirection(t_token_list **token_list, t_command *command)
 {
 	char	*type;
@@ -47,10 +71,10 @@ void	handle_redirection(t_token_list **token_list, t_command *command)
 
 	if (ft_strcmp(type, "<") == 0)
 		init_redirection(&command->redirect_in, type, file);
-	else if (ft_strcmp(type, "<<") == 0)
-		init_redirection(&command->heredoc, type, file);
 	else if (ft_strcmp(type, ">") == 0 || ft_strcmp(type, ">>") == 0)
 		init_redirection(&command->redirect_out, type, file);
+	else if (ft_strcmp(type, "<<") == 0)
+		init_heredoc(token_list, &command->heredoc, type);
 }
 
 

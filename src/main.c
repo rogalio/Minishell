@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 13:02:19 by rogalio           #+#    #+#             */
-/*   Updated: 2024/02/21 22:11:37 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/02/27 13:06:47 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_token_list	*token_list;
 	t_pipeline		*pipeline;
-	const char		str[] = "echo \"hello \'haha\' $HOME you \" > file.txt > file3 | cat file3";
+	const char		str[] = "<< stop1 << stop2 << stop3 << stop4 | echo  \"hello\"";
+	//const char		str[] = "echo \"hello \'haha\' $HOME you \" > file.txt > file3 | cat file3";
 
 	(void)argc;
 	(void)argv;
@@ -39,7 +40,7 @@ int	main(int argc, char **argv, char **envp)
 	}
 	else
 		return (printf("Error\n"), 1);
-	free_token_list(token_list);
+	//free_token_list(token_list);
 	return (0);
 }
 /*
@@ -58,7 +59,8 @@ Ajouter un init_heredoc, car dans ce cas on ne supprime pas les type
 et file différents, mais on ajoute juste des files (pour sortir des heredocs
 successifs) + ajouter une structure heredoc avec un char **file pour enregistrer
 les differents mdp de sortie de heredocs + nb de heredocs dans la structure
+==> OK
 
-- Ajouter heredoc dans print_pipeline
+- Ajouter heredoc dans print_pipeline ==> OK
 
 */

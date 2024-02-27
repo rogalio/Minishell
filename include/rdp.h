@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 18:03:55 by rogalio           #+#    #+#             */
-/*   Updated: 2024/02/21 21:42:17 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/02/27 12:59:25 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,20 @@ typedef struct s_redirection
 	char	*file;
 }t_redirection;
 
+typedef struct s_heredoc
+{
+	char	*type;
+	char	**file;
+	int		nb_heredocs;
+}t_heredoc;
+
 typedef struct s_command
 {
 	char			**args;
 	int				args_count;
 	t_redirection	*redirect_in;
 	t_redirection	*redirect_out;
-	t_redirection	*heredoc;
+	t_heredoc		*heredoc;
 }t_command;
 
 typedef struct s_pipeline
@@ -59,5 +66,8 @@ void		handle_pipe(t_pipeline *pipeline, t_command **current_command);
 
 void		get_args_count(t_pipeline *pipeline, t_token_list *token_list);
 int			get_pipe_count(t_token_list *token_list);
+
+t_heredoc	*create_heredoc(int nb_heredocs);
+int			get_nb_heredocs(t_token_list *tmp_list);
 
 #endif
