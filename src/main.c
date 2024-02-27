@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 13:02:19 by rogalio           #+#    #+#             */
-/*   Updated: 2024/02/27 13:06:47 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/02/27 15:26:56 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,9 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_token_list	*token_list;
 	t_pipeline		*pipeline;
-	const char		str[] = "<< stop1 << stop2 << stop3 << stop4 | echo  \"hello\"";
+	//const char		str[] = "<< stop1 << stop2 << stop3 << stop4 | echo  \"hello\"";
 	//const char		str[] = "echo \"hello \'haha\' $HOME you \" > file.txt > file3 | cat file3";
+	const char		str[] = "cd src";
 
 	(void)argc;
 	(void)argv;
