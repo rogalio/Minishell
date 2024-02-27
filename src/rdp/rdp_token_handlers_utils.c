@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 12:13:26 by cabdli            #+#    #+#             */
-/*   Updated: 2024/02/27 12:58:51 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/02/27 14:02:58 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ t_heredoc	*create_heredoc(int nb_heredocs)
 	if (!heredoc)
 		return (perror("Allocation error"), NULL);
 	heredoc->type = NULL;
-	heredoc->file = ft_calloc((nb_heredocs + 1), sizeof(char *));
+	heredoc->delimiter = ft_calloc((nb_heredocs + 1), sizeof(char *));
 	heredoc->nb_heredocs = nb_heredocs;
 	return (heredoc);
 }

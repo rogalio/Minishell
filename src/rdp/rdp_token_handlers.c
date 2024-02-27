@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 12:46:02 by rogalio           #+#    #+#             */
-/*   Updated: 2024/02/27 13:06:01 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/02/27 14:03:31 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ char *type)
 	(*heredoc)->type = ft_strdup(type);
 	while (i < nb_heredocs)
 	{
-		(*heredoc)->file[i] = ft_strdup((*token_list)->token->value);
+		(*heredoc)->delimiter[i] = ft_strdup((*token_list)->token->value);
 		if ((nb_heredocs > 1) && (i != (nb_heredocs - 1)))
 			*token_list = (*token_list)->next->next;
 		i++;

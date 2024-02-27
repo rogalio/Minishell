@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 20:04:04 by rogalio           #+#    #+#             */
-/*   Updated: 2024/02/27 13:03:44 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/02/27 14:04:18 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@ void	*print_heredoc(t_heredoc *heredoc)
 	printf("Heredoc:\n");
 	printf("Number of heredocs : %d\n", heredoc->nb_heredocs);
 	printf("Type: %s\n", heredoc->type);
-	while (heredoc->file && heredoc->file[++i])
-		printf("Heredoc password %d: %s\n", i + 1, heredoc->file[i]);
+	while (heredoc->delimiter && heredoc->delimiter[++i])
+		printf("Heredoc delimiter %d: %s\n", i + 1, heredoc->delimiter[i]);
 	return (NULL);
 }
 /*
