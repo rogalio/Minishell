@@ -6,7 +6,7 @@
 /*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 15:03:34 by rogalio           #+#    #+#             */
-/*   Updated: 2024/02/22 19:31:28 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/02/29 11:34:10 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ char **env_to_char_array(t_env *env)
     return (envp);
 }
 
-bool check_if_builtins(char *cmd, char **args, t_env *env)
+bool check_if_builtins(char *cmd, char ** args, t_data *data)
 {
     t_builtins builtins[] = {
         {"echo", echo},
@@ -128,17 +128,15 @@ bool check_if_builtins(char *cmd, char **args, t_env *env)
         {"exit", exit_shell},
         {NULL, NULL}
     };
-    t_data data; // Création d'une instance de t_data
     int i;
 
-    data.env = env; // Ajustez selon la manière dont vous gérez l'environnement
-    data.args = args;
     i = 0;
+    data->args = args;
     while (builtins[i].name)
     {
         if (strcmp(builtins[i].name, cmd) == 0)
         {
-            builtins[i].func(&data);
+            builtins[i].func(data);
             return (true);
         }
         i++;
@@ -146,15 +144,13 @@ bool check_if_builtins(char *cmd, char **args, t_env *env)
     return (false);
 }
 
-void	execute_command(t_command *command, t_env *env)
+void	execute_command(t_command *command, t_data *data)
 {
     char	**args;
     char	*path;
-    t_data data;
 
-    data.env = env;
     args = command->args;
-    if (check_if_builtins(args[0], args, env))
+    if (check_if_builtins(args[0],args, data))
         return ;
     path = find_path(args[0]);
     if (!path)
@@ -162,7 +158,7 @@ void	execute_command(t_command *command, t_env *env)
         printf("minishell: %s: command not found\n", args[0]);
         exit(EXIT_FAILURE);
     }
-    execve(path, args, env_to_char_array(env));
+    execve(path, args, env_to_char_array(data->env));
     perror("execve");
     exit(EXIT_FAILURE);
 }
@@ -207,7 +203,7 @@ int create_pipe(int pipe_fds[2])
 }
 
 // Fonction pour initialiser un processus enfant
-void init_child_process(t_command *command, int pipe_fds[2], int in_fd, t_env *envp)
+void init_child_process(t_command *command, int pipe_fds[2], int in_fd, t_data *data)
 {
     close(pipe_fds[0]);
     if (in_fd != 0)
@@ -216,7 +212,7 @@ void init_child_process(t_command *command, int pipe_fds[2], int in_fd, t_env *e
         close(in_fd);
     }
     redirect_if_needed(command);
-    execute_command(command, envp);
+    execute_command(command, data); // Ici, nous passons data au lieu de envp
     exit(EXIT_FAILURE);
 }
 
@@ -265,9 +261,10 @@ void	execute_pipeline(t_pipeline *pipeline, char **envp)
     int		i;
     pid_t	pid;
     t_env    *env;
-
+    t_data   data; // Initialisation de t_data
 
     env = init_env(envp);
+    data.env = env; // Assignation de t_env à data.env
     in_fd = 0;
     i = 0;
     while (i < pipeline->command_count)
@@ -276,7 +273,7 @@ void	execute_pipeline(t_pipeline *pipeline, char **envp)
         pid = fork();
         check_pid_error(pid);
         if (is_child_process(pid))
-            init_child_process(pipeline->commands[i], pipe_fds, in_fd, env);
+            init_child_process(pipeline->commands[i], pipe_fds, in_fd, &data); // Passage de &data
         else
             handle_parent_process(pipe_fds, &in_fd);
         i++;
