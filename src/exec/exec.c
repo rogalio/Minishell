@@ -6,14 +6,36 @@
 /*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 15:03:34 by rogalio           #+#    #+#             */
-/*   Updated: 2024/02/29 11:34:10 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/03/06 17:13:04 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec.h"
 #include "builtins.h"
 
+typedef struct s_pipe
+{
+    int pipe_prev[0];
+    int pipe_next[1];
+} t_pipe;
 
+void swap_pipe_fd(t_pipe *pipe)
+{
+    close(pipe->pipe_prev[0]);
+    close(pipe->pipe_prev[1]);
+    pipe->pipe_prev[0] = pipe->pipe_next[0];
+    pipe->pipe_prev[1] = pipe->pipe_next[1];
+    pipe->pipe_next[0] = -1;
+    pipe->pipe_next[1] = -1;
+}
+
+void close_pipe_fd(t_pipe *pipe)
+{
+    close(pipe->pipe_prev[0]);
+    close(pipe->pipe_prev[1]);
+    close(pipe->pipe_next[0]);
+    close(pipe->pipe_next[1]);
+}
 
 char **ft_split2(char const *s, char c)
 {
@@ -192,9 +214,9 @@ void	redirect_if_needed(t_command *cmd)
 }
 
 // Fonction pour créer un pipe et gérer les erreurs
-int create_pipe(int pipe_fds[2])
+int create_pipe(t_pipe *pipen)
 {
-    if (pipe(pipe_fds) == -1)
+    if (pipe(pipen->pipe_next) == -1)
     {
         perror("pipe");
         exit(EXIT_FAILURE);
@@ -203,26 +225,29 @@ int create_pipe(int pipe_fds[2])
 }
 
 // Fonction pour initialiser un processus enfant
-void init_child_process(t_command *command, int pipe_fds[2], int in_fd, t_data *data)
+void init_child_process(t_command *command, t_pipe *pipe_fds, int in_fd, t_data *data)
 {
-    close(pipe_fds[0]);
+    redirect_if_needed(command);
     if (in_fd != 0)
     {
         dup2(in_fd, STDIN_FILENO);
         close(in_fd);
     }
-    redirect_if_needed(command);
-    execute_command(command, data); // Ici, nous passons data au lieu de envp
-    exit(EXIT_FAILURE);
+    if (pipe_fds->pipe_next[1] != -1)
+    {
+        dup2(pipe_fds->pipe_next[1], STDOUT_FILENO);
+        close(pipe_fds->pipe_next[1]);
+    }
+    execute_command(command, data);
 }
 
 // Fonction pour gérer un processus parent |
-void handle_parent_process(int pipe_fds[2], int *in_fd)
+void handle_parent_process(t_pipe *pipe_fds, int *in_fd)
 {
-    close(pipe_fds[1]);
-    if (*in_fd != 0)
-        close(*in_fd);
-    *in_fd = pipe_fds[0];
+    close_pipe_fd(pipe_fds);
+    swap_pipe_fd(pipe_fds);
+    *in_fd = pipe_fds->pipe_prev[0];
+
 }
 
 
@@ -253,10 +278,58 @@ bool is_child_process(pid_t pid)
 }
 
 
+bool check_if_builtins_cd_or_unset(char *cmd, char ** args, t_data *data)
+{
+    t_builtins builtins[] = {
+
+        {"cd", cd},
+        {"unset", unset},
+        {NULL, NULL}
+    };
+    int i;
+
+    i = 0;
+    data->args = args;
+    while (builtins[i].name)
+    {
+        if (strcmp(builtins[i].name, cmd) == 0)
+        {
+            builtins[i].func(data);
+            return (true);
+        }
+        i++;
+    }
+    return (false);
+}
+
+bool check_if_builtins_others(char *cmd, char ** args, t_data *data)
+{
+    t_builtins builtins[] = {
+        {"echo", echo},
+        {"pwd", pwd},
+        {"exit", exit_shell},
+        {NULL, NULL}
+    };
+    int i;
+
+    i = 0;
+    data->args = args;
+    while (builtins[i].name)
+    {
+        if (strcmp(builtins[i].name, cmd) == 0)
+        {
+            builtins[i].func(data);
+            return (true);
+        }
+        i++;
+    }
+    return (false);
+}
+
 
 void	execute_pipeline(t_pipeline *pipeline, char **envp)
 {
-    int		pipe_fds[2];
+    t_pipe pipe_fds;
     int		in_fd;
     int		i;
     pid_t	pid;
@@ -267,15 +340,18 @@ void	execute_pipeline(t_pipeline *pipeline, char **envp)
     data.env = env; // Assignation de t_env à data.env
     in_fd = 0;
     i = 0;
+   //if (check_if_builtins_cd_or_unset(pipeline->commands[i]->args[0], pipeline->commands[i]->args, &data))
+    //        i++;
     while (i < pipeline->command_count)
     {
-        create_pipe(pipe_fds);
+        if (i < pipeline->command_count - 1)
+            create_pipe(&pipe_fds);
         pid = fork();
         check_pid_error(pid);
         if (is_child_process(pid))
-            init_child_process(pipeline->commands[i], pipe_fds, in_fd, &data); // Passage de &data
+            init_child_process(pipeline->commands[i], &pipe_fds, in_fd, &data);
         else
-            handle_parent_process(pipe_fds, &in_fd);
+            handle_parent_process(&pipe_fds, &in_fd);
         i++;
     }
     wait_for_children_to_finish(pipeline->command_count);
