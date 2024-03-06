@@ -6,7 +6,7 @@
 /*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 15:03:34 by rogalio           #+#    #+#             */
-/*   Updated: 2024/02/29 11:34:10 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/03/06 19:00:37 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -267,6 +267,7 @@ void	execute_pipeline(t_pipeline *pipeline, char **envp)
     data.env = env; // Assignation de t_env à data.env
     in_fd = 0;
     i = 0;
+    check_if_builtins(pipeline->commands[i]->args[0], pipeline->commands[i]->args, &data); // ajoute de biultins avant fork
     while (i < pipeline->command_count)
     {
         create_pipe(pipe_fds);
