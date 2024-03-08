@@ -6,14 +6,28 @@
 /*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 15:03:34 by rogalio           #+#    #+#             */
-/*   Updated: 2024/03/06 19:00:37 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/03/08 17:28:41 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec.h"
 #include "builtins.h"
 
+typedef struct s_pipe
+{
+    int pipe_fds[2];
+    int in_fd;
+    pid_t pid;
+} t_pipe;
 
+void swap_pipe(t_pipe *pipe1, t_pipe *pipe2)
+{
+    t_pipe tmp;
+
+    tmp = *pipe1;
+    *pipe1 = *pipe2;
+    *pipe2 = tmp;
+}
 
 char **ft_split2(char const *s, char c)
 {
@@ -118,6 +132,32 @@ char **env_to_char_array(t_env *env)
     return (envp);
 }
 
+bool check_if_builtins_cd_or_unset(char *cmd, char ** args, t_data *data)
+{
+    t_builtins builtins[] = {
+       // {"echo", echo},
+        {"cd", cd},
+        //{"pwd", pwd},
+        {"unset", unset},
+        //{"exit", exit_shell},
+        {NULL, NULL}
+    };
+    int i;
+
+    i = 0;
+    data->args = args;
+    while (builtins[i].name)
+    {
+        if (strcmp(builtins[i].name, cmd) == 0)
+        {
+            builtins[i].func(data);
+            return (true);
+        }
+        i++;
+    }
+    return (false);
+}
+
 bool check_if_builtins(char *cmd, char ** args, t_data *data)
 {
     t_builtins builtins[] = {
@@ -143,53 +183,53 @@ bool check_if_builtins(char *cmd, char ** args, t_data *data)
     }
     return (false);
 }
-
-void	execute_command(t_command *command, t_data *data)
-{
-    char	**args;
-    char	*path;
-
-    args = command->args;
-    if (check_if_builtins(args[0],args, data))
-        return ;
-    path = find_path(args[0]);
-    if (!path)
-    {
-        printf("minishell: %s: command not found\n", args[0]);
-        exit(EXIT_FAILURE);
-    }
-    execve(path, args, env_to_char_array(data->env));
-    perror("execve");
-    exit(EXIT_FAILURE);
-}
-
-void	redirect_if_needed(t_command *cmd)
-{
-    int	fd;
-
-    if (cmd->redirect_in)
-    {
-        fd = open(cmd->redirect_in->file, O_RDONLY);
-        if (fd == -1)
-        {
-            perror("Error opening input redirection file");
+void redirect_if_needed(t_command *command) {
+    // Gestion de la redirection d'entrée
+    if (command->redirect_in) {
+        int fd_in = open(command->redirect_in->file, O_RDONLY);
+        if (fd_in == -1) {
+            perror("open input file");
             exit(EXIT_FAILURE);
         }
-        dup2(fd, STDIN_FILENO);
-        close(fd);
+        dup2(fd_in, STDIN_FILENO);
+        close(fd_in);
     }
-    if (cmd->redirect_out)
-    {
-        fd = open(cmd->redirect_out->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-        if (fd == -1)
-        {
-            perror("Error opening output redirection file");
+
+    // Gestion de la redirection de sortie
+    if (command->redirect_out) {
+        int fd_out = open(command->redirect_out->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+        if (fd_out == -1) {
+            perror("open output file");
             exit(EXIT_FAILURE);
         }
-        dup2(fd, STDOUT_FILENO);
-        close(fd);
+        dup2(fd_out, STDOUT_FILENO);
+        close(fd_out);
     }
 }
+
+
+void execute_command(t_command *command, t_data *data) {
+    // Gestion des redirections spécifiques à la commande
+    redirect_if_needed(command);
+
+    // Exécution de la commande externe ou intégrée
+    if (!check_if_builtins(command->args[0], command->args, data)) {
+        char *path = find_path(command->args[0]);
+        if (path) {
+            char **envp = env_to_char_array(data->env);
+            execve(path, command->args, envp);
+            perror("execve");
+            exit(EXIT_FAILURE);
+        } else {
+            fprintf(stderr, "minishell: %s: command not found\n", command->args[0]);
+            exit(EXIT_FAILURE);
+        }
+    }
+    exit(EXIT_SUCCESS); // Sortie du processus enfant après exécution de la commande intégrée
+}
+
+
+
 
 // Fonction pour créer un pipe et gérer les erreurs
 int create_pipe(int pipe_fds[2])
@@ -203,35 +243,58 @@ int create_pipe(int pipe_fds[2])
 }
 
 // Fonction pour initialiser un processus enfant
-void init_child_process(t_command *command, int pipe_fds[2], int in_fd, t_data *data)
-{
-    close(pipe_fds[0]);
-    if (in_fd != 0)
-    {
+void init_child_process(t_command *command, int pipe_fds[2], int in_fd, t_data *data) {
+    // Si nous avons un fd d'entrée autre que stdin, dupliquez-le sur stdin et fermez-le
+    if (in_fd != STDIN_FILENO) {
         dup2(in_fd, STDIN_FILENO);
         close(in_fd);
     }
-    redirect_if_needed(command);
-    execute_command(command, data); // Ici, nous passons data au lieu de envp
-    exit(EXIT_FAILURE);
-}
 
+    // Pour le pipe, dupliquez l'extrémité d'écriture sur stdout si nécessaire
+    if (pipe_fds[1] != STDOUT_FILENO) {
+        dup2(pipe_fds[1], STDOUT_FILENO);
+    }
+    close(pipe_fds[0]); // Toujours fermer l'extrémité de lecture dans le processus enfant
+
+    // Gestion des redirections spécifiques à la commande
+    redirect_if_needed(command);
+
+    // Exécution de la commande externe ou intégrée
+    if (!check_if_builtins(command->args[0], command->args, data)) {
+        char *path = find_path(command->args[0]);
+        if (path) {
+            char **envp = env_to_char_array(data->env);
+            execve(path, command->args, envp);
+            perror("execve");
+            exit(EXIT_FAILURE);
+        } else {
+            fprintf(stderr, "minishell: %s: command not found\n", command->args[0]);
+            exit(EXIT_FAILURE);
+        }
+    }
+    exit(EXIT_SUCCESS); // Sortie du processus enfant après exécution de la commande intégrée
+}
 // Fonction pour gérer un processus parent |
-void handle_parent_process(int pipe_fds[2], int *in_fd)
-{
-    close(pipe_fds[1]);
-    if (*in_fd != 0)
-        close(*in_fd);
-    *in_fd = pipe_fds[0];
+void handle_parent_process(int pipe_fds[2], int *in_fd) {
+    close(pipe_fds[1]); // Toujours fermer l'extrémité d'écriture du pipe dans le parent
+
+    if (*in_fd != STDIN_FILENO) {
+        close(*in_fd); // Fermer le précédent descripteur d'entrée si ce n'est pas STDIN
+    }
+
+    *in_fd = pipe_fds[0]; // Préparer l'extrémité de lecture pour le prochain enfant
 }
 
 
 void wait_for_children_to_finish(int command_count)
 {
-    while (command_count > 0)
+    int i;
+
+    i = 0;
+    while (i < command_count)
     {
         wait(NULL);
-        command_count--;
+        i++;
     }
 }
 
@@ -254,32 +317,67 @@ bool is_child_process(pid_t pid)
 
 
 
-void	execute_pipeline(t_pipeline *pipeline, char **envp)
-{
-    int		pipe_fds[2];
-    int		in_fd;
-    int		i;
-    pid_t	pid;
-    t_env    *env;
-    t_data   data; // Initialisation de t_data
 
-    env = init_env(envp);
-    data.env = env; // Assignation de t_env à data.env
-    in_fd = 0;
-    i = 0;
-    check_if_builtins(pipeline->commands[i]->args[0], pipeline->commands[i]->args, &data); // ajoute de biultins avant fork
-    while (i < pipeline->command_count)
-    {
-        create_pipe(pipe_fds);
-        pid = fork();
-        check_pid_error(pid);
-        if (is_child_process(pid))
-            init_child_process(pipeline->commands[i], pipe_fds, in_fd, &data); // Passage de &data
-        else
-            handle_parent_process(pipe_fds, &in_fd);
-        i++;
+
+
+void execute_pipeline(t_pipeline *pipeline, char **envp) {
+   int prev_fd = -1; // Stocke l'fd de sortie du pipe précédent
+    int pipe_fds[2];
+    t_data *data = malloc(sizeof(t_data));
+
+    data->env = init_env(envp);
+
+    for (int i = 0; i < pipeline->command_count; ++i) {
+        // Crée un pipe pour toutes les commandes sauf la dernière
+        if (i < pipeline->command_count - 1) {
+            if (pipe(pipe_fds) != 0) {
+                perror("pipe");
+                exit(EXIT_FAILURE);
+            }
+        }
+
+        pid_t pid = fork();
+        if (pid == -1) {
+            perror("fork");
+            exit(EXIT_FAILURE);
+        }
+
+        if (pid == 0) { // Processus enfant
+            if (prev_fd != -1) {
+                // Utilise l'fd de lecture du pipe précédent comme entrée standard
+                dup2(prev_fd, STDIN_FILENO);
+                close(prev_fd);
+            }
+
+            if (i < pipeline->command_count - 1) {
+                // Pour toutes sauf la dernière commande, sa sortie va dans le pipe suivant
+                close(pipe_fds[0]); // Ferme l'extrémité de lecture non utilisée dans cet enfant
+                dup2(pipe_fds[1], STDOUT_FILENO);
+                close(pipe_fds[1]);
+            } else if (prev_fd != -1) {
+                // Pour la dernière commande, si on a utilisé un pipe, ferme l'fd de lecture restant
+                close(pipe_fds[0]);
+            }
+
+            // Exécute la commande actuelle
+            execute_command(pipeline->commands[i], data);
+            exit(EXIT_FAILURE); // Ne devrait jamais être atteint sauf en cas d'erreur
+        } else { // Processus parent
+            if (prev_fd != -1) {
+                // Ferme l'ancien fd de lecture; il n'est plus nécessaire dans le parent
+                close(prev_fd);
+            }
+            if (i < pipeline->command_count - 1) {
+                // Prépare l'fd de lecture du pipe actuel pour être l'entrée du prochain enfant
+                prev_fd = pipe_fds[0];
+                close(pipe_fds[1]); // Ferme l'fd d'écriture; il n'est plus nécessaire dans le parent
+            }
+        }
     }
-    wait_for_children_to_finish(pipeline->command_count);
+
+    // Attendre la fin de tous les processus enfants
+    while (wait(NULL) > 0);
 }
+
 
 
