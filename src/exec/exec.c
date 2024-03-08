@@ -6,7 +6,7 @@
 /*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 15:03:34 by rogalio           #+#    #+#             */
-/*   Updated: 2024/03/08 17:28:41 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/03/08 17:32:28 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -321,62 +321,54 @@ bool is_child_process(pid_t pid)
 
 
 void execute_pipeline(t_pipeline *pipeline, char **envp) {
-   int prev_fd = -1; // Stocke l'fd de sortie du pipe précédent
+ //  int prev_fd = -1; // Stocke l'fd de sortie du pipe précédent
     int pipe_fds[2];
     t_data *data = malloc(sizeof(t_data));
+ int in_fd = 0;
+    pid_t pid;
+
 
     data->env = init_env(envp);
 
-    for (int i = 0; i < pipeline->command_count; ++i) {
-        // Crée un pipe pour toutes les commandes sauf la dernière
+    for (int i = 0; i < pipeline->command_count; i++) {
         if (i < pipeline->command_count - 1) {
-            if (pipe(pipe_fds) != 0) {
+            if (pipe(pipe_fds) == -1) {
                 perror("pipe");
                 exit(EXIT_FAILURE);
             }
         }
 
-        pid_t pid = fork();
+        pid = fork();
         if (pid == -1) {
             perror("fork");
             exit(EXIT_FAILURE);
-        }
-
-        if (pid == 0) { // Processus enfant
-            if (prev_fd != -1) {
-                // Utilise l'fd de lecture du pipe précédent comme entrée standard
-                dup2(prev_fd, STDIN_FILENO);
-                close(prev_fd);
+        } else if (pid == 0) { // Enfant
+            if (in_fd != 0) {
+                dup2(in_fd, STDIN_FILENO);
+                close(in_fd);
             }
 
             if (i < pipeline->command_count - 1) {
-                // Pour toutes sauf la dernière commande, sa sortie va dans le pipe suivant
-                close(pipe_fds[0]); // Ferme l'extrémité de lecture non utilisée dans cet enfant
+                close(pipe_fds[0]);
                 dup2(pipe_fds[1], STDOUT_FILENO);
                 close(pipe_fds[1]);
-            } else if (prev_fd != -1) {
-                // Pour la dernière commande, si on a utilisé un pipe, ferme l'fd de lecture restant
-                close(pipe_fds[0]);
             }
 
-            // Exécute la commande actuelle
             execute_command(pipeline->commands[i], data);
-            exit(EXIT_FAILURE); // Ne devrait jamais être atteint sauf en cas d'erreur
-        } else { // Processus parent
-            if (prev_fd != -1) {
-                // Ferme l'ancien fd de lecture; il n'est plus nécessaire dans le parent
-                close(prev_fd);
+            exit(EXIT_SUCCESS);
+        } else { // Parent
+            wait(NULL); // Attend le processus enfant pour s'assurer que la sortie est prête pour la commande suivante
+
+            if (in_fd != 0) {
+                close(in_fd);
             }
+
             if (i < pipeline->command_count - 1) {
-                // Prépare l'fd de lecture du pipe actuel pour être l'entrée du prochain enfant
-                prev_fd = pipe_fds[0];
-                close(pipe_fds[1]); // Ferme l'fd d'écriture; il n'est plus nécessaire dans le parent
+                in_fd = pipe_fds[0];
+                close(pipe_fds[1]);
             }
         }
     }
-
-    // Attendre la fin de tous les processus enfants
-    while (wait(NULL) > 0);
 }
 
 
