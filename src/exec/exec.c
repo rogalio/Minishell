@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
+/*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 15:03:34 by rogalio           #+#    #+#             */
-/*   Updated: 2024/03/08 17:32:28 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/03/11 12:22:14 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -329,7 +329,11 @@ void execute_pipeline(t_pipeline *pipeline, char **envp) {
 
 
     data->env = init_env(envp);
-
+    if (ft_strcmp(pipeline->commands[0]->args[0], "cd") == 0 || ft_strcmp(pipeline->commands[0]->args[0], "unset") == 0)
+    {
+        check_if_builtins_cd_or_unset(pipeline->commands[0]->args[0], pipeline->commands[0]->args, data);
+        return;
+    }
     for (int i = 0; i < pipeline->command_count; i++) {
         if (i < pipeline->command_count - 1) {
             if (pipe(pipe_fds) == -1) {
