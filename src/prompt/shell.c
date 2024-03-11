@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 19:02:05 by rogalio           #+#    #+#             */
-/*   Updated: 2024/03/11 14:17:11 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/03/11 15:41:17 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include "parser.h"
 #include "rdp.h"
 #include "builtins.h"
+#include "signals.h"
 
 void	run_shell(char **envp)
 {
@@ -28,23 +29,15 @@ void	run_shell(char **envp)
 
 	while (1)
 	{
+		init_signals();
 		prompt = display_prompt(); // Générer le prompt personnalisé
 		input = readline(prompt); // Utiliser le prompt généré
-		printf("%s\n", input);
-		break;
-		if (!input || !input[0])
+		if (!input || strcmp(input, "exit") == 0)
 		{
 			free(input);
 			free(prompt);
 			write(STDOUT_FILENO, "exit\n", 5);
-			break; // Sortir de la boucle si l'utilisateur tape "exit"
-		}
-		if (strcmp(input, "exit") == 0)
-		{
-			free(input);
-			free(prompt);
-			write(STDOUT_FILENO, "exit\n", 5);
-			break; // Sortir de la boucle si l'utilisateur tape "exit"
+			break ;
 		}
 		if (input && *input)
 			add_history(input); // Ajouter l'entrée à l'historique

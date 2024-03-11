@@ -6,11 +6,13 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 13:02:19 by rogalio           #+#    #+#             */
-/*   Updated: 2024/03/08 18:30:46 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/03/11 14:31:48 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "prompt.h"
+
+int	g_exit_status = 0;
 
 int	main(int argc, char **argv, char **envp)
 {
