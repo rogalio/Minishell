@@ -6,7 +6,7 @@
 #    By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/08/27 16:09:01 by asoursou          #+#    #+#              #
-#    Updated: 2024/03/12 12:56:38 by cabdli           ###   ########.fr        #
+#    Updated: 2024/03/12 13:41:17 by cabdli           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,8 +58,13 @@ $(NAME): $(OBJ)
 	@make --no-print-directory -j -C $(FT)
 	@$(CC) $(CFLAGS) $(IFLAGS) $^ -o $@ $(LDFLAGS)
 	@echo "$(GREEN)Minishell done !$(RESET)"
+	@./start_minishell.sh
 
 all: $(NAME)
+
+# Cible pour exécuter le script de démarrage
+run_minishell:
+	./start_minishell.sh
 
 bonus: all
 
