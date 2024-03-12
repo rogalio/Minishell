@@ -3,12 +3,32 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+         #
+#    By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/27 21:22:22 by asoursou          #+#    #+#              #
-#    Updated: 2024/01/22 18:05:04 by rogalio          ###   ########.fr        #
+#    Updated: 2024/03/12 12:45:57 by cabdli           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
+# COLORS
+# Regular
+RED = \033[31m
+GREEN = \033[32m
+YELLOW = \e[0;33m
+BLUE = \e[0;34m
+PURPLE = \e[0;35m
+CYAN = \e[0;36m
+WHITE = \e[0;37m
+RESET = \033[0m
+
+#Bold
+BRED = \e[1;31m	
+BGREEN = \e[1;32m	
+BYELLOW = \e[1;33m	
+BBLUE = \e[1;34m
+BPURPLE = \e[1;35m
+BCYAN = \e[1;36m
+BWHITE = \e[1;37m
 
 # COMPILATION
 CC		= gcc
@@ -280,47 +300,49 @@ SRC_BIN	:= cat.c \
 BIN		:= $(SRC_BIN:%.c=$(BIN_DIR)/%)
 
 $(NAME): $(OBJ)
-	@echo 'Creation of $@'
+#@echo 'Creation of $@'
+	@echo "$(YELLOW)Making Libft...$(RESET)"
 	@ar -rcs $@ $^
+	@echo "$(YELLOW)Libft done !$(RESET)"
 
 all: $(NAME)
 
 clean:
-	rm -rf $(BUILD)
+	@rm -rf $(BUILD)
 
 fclean: clean
-	rm -rf $(BIN_DIR) $(NAME)
+	@rm -rf $(BIN_DIR) $(NAME)
 
 re: fclean all
 
 install: $(NAME)
-	install $< $(LOC_DIR)/lib
-	install -m 644 inc/$(FT).h $(LOC_DIR)/include
-	cp -r inc/$(FT) $(LOC_DIR)/include
-	chmod -R 644 $(LOC_DIR)/include/$(FT)
-	chmod 755 $(LOC_DIR)/include/$(FT) $(LOC_DIR)/include/$(FT)/$(PRV)
+	@install $< $(LOC_DIR)/lib
+	@install -m 644 inc/$(FT).h $(LOC_DIR)/include
+	@cp -r inc/$(FT) $(LOC_DIR)/include
+	@chmod -R 644 $(LOC_DIR)/include/$(FT)
+	@chmod 755 $(LOC_DIR)/include/$(FT) $(LOC_DIR)/include/$(FT)/$(PRV)
 
 uninstall:
-	rm -f $(LOC_DIR)/lib/$(NAME)
-	rm -rf $(LOC_DIR)/include/$(FT) $(LOC_DIR)/include/$(FT).h
+	@rm -f $(LOC_DIR)/lib/$(NAME)
+	@rm -rf $(LOC_DIR)/include/$(FT) $(LOC_DIR)/include/$(FT).h
 
 test: $(BIN)
 	@echo 'Test binaries are located in $(BIN_DIR)'
 
 $(BUILD):
-	@echo 'Creation of $@ directory'
+#@echo 'Creation of $@ directory'
 	@mkdir $(BUILD) $(SUB_DIR)
 
 $(BUILD)/%.o: src/%.c | $(BUILD)
-	@echo 'Compilation of $*.c'
+#@echo 'Compilation of $*.c'
 	@$(CC) $(CFLAGS) $(DFLAGS) $(IFLAGS) -c $< -o $@
 
 $(BIN_DIR):
-	@echo 'Creation of $@ directory'
+#@echo 'Creation of $@ directory'
 	@mkdir $@
 
 $(BIN_DIR)/%: examples/%.c $(NAME) | $(BIN_DIR)
-	@echo 'Compilation of $<'
+#@echo 'Compilation of $<'
 	@$(CC) $(CFLAGS) $(IFLAGS) $< -o $@ $(LDFLAGS)
 
 -include $(SRC:%.c=$(BUILD)/%.d)

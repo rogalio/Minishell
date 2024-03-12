@@ -3,12 +3,35 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+         #
+#    By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/08/27 16:09:01 by asoursou          #+#    #+#              #
-#    Updated: 2024/02/21 17:00:04 by rogalio          ###   ########.fr        #
+#    Updated: 2024/03/12 12:56:38 by cabdli           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
+# COLORS
+# Regular
+RED = \033[31m
+GREEN = \033[32m
+YELLOW = \e[0;33m
+BLUE = \e[0;34m
+PURPLE = \e[0;35m
+CYAN = \e[0;36m
+WHITE = \e[0;37m
+RESET = \033[0m
+
+#Bold
+BRED = \e[1;31m	
+BGREEN = \e[1;32m	
+BYELLOW = \e[1;33m	
+BBLUE = \e[1;34m
+BPURPLE = \e[1;35m
+BCYAN = \e[1;36m
+BWHITE = \e[1;37m
+
+BK_PURPLE = \e[45m
+BK_GREEN = \e[42m
 
 # COMPILATION
 FT		:= libft
@@ -31,31 +54,37 @@ DEP		:= $(SRC:%.c=$(BUILD)/%.d)
 OBJ		:= $(SRC:%.c=$(BUILD)/%.o)
 
 $(NAME): $(OBJ)
-	make -j -C $(FT)
-	$(CC) $(CFLAGS) $(IFLAGS) $^ -o $@ $(LDFLAGS)
+	@echo "$(PURPLE)Making minishell...$(RESET)"
+	@make --no-print-directory -j -C $(FT)
+	@$(CC) $(CFLAGS) $(IFLAGS) $^ -o $@ $(LDFLAGS)
+	@echo "$(GREEN)Minishell done !$(RESET)"
 
 all: $(NAME)
 
 bonus: all
 
 clean:
-	make -C $(FT) $@
-	rm -rf $(BUILD)
+	@echo "Cleaning in progress..."
+	@make --no-print-directory -C $(FT) $@
+	@rm -rf $(BUILD)
+	@echo "$(GREEN)Cleaning done !$(RESET)"
 
 fclean: clean
-	make -C $(FT) $@
-	rm -rf $(NAME)
+	@echo "Full cleaning in progress..."
+	@make --no-print-directory -C $(FT) $@
+	@rm -rf $(NAME)
+	@echo "$(GREEN)Full cleaning done !$(RESET)"
 
 re: fclean all
 
 $(BUILD):
-	mkdir $@
+	@mkdir $@
 
 $(SUB_DIR): | $(BUILD)
-	mkdir $@
+	@mkdir $@
 
 $(BUILD)/%.o: src/%.c | $(SUB_DIR)
-	$(CC) $(CFLAGS) $(DFLAGS) $(IFLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS) $(DFLAGS) $(IFLAGS) -c $< -o $@
 
 -include $(DEP)
 
