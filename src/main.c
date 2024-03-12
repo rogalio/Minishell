@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 13:02:19 by rogalio           #+#    #+#             */
-/*   Updated: 2024/03/12 15:00:26 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/03/12 15:19:45 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,35 +18,17 @@
 
 #include "builtins.h"
 #include "utils.h"
+int	g_exit_status = 0;
 
 int	main(int argc, char **argv, char **envp)
 {
-	t_token_list	*token_list;
-	t_pipeline		*pipeline;
-	const char		str[] = "<< stop1 << stop2 << stop3 << stop4 | echo  \"hello\"";
-	//const char		str[] = "echo \"hello \'haha\' $HOME you \" > file.txt > file3 | cat file3";
-	//const char		str[] = "cd src";
-
 	(void)argc;
 	(void)argv;
-	(void)envp;
 
-
-	env(envp);
-	if (!check_regex(str))
-		return (1);
-	token_list = init_token_list(str);
-	print_token_list(token_list);
-	printf("\n\n");
-	if (init_syntax_analyzer(token_list))
-	{
-		pipeline = parse_rdp(token_list, envp);
-		print_pipeline(pipeline);
-		execute_pipeline(pipeline, envp);
-	}
-	else
-		return (printf("Error\n"), 1);
-	//free_token_list(token_list);
+	if (argc != 1)
+		return (write(2, "Error: too many arguments\n", 26), 1);
+	//display_welcome_message();
+	run_shell(envp);
 	return (0);
 }
 /*

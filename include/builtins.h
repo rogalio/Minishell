@@ -3,35 +3,53 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
+/*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 15:47:29 by rogalio           #+#    #+#             */
-/*   Updated: 2024/02/19 15:53:53 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/03/12 11:26:39 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BUILTINS_H
 # define BUILTINS_H
 
-typedef struct s_data
-{
-  char	**env;
-  char	**args;
-}	t_data;
-
-typedef struct s_builtins
-{
-  char	*name;
-  int	(*func)(t_data *);
-}	t_builtins;
+# include <stdio.h>
+# include <stdlib.h>
+# include <string.h>
+# include <unistd.h>
+# include "libft.h"
 
 typedef struct s_env
 {
-  char	*name;
-  char	*value;
-  struct s_env	*next;
+	char			*name;
+	char			*value;
+	struct s_env	*next;
 }	t_env;
+typedef struct s_data
+{
+	t_env	*env;
+	char	**args;
+}	t_data;
+typedef struct s_builtins
+{
+	char	*name;
+	int		(*func)(t_data *);
+}	t_builtins;
 
-void	env(char **envp);
+void	print_env(t_env *env);
+t_env	*init_env(char **envp);
+void	set_env_var(t_env *env, char *name, char *value);
+void	free_env(t_env *env);
+char	*get_env_var(t_env *env, char *name);
+
+int		exit_shell(t_data *data);
+
+int		echo(t_data *data);
+
+int		cd(t_data *data);
+
+int		pwd(t_data *data);
+
+int		unset(t_data *data);
 
 #endif
