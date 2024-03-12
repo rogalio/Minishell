@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
+/*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 15:24:29 by rogalio           #+#    #+#             */
-/*   Updated: 2024/02/22 17:00:44 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/03/12 11:54:38 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,6 @@ int cd(t_data *data)
   set_env_var(data->env, "OLDPWD", get_env_var(data->env, "PWD"));
   set_env_var(data->env, "PWD", cwd);
   free(cwd);
-  print_env(data->env);
+  //print_env(data->env);
   return (0);
 }
