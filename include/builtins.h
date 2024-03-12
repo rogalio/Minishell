@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 15:47:29 by rogalio           #+#    #+#             */
-/*   Updated: 2024/03/11 15:44:45 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/03/12 11:26:39 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int		echo(t_data *data);
 
 int		cd(t_data *data);
 
-int		pwd(void);
+int		pwd(t_data *data);
 
 int		unset(t_data *data);
 

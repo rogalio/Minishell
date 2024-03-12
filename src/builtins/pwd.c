@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
+/*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 15:44:00 by rogalio           #+#    #+#             */
-/*   Updated: 2024/02/21 16:05:13 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/03/12 11:26:19 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,11 @@ int check_current_directory(char *cwd)
   return (0);
 }
 
-int pwd()
+int pwd(t_data *data)
 {
   char *cwd;
 
+  (void)data;
   cwd = getcwd(NULL, 0);
   if (check_current_directory(cwd))
     return (1);
