@@ -6,12 +6,13 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 15:03:34 by rogalio           #+#    #+#             */
-/*   Updated: 2024/03/11 12:22:14 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/03/12 11:33:09 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec.h"
 #include "builtins.h"
+#include "signals.h"
 
 typedef struct s_pipe
 {
@@ -320,7 +321,8 @@ bool is_child_process(pid_t pid)
 
 
 
-void execute_pipeline(t_pipeline *pipeline, char **envp) {
+void execute_pipeline(t_pipeline *pipeline, char **envp)
+{
  //  int prev_fd = -1; // Stocke l'fd de sortie du pipe précédent
     int pipe_fds[2];
     t_data *data = malloc(sizeof(t_data));
@@ -328,6 +330,7 @@ void execute_pipeline(t_pipeline *pipeline, char **envp) {
     pid_t pid;
 
 
+    init_process_signals();
     data->env = init_env(envp);
     if (ft_strcmp(pipeline->commands[0]->args[0], "cd") == 0 || ft_strcmp(pipeline->commands[0]->args[0], "unset") == 0)
     {
