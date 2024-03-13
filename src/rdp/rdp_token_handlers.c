@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 12:46:02 by rogalio           #+#    #+#             */
-/*   Updated: 2024/02/27 14:03:31 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/03/13 15:52:18 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,6 @@ void	handle_redirection(t_token_list **token_list, t_command *command)
 	else if (ft_strcmp(type, "<<") == 0)
 		init_heredoc(token_list, &command->heredoc, type);
 }
-
 
 void	handle_word(int *index, char *word, t_pipeline *pipeline, char **envp)
 {

@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 15:47:29 by rogalio           #+#    #+#             */
-/*   Updated: 2024/03/12 11:26:39 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/03/13 14:45:06 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,13 @@ typedef struct s_env
 	char			*value;
 	struct s_env	*next;
 }	t_env;
+
 typedef struct s_data
 {
 	t_env	*env;
 	char	**args;
 }	t_data;
+
 typedef struct s_builtins
 {
 	char	*name;

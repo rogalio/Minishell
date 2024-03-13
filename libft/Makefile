@@ -6,7 +6,7 @@
 #    By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/27 21:22:22 by asoursou          #+#    #+#              #
-#    Updated: 2024/03/12 12:45:57 by cabdli           ###   ########.fr        #
+#    Updated: 2024/03/13 14:53:28 by cabdli           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,21 +14,21 @@
 # Regular
 RED = \033[31m
 GREEN = \033[32m
-YELLOW = \e[0;33m
-BLUE = \e[0;34m
-PURPLE = \e[0;35m
-CYAN = \e[0;36m
-WHITE = \e[0;37m
+YELLOW = \033[0;33m
+BLUE = \033[0;34m
+PURPLE = \033[0;35m
+CYAN = \033[0;36m
+WHITE = \033[0;37m
 RESET = \033[0m
 
 #Bold
-BRED = \e[1;31m	
-BGREEN = \e[1;32m	
-BYELLOW = \e[1;33m	
-BBLUE = \e[1;34m
-BPURPLE = \e[1;35m
-BCYAN = \e[1;36m
-BWHITE = \e[1;37m
+BRED = \033[1;31m	
+BGREEN = \033[1;32m	
+BYELLOW = \033[1;33m	
+BBLUE = \033[1;34m
+BPURPLE = \033[1;35m
+BCYAN = \033[1;36m
+BWHITE = \033[1;37m
 
 # COMPILATION
 CC		= gcc

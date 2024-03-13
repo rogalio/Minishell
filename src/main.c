@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 13:02:19 by rogalio           #+#    #+#             */
-/*   Updated: 2024/03/12 15:19:45 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/03/13 16:38:16 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,23 +15,23 @@
 #include "token.h"
 #include "parser.h"
 #include "rdp.h"
-
+#include "prompt.h"
 #include "builtins.h"
 #include "utils.h"
+
 int	g_exit_status = 0;
 
 int	main(int argc, char **argv, char **envp)
 {
-	(void)argc;
 	(void)argv;
-
 	if (argc != 1)
 		return (write(2, "Error: too many arguments\n", 26), 1);
-	//display_welcome_message();
 	run_shell(envp);
 	return (0);
 }
 /*
+/!\ EXEC : fonction fprintf non autorisée !!!!!
+/!\ EXPEND_VAR : fonction realloc pas autorisée 
 Tokens :
 - Gerer les dbles quotes (a mettre seuls dans la liste de token), verifier
 qu'ils sont fermés

@@ -1,6 +1,7 @@
 {
   "files.associations": {
     "parser.h": "c",
-    "rdp.h": "c"
+    "rdp.h": "c",
+    "builtins.h": "c"
   }
 }
