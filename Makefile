@@ -6,7 +6,7 @@
 #    By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/08/27 16:09:01 by asoursou          #+#    #+#              #
-#    Updated: 2024/03/13 14:39:55 by cabdli           ###   ########.fr        #
+#    Updated: 2024/03/13 16:50:54 by cabdli           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -72,13 +72,13 @@ clean:
 	@echo "Cleaning in progress..."
 	@make --no-print-directory -C $(FT) $@
 	@rm -rf $(BUILD)
-	@echo "$(GREEN)Cleaning done !$(RESET)"
+	@echo "$(YELLOW)Cleaning done !$(RESET)"
 
 fclean: clean
 	@echo "Full cleaning in progress..."
 	@make --no-print-directory -C $(FT) $@
 	@rm -rf $(NAME)
-	@echo "$(GREEN)Full cleaning done !$(RESET)"
+	@echo "$(YELLOW)Full cleaning done !$(RESET)"
 
 re: fclean all
 
