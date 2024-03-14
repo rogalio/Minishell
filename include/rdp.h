@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 18:03:55 by rogalio           #+#    #+#             */
-/*   Updated: 2024/03/13 14:47:07 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/03/14 14:46:42 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,9 @@
 # define RDP_H
 
 # include "libft.h"
-# include <stdio.h>
 # include "token.h"
+# include "builtins.h"
+# include <stdio.h>
 
 # define MAX_ARGS 10
 
@@ -48,7 +49,7 @@ typedef struct s_pipeline
 	int			command_count;
 }t_pipeline;
 
-t_pipeline	*parse_rdp(t_token_list *token_list, char **envp);
+t_pipeline	*parse_rdp(t_token_list *token_list, t_env *env);
 void		*print_pipeline(t_pipeline *pipeline);
 void		free_command(t_command *cmd);
 void		free_pipeline(t_pipeline *pipeline);
@@ -62,7 +63,7 @@ void		add_argument_to_command(t_command *command, char *arg);
 
 void		handle_redirection(t_token_list **token_list, t_command *command);
 void		handle_word(int *index, char *word, t_pipeline *pipeline, \
-char **envp);
+t_env *env);
 void		handle_pipe(t_pipeline *pipeline, t_command **current_command);
 
 void		get_args_count(t_pipeline *pipeline, t_token_list *token_list);

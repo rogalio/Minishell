@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 19:02:05 by rogalio           #+#    #+#             */
-/*   Updated: 2024/03/12 14:35:32 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/03/14 15:17:25 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,16 @@
 
 void	run_shell(char **envp)
 {
+	t_data			*data;
 	t_token_list	*token_list;
 	t_pipeline		*pipeline;
-	int				verify;
 	char			*input;
 	char			*prompt;
 
+	data = malloc(sizeof(t_data));
+	if (!data)
+		return ;
+	data->env = init_env(envp);
 	while (1)
 	{
 		init_signals();
@@ -43,12 +47,11 @@ void	run_shell(char **envp)
 			add_history(input); // Ajouter l'entrée à l'historique
 		token_list = init_token_list(input);
 		//print_token_list(token_list);
-		verify = init_syntax_analyzer(token_list);
-		if (verify)
+		if (init_syntax_analyzer(token_list))
 		{
-			pipeline = parse_rdp(token_list, envp);
+			pipeline = parse_rdp(token_list, data->env);
 			// print_pipeline(pipeline);
-			execute_pipeline(pipeline, envp);
+			execute_pipeline(pipeline, data);
 		}
 		else
 			printf("Error\n");

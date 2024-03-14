@@ -6,20 +6,21 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 17:52:57 by rogalio           #+#    #+#             */
-/*   Updated: 2024/02/21 21:27:54 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/03/14 13:22:11 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "token.h"
 #include "parser.h"
-#include <stdio.h>
 #include "rdp.h"
+#include "builtins.h"
+#include <stdio.h>
 
 void	handle_token(t_token_list **token_list, t_pipeline *pipeline, \
-int *index, char **envp)
+int *index, t_env *env)
 {
 	if ((*token_list)->token->type == TOKEN_WORD)
-		handle_word(index, (*token_list)->token->value, pipeline, envp);
+		handle_word(index, (*token_list)->token->value, pipeline, env);
 	else if ((*token_list)->token->type == TOKEN_REDIRECT)
 		handle_redirection(token_list, pipeline->commands[index[0]]);
 	else
@@ -30,7 +31,7 @@ int *index, char **envp)
 }
 
 void	fill_pipeline(t_token_list *token_list, t_pipeline	\
-*pipeline, char **envp)
+*pipeline, t_env *env)
 {
 	int	index[2];
 
@@ -38,16 +39,16 @@ void	fill_pipeline(t_token_list *token_list, t_pipeline	\
 	index[1] = 0;
 	while (token_list)
 	{
-		handle_token(&token_list, pipeline, index, envp);
+		handle_token(&token_list, pipeline, index, env);
 		token_list = token_list->next;
 	}
 }
 
-t_pipeline	*parse_rdp(t_token_list *token_list, char **envp)
+t_pipeline	*parse_rdp(t_token_list *token_list, t_env *env)
 {
 	t_pipeline	*pipeline;
 
 	pipeline = init_pipeline(token_list);
-	fill_pipeline(token_list, pipeline, envp);
+	fill_pipeline(token_list, pipeline, env);
 	return (pipeline);
 }

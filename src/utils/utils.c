@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 18:37:07 by rogalio           #+#    #+#             */
-/*   Updated: 2024/02/21 21:29:53 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/03/14 15:10:06 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	check_regex(const char *s)
 	while (s[++i])
 	{
 		if (!ft_isalnum((int)s[i]) && !allowed_char(s[i]))
-			return (printf("Error, wrong char used\n"), 0);
+			return (write(2, "Error, wrong char used\n", 23), 0);
 	}
 	return (1);
 }

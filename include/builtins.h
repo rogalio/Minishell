@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 15:47:29 by rogalio           #+#    #+#             */
-/*   Updated: 2024/03/13 14:45:06 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/03/14 16:09:42 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,25 +24,24 @@ typedef struct s_env
 	char			*name;
 	char			*value;
 	struct s_env	*next;
-}	t_env;
+}t_env;
 
 typedef struct s_data
 {
 	t_env	*env;
 	char	**args;
-}	t_data;
+	int		args_count;
+}t_data;
 
 typedef struct s_builtins
 {
 	char	*name;
 	int		(*func)(t_data *);
-}	t_builtins;
+}t_builtins;
 
 void	print_env(t_env *env);
 t_env	*init_env(char **envp);
-void	set_env_var(t_env *env, char *name, char *value);
 void	free_env(t_env *env);
-char	*get_env_var(t_env *env, char *name);
 
 int		exit_shell(t_data *data);
 

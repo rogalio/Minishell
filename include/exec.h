@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 14:59:58 by rogalio           #+#    #+#             */
-/*   Updated: 2024/03/13 14:45:20 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/03/14 13:06:09 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,6 @@
 # include "utils.h"
 # include "rdp.h"
 
-void	execute_pipeline(t_pipeline *pipeline, char **envp);
+void	execute_pipeline(t_pipeline *pipeline, t_data *data);
 
 #endif

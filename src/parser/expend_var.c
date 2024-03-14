@@ -6,21 +6,14 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 16:56:15 by rogalio           #+#    #+#             */
-/*   Updated: 2024/03/13 16:44:18 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/03/14 14:58:09 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rdp.h"
 #include "token.h"
 #include "parser.h"
-
-typedef struct s_expansion
-{
-	char	*new_word; // Le mot après expansion
-	int		new_word_len; // Longueur actuelle du nouveau mot
-	int		new_word_capacity; // Capacité allouée pour new_word
-	char	**env; // Environnement pour la recherche des variables
-}t_expansion;
+#include "builtins.h"
 
 void	free_expansion(t_expansion *exp)
 {
@@ -42,25 +35,43 @@ void	ensure_capacity(t_expansion *exp, int additional_size)
 	}
 }
 
-char	*get_env_value(char **env, const char *var)
+char	*get_env_value(t_env *env, const char *var_name)
 {
 	int	i;
-	int	j;
-	int	var_len;
 
 	i = 0;
-	while (env[i])
+	while (env)
 	{
-		j = 0;
-		var_len = ft_strlen(var);
-		while (env[i][j] && env[i][j] == var[j] && j < var_len)
-			j++;
-		if (j == var_len && env[i][j] == '=')
-			return (ft_strdup(&env[i][j + 1]));
-		i++;
+		i = 0;
+		while (env->name[i] && var_name[i] && env->name[i] == var_name[i])
+			i++;
+		if (!var_name[i] && !env->name[i])
+			return (ft_strdup(env->value));
+		env = env->next;
 	}
 	return (ft_strdup(""));
 }
+
+/*
+char	*get_env_value(t_env *env, const char *var_name)
+{
+	int	j;
+	int	var_len;
+
+	j = 0;
+	var_len = ft_strlen(var_name);
+	while (env)
+	{
+		j = 0;
+		while (env[i][j] && env[i][j] == var_name[j] && j < var_len)
+			j++;
+		if (j == var_len && env[i][j] == '=')
+			return (ft_strdup(&env[i][j + 1]));
+		env = env->next;
+	}
+	return (ft_strdup(""));
+}
+*/
 
 int	is_valid_variable_char(char c)
 {
@@ -89,7 +100,7 @@ char	*extract_variable_name(char *word, int *i)
 	return (var_name);
 }
 
-void	replace_variable(char **new_word, char **env, const char *var_name, int *j)
+void	replace_variable(char **new_word, t_env *env, const char *var_name, int *j)
 {
 	char	*var_value;
 
@@ -106,7 +117,7 @@ void	handle_single_quote(char *word, char *new_word, int *i, int *j)
 	(*i)++;
 }
 
-void	handle_variable(char **word, char *new_word, char **env, int *i, int *j)
+void	handle_variable(char **word, char *new_word, t_env *env, int *i, int *j)
 {
 	char	*var_name;
 
@@ -122,7 +133,7 @@ void	handle_variable(char **word, char *new_word, char **env, int *i, int *j)
 	free(var_name);
 }
 
-void	handle_double_quote(char *word, char *new_word, char **env, int *i, int *j)
+void	handle_double_quote(char *word, char *new_word, t_env *env, int *i, int *j)
 {
 	(*i)++;
 	while (word[*i] && word[*i] != '\"')
@@ -135,7 +146,7 @@ void	handle_double_quote(char *word, char *new_word, char **env, int *i, int *j)
 	(*i)++;
 }
 
-t_expansion	*init_expansion(char *word, char **env)
+t_expansion	*init_expansion(char *word)
 {
 	t_expansion	*exp;
 
@@ -150,17 +161,16 @@ t_expansion	*init_expansion(char *word, char **env)
 		return (NULL);
 	}
 	exp->new_word_len = 0;
-	exp->env = env;
 	return (exp);
 }
 
-void	expand_variables_and_handle_quotes(char **word, char **env)
+void	expand_variables_and_handle_quotes(char **word, t_env *env)
 {
 	int			i;
 	int			j;
 	t_expansion	*exp;
 
-	exp = init_expansion(*word, env);
+	exp = init_expansion(*word);
 	if (!exp)
 		return ;
 	i = 0;

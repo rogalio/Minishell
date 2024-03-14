@@ -6,12 +6,13 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 12:46:02 by rogalio           #+#    #+#             */
-/*   Updated: 2024/03/13 15:52:18 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/03/14 13:25:54 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rdp.h"
 #include "parser.h"
+#include "builtins.h"
 
 void	init_redirection(t_redirection **redirect, const char *type, \
 const char *file)
@@ -77,9 +78,9 @@ void	handle_redirection(t_token_list **token_list, t_command *command)
 		init_heredoc(token_list, &command->heredoc, type);
 }
 
-void	handle_word(int *index, char *word, t_pipeline *pipeline, char **envp)
+void	handle_word(int *index, char *word, t_pipeline *pipeline, t_env *env)
 {
-	expand_variables_and_handle_quotes(&word, envp);
+	expand_variables_and_handle_quotes(&word, env);
 	pipeline->commands[index[0]]->args[index[1]] = ft_strdup(word);
 	index[1]++;
 }

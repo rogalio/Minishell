@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 19:16:58 by cabdli            #+#    #+#             */
-/*   Updated: 2024/02/16 20:16:31 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/03/14 15:09:23 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char	*handle_quotes(const char *str)
 		i++;
 	if (!str[i])
 	{
-		printf("Error : quotes not closed\n");
+		write(2, "Error : quotes not closed\n", 26);
 		exit(EXIT_FAILURE);
 	}
 	word = ft_strndup(str, ++i);

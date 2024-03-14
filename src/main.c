@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 13:02:19 by rogalio           #+#    #+#             */
-/*   Updated: 2024/03/13 16:38:16 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/03/14 16:32:23 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,11 @@ int	main(int argc, char **argv, char **envp)
 }
 /*
 /!\ EXEC : fonction fprintf non autorisée !!!!!
-/!\ EXPEND_VAR : fonction realloc pas autorisée 
+/!\ EXPEND_VAR : fonction realloc pas autorisée
+cd - | cat -e : ne fonctionne pas !!!
+Handle variable : modifier le cas ou on rencontre un ? par la gestion de
+l'exit status
+
 Tokens :
 - Gerer les dbles quotes (a mettre seuls dans la liste de token), verifier
 qu'ils sont fermés

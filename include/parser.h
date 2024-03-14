@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 19:40:36 by rogalio           #+#    #+#             */
-/*   Updated: 2024/03/13 14:45:48 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/03/14 13:57:03 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "libft.h"
 # include "token.h"
+# include "builtins.h"
 
 # define ERR_UNEXPECT	"minishell: syntax error near unexpected token `%s'\n"
 # define STATE_SIZE		6
@@ -35,9 +36,24 @@ typedef enum e_state
 	STATE_ERROR,
 }t_state;
 
+/*
+typedef struct s_expansion
+{
+	char	*new_word; // Le mot après expansion
+	int		new_word_len; // Longueur actuelle du nouveau mot
+	int		new_word_capacity; // Capacité allouée pour new_word
+}t_expansion;
+*/
+typedef struct s_expansion
+{
+	char	*new_word;
+	int		new_word_len;
+	int		new_word_capacity;
+}t_expansion;
+
 int				init_syntax_analyzer(t_token_list *token_list);
 t_token_list	*init_token_list(const char *s);
 
-void			expand_variables_and_handle_quotes(char **word, char **env);
+void			expand_variables_and_handle_quotes(char **word, t_env *env);
 
 #endif

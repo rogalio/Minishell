@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 15:03:34 by rogalio           #+#    #+#             */
-/*   Updated: 2024/03/13 16:35:17 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/03/14 16:01:17 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -340,20 +340,17 @@ bool	is_child_process(pid_t pid)
 	return (pid == 0);
 }
 
-void	execute_pipeline(t_pipeline *pipeline, char **envp)
+void	execute_pipeline(t_pipeline *pipeline, t_data *data)
 {
 	int		pipe_fds[2];
-	t_data	*data;
 	int		in_fd;
 	pid_t	pid;
 	int		i;
 	//int prev_fd = -1; // Stocke l'fd de sortie du pipe précédent
 
-	data = malloc(sizeof(t_data));
 	in_fd = 0;
 	i = -1;
 	init_process_signals();
-	data->env = init_env(envp);
 	if (ft_strcmp(pipeline->commands[0]->args[0], "cd") == 0 || \
 	ft_strcmp(pipeline->commands[0]->args[0], "unset") == 0)
 	{
