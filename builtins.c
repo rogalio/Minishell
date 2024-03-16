@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 14:31:16 by cabdli            #+#    #+#             */
-/*   Updated: 2024/03/14 16:11:44 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/03/16 00:53:42 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,12 @@ void	built_echo(char **args)
 
 void	built_pwd(void)
 {
-	char	cwd[1024];
+	char	cwd[PATH_MAX];
 
 	if (getcwd(cwd, sizeof(cwd)))
 	{
 		ft_putstr_fd(cwd, STDOUT_FILENO);
-		write(STDOUT_FILENO, "\n", 1);
+		write(STDOUT_FILENO, "\n", STDOUT_FILENO);
 	}
 	else
 	{

@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 18:37:07 by rogalio           #+#    #+#             */
-/*   Updated: 2024/03/14 15:10:06 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/03/16 00:33:08 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	skip_whitespace(const char **str)
 
 int	allowed_char(char c)
 {
-	const char	str[] = " <>\"'|$=.~_-";
+	const char	str[] = " <>\"'|$=.~_-?";
 	int			i;
 
 	i = -1;

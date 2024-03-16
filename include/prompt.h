@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 18:36:47 by rogalio           #+#    #+#             */
-/*   Updated: 2024/03/13 14:46:41 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/03/15 14:43:27 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define PROMPT_H
 
 # include "libft.h"
+# include "builtins.h"
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
