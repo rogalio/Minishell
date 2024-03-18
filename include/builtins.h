@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 15:47:29 by rogalio           #+#    #+#             */
-/*   Updated: 2024/03/14 16:09:42 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/03/15 15:26:09 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,5 +52,10 @@ int		cd(t_data *data);
 int		pwd(t_data *data);
 
 int		unset(t_data *data);
+
+t_env	*create_env_node(char *env_entry);
+t_env	*add_to_env_list(t_env *head, t_env *new_node);
+
+int		export(t_data *data);
 
 #endif

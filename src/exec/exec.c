@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 15:03:34 by rogalio           #+#    #+#             */
-/*   Updated: 2024/03/14 16:01:17 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/03/15 15:06:48 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,14 +133,15 @@ char	**env_to_char_array(t_env *env)
 	return (envp);
 }
 
-bool	check_if_builtins_cd_or_unset(char *cmd, char **args, t_data *data)
+bool	check_if_builtins_cd_or_unset_export(char *cmd, char **args, t_data *data)
 {
-	t_builtins	builtins[] = 
+	t_builtins	builtins[] =
 	{
 		// {"echo", echo},
 		{"cd", cd},
 		//{"pwd", pwd},
 		{"unset", unset},
+        {"export", export},
 		//{"exit", exit_shell},
 		{NULL, NULL}
 	};
@@ -295,7 +296,7 @@ void	init_child_process(t_command *command, int pipe_fds[2], int in_fd, t_data *
 	exit(EXIT_SUCCESS); // Sortie du processus enfant après exécution de la commande intégrée
 }
 
-/* 
+/*
 Fonction pour gérer un processus parent |
 - close(pipe_fds[1]);
 ==> Toujours fermer l'extrémité d'écriture du pipe dans le parent
@@ -352,9 +353,10 @@ void	execute_pipeline(t_pipeline *pipeline, t_data *data)
 	i = -1;
 	init_process_signals();
 	if (ft_strcmp(pipeline->commands[0]->args[0], "cd") == 0 || \
-	ft_strcmp(pipeline->commands[0]->args[0], "unset") == 0)
+	ft_strcmp(pipeline->commands[0]->args[0], "unset") == 0 || \
+    ft_strcmp(pipeline->commands[0]->args[0], "export") == 0 )
 	{
-		check_if_builtins_cd_or_unset(pipeline->commands[0]->args[0], \
+		check_if_builtins_cd_or_unset_export(pipeline->commands[0]->args[0], \
 		pipeline->commands[0]->args, data);
 		return ;
 	}
@@ -392,7 +394,7 @@ void	execute_pipeline(t_pipeline *pipeline, t_data *data)
 		}
 		else // Parent
 		{
-			wait(NULL); // Attend le processus enfant pour s'assurer que la sortie est prête pour la commande suivante
+
 			if (in_fd != 0)
 				close(in_fd);
 			if (i < pipeline->command_count - 1)
@@ -401,5 +403,7 @@ void	execute_pipeline(t_pipeline *pipeline, t_data *data)
 				close(pipe_fds[1]);
 			}
 		}
+
 	}
+    wait_for_children_to_finish(pipeline->command_count);
 }
