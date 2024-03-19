@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 15:03:34 by rogalio           #+#    #+#             */
-/*   Updated: 2024/03/14 16:01:17 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/03/19 13:47:59 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -214,6 +214,10 @@ void	redirect_if_needed(t_command *command)
 		}
 		dup2(fd_out, STDOUT_FILENO);
 		close(fd_out);
+	}
+	if (command->heredoc)
+	{
+		
 	}
 }
 
