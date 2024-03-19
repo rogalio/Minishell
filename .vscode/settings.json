@@ -2,6 +2,11 @@
   "files.associations": {
     "parser.h": "c",
     "rdp.h": "c",
-    "builtins.h": "c"
+    "builtins.h": "c",
+    "array": "c",
+    "string": "c",
+    "string_view": "c",
+    "vector": "c",
+    "token.h": "c"
   }
 }
