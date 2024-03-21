@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 12:48:57 by rogalio           #+#    #+#             */
-/*   Updated: 2024/03/21 13:13:29 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/03/21 15:51:16 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_command	**init_commands(int cmd_count)
 {
 	t_command	**commands;
 
-	commands = ft_calloc(cmd_count, sizeof(t_command *));
+	commands = ft_calloc((cmd_count + 1), sizeof(t_command *));
 	if (!commands)
 		return (NULL);
 	return (commands);

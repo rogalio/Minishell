@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 19:02:05 by rogalio           #+#    #+#             */
-/*   Updated: 2024/03/19 16:24:59 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/03/21 16:03:29 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,16 +23,13 @@ t_data	*init_data(char **envp)
 {
 	t_data	*data;
 
-	data = malloc(sizeof(t_data));
+	data = ft_calloc(1, sizeof(t_data));
 	if (!data)
 	{
 		//exit(EXIT_FAILURE);
 		return (NULL);
 	}
 	data->env = init_env(envp);
-	// data->token_list = NULL;
-	// data->pipeline = NULL;
-	data->args = NULL;
 	return (data);
 }
 

@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 12:19:30 by rogalio           #+#    #+#             */
-/*   Updated: 2024/03/21 12:28:52 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/03/21 14:22:51 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ static void	add_token_to_list(t_token_list **list, t_token *token)
 	static t_token_list	*temp;
 
 	new_elem = new_token_list(token);
-	temp = NULL;
 	if (!new_elem)
 		return ;
 	if (!*list)

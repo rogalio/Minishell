@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 12:47:30 by rogalio           #+#    #+#             */
-/*   Updated: 2024/03/21 13:04:11 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/03/21 15:51:47 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_command	*create_cmd(void)
 {
 	t_command	*cmd;
 
-	cmd = malloc(sizeof(t_command));
+	cmd = ft_calloc(1, sizeof(t_command));
 	if (!cmd)
 		return (NULL);
 	cmd->args = NULL;

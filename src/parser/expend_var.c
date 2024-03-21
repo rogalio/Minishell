@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 16:56:15 by rogalio           #+#    #+#             */
-/*   Updated: 2024/03/14 14:58:09 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/03/21 15:34:22 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,19 +84,20 @@ char	*extract_variable_name(char *word, int *i)
 	char	*var_name;
 
 	j = 0;
+	var_name = NULL;
 	while (word[*i] && is_valid_variable_char(word[*i]))
 	{
 		(*i)++;
 		j++;
 	}
-	var_name = malloc((j + 1) * sizeof(char));
+	var_name = ft_calloc((j + 1), sizeof(char));
 	if (!var_name)
 		return (NULL);
 	*i -= j;
 	j = 0;
 	while (word[*i] && is_valid_variable_char(word[*i]))
 		var_name[j++] = word[(*i)++];
-	var_name[j] = '\0';
+	// var_name[j] = '\0';
 	return (var_name);
 }
 
@@ -121,6 +122,7 @@ void	handle_variable(char **word, char *new_word, t_env *env, int *i, int *j)
 {
 	char	*var_name;
 
+	var_name = NULL;
 	(*i)++;
 	if ((*word)[*i] == '?')
 	{
@@ -129,8 +131,10 @@ void	handle_variable(char **word, char *new_word, t_env *env, int *i, int *j)
 		return ;
 	}
 	var_name = extract_variable_name(*word, i);
+	printf("var_name = %s\n\n", var_name);
 	replace_variable(&new_word, env, var_name, j);
-	free(var_name);
+	printf("var_name = %s\n\n", var_name);
+	// free(var_name);
 }
 
 void	handle_double_quote(char *word, char *new_word, t_env *env, int *i, int *j)
