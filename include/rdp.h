@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 18:03:55 by rogalio           #+#    #+#             */
-/*   Updated: 2024/03/19 16:19:44 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/03/21 13:08:34 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,12 @@ void		*print_pipeline(t_pipeline *pipeline);
 void		free_command(t_command *cmd);
 void		free_pipeline(t_pipeline *pipeline);
 
-t_pipeline	*init_pipeline(t_token_list *token_list);
+t_pipeline	*create_pipeline(t_token_list *token_list);
 void		add_command_to_pipeline(t_pipeline *pipeline, t_command *cmd);
 
-t_command	*create_command(void);
+/* rdp_commands.c */
+t_command	*create_cmd(void);
+
 int			count_args(t_command *cmd);
 void		add_argument_to_command(t_command *command, char *arg);
 
@@ -66,6 +68,7 @@ void		handle_word(int *index, char *word, t_pipeline *pipeline, \
 t_env *env);
 void		handle_pipe(t_pipeline *pipeline, t_command **current_command);
 
+/* rdp_pipeline_utils.c */
 void		get_args_count(t_pipeline *pipeline, t_token_list *token_list);
 int			get_pipe_count(t_token_list *token_list);
 

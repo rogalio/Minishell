@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 17:45:14 by rogalio           #+#    #+#             */
-/*   Updated: 2024/02/16 19:39:27 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/03/21 13:24:59 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,11 @@ t_token_list	*new_token_list(t_token *token)
 {
 	t_token_list	*new_elem;
 
-	new_elem = malloc(sizeof(t_token_list *));
+	new_elem = ft_calloc(1, sizeof(t_token_list *));
 	if (!new_elem)
 		return (NULL);
 	new_elem->token = token;
-	new_elem->next = NULL;
+	// new_elem->next = NULL;
 	return (new_elem);
 }
 
@@ -42,6 +42,7 @@ t_token	*new_word_token(const char *str)
 	int		i;
 
 	i = 0;
+	word = NULL;
 	if (str[i] && (str[i] == '\'' || str[i] == '\"'))
 		word = handle_quotes(str);
 	else

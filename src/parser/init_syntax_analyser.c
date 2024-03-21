@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 17:42:55 by rogalio           #+#    #+#             */
-/*   Updated: 2024/02/13 18:46:58 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/03/21 12:36:54 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ int	init_syntax_analyzer(t_token_list *token_list)
 	t_token	*token;
 
 	state = STATE_Q0;
+	token = NULL;
 	while (token_list)
 	{
 		token = token_list->token;
