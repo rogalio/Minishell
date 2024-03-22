@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 13:02:19 by rogalio           #+#    #+#             */
-/*   Updated: 2024/03/19 16:16:45 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/03/22 13:33:27 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,44 @@
 #include "prompt.h"
 #include "utils.h"
 
-int	g_exit_status = 0;
+int	g_exit_signal = 0;
+
+static t_data	*init_data(char **envp)
+{
+	t_data	*data;
+
+	data = ft_calloc(1, sizeof(t_data));
+	if (!data)
+		return (NULL);
+	data->env = init_env(envp);
+	return (data);
+}
+
+static t_minishell	*init_minishell(char **envp)
+{
+	t_minishell	*minishell;
+
+	minishell = ft_calloc(1, sizeof(t_minishell));
+	if (!minishell)
+		return (NULL);
+	minishell->data = init_data(envp);
+	if (!minishell->data)
+		return (NULL);
+	return (minishell);
+}
 
 int	main(int argc, char **argv, char **envp)
 {
+	t_minishell	*minishell;
+
 	(void)argv;
+	minishell = NULL;
 	if (argc != 1)
 		return (write(2, "Error: too many arguments\n", 26), 1);
-	run_shell(envp);
+	minishell = init_minishell(envp);
+	if (!minishell)
+		return (1);
+	run_shell(minishell);
+	//free_all();
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 15:47:29 by rogalio           #+#    #+#             */
-/*   Updated: 2024/03/19 16:18:39 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/03/22 13:02:12 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@
 # include <string.h>
 # include <unistd.h>
 # include "libft.h"
-# include "token.h"
-# include "minishell.h"
 
 typedef struct s_env
 {
@@ -31,9 +29,6 @@ typedef struct s_env
 typedef struct s_data
 {
 	t_env			*env;
-	// int				return_val;
-	// t_token_list	*token_list;
-	// t_pipeline		*pipeline;
 	char			**args;
 }t_data;
 

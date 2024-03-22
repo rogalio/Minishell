@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 19:40:36 by rogalio           #+#    #+#             */
-/*   Updated: 2024/03/14 13:57:03 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/03/22 13:06:44 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include "token.h"
 # include "builtins.h"
 
-# define ERR_UNEXPECT	"minishell: syntax error near unexpected token `%s'\n"
+# define SYNT_ERR	"minishell: syntax error near unexpected token `%s'\n"
 # define STATE_SIZE		6
 
 /*

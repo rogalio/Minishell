@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 15:50:14 by rogalio           #+#    #+#             */
-/*   Updated: 2024/03/14 16:09:57 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/03/22 12:32:20 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_env	*create_env_node(char *env_entry)
 	t_env	*node;
 	char	*separator;
 
-	node = malloc(sizeof(t_env));
+	node = ft_calloc(1, sizeof(t_env));
 	if (!node)
 		return (NULL);
 	separator = strchr(env_entry, '=');

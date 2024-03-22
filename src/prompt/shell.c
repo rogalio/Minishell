@@ -6,12 +6,12 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 19:02:05 by rogalio           #+#    #+#             */
-/*   Updated: 2024/03/21 16:03:29 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/03/22 13:37:07 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "prompt.h"
 #include "minishell.h"
+#include "prompt.h"
 #include "exec.h"
 #include "token.h"
 #include "parser.h"
@@ -19,54 +19,35 @@
 #include "builtins.h"
 #include "signals.h"
 
-t_data	*init_data(char **envp)
+static int	parse_input(t_minishell *minishell, char *input)
 {
-	t_data	*data;
-
-	data = ft_calloc(1, sizeof(t_data));
-	if (!data)
-	{
-		//exit(EXIT_FAILURE);
-		return (NULL);
-	}
-	data->env = init_env(envp);
-	return (data);
+	minishell->token_list = init_token_list(input);
+	if (!minishell->token_list)
+		return (0);
+	if (!init_syntax_analyzer(minishell->token_list))
+		return (SYNT_ERR, 1);
+	printf("\n\nTest debug\n\n");
+	minishell->pipeline = parse_rdp(minishell->token_list, minishell->data->env);
+	if (!minishell->pipeline)
+		return (0);
+	return (1);
 }
 
-void	run_shell(char **envp)
+void	run_shell(t_minishell *minishell)
 {
-	t_data			*data;
-	t_token_list	*token_list;
-	t_pipeline		*pipeline;
 	char			*input;
-	char			*prompt;
 
-	data = init_data(envp);
+	input = NULL;
 	while (1)
 	{
 		init_signals();
-		prompt = display_prompt();
-		input = readline(prompt);
+		input = display_and_readline();
 		if (!input || strcmp(input, "exit") == 0)
-		{
-			free(input);
-			free(prompt);
-			write(STDOUT_FILENO, "exit\n", 5);
 			break ;
-		}
-		if (*input)
-			add_history(input);
-		token_list = init_token_list(input);
-		if (init_syntax_analyzer(token_list))
-		{
-			pipeline = parse_rdp(token_list, data->env);
-			execute_pipeline(pipeline, data);
-		}
-		else
-			ft_putstr_fd("minishell: syntax error near unexpected token\n", \
-			STDERR_FILENO);
+		if (parse_input(minishell, input))
+			execute_pipeline(minishell->pipeline, minishell->data);
 		free(input);
-		free(prompt);
-		//free_token_list(token_list);
+		free_token_list(minishell->token_list);
+		free_pipeline(minishell->pipeline);
 	}
 }

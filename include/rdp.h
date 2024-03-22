@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 18:03:55 by rogalio           #+#    #+#             */
-/*   Updated: 2024/03/21 13:08:34 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/03/22 13:09:35 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 #ifndef RDP_H
 # define RDP_H
 
+# include <stdio.h>
 # include "libft.h"
 # include "token.h"
 # include "builtins.h"
-# include <stdio.h>
 
 # define MAX_ARGS 10
 

@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 12:56:37 by rogalio           #+#    #+#             */
-/*   Updated: 2024/03/19 16:24:39 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/03/22 13:09:23 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,17 @@
 # include <unistd.h>
 # include <sys/wait.h>
 # include "libft.h"
+# include "builtins.h"
+# include "token.h"
+# include "rdp.h"
+
+typedef struct s_minishell
+{
+	t_data			*data;
+	t_token_list	*token_list;
+	t_pipeline		*pipeline;
+	int				exit_status;
+}t_minishell;
 
 
 #endif
