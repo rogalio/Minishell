@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 19:02:05 by rogalio           #+#    #+#             */
-/*   Updated: 2024/03/22 13:37:07 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/03/22 13:52:08 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ static int	parse_input(t_minishell *minishell, char *input)
 	if (!minishell->token_list)
 		return (0);
 	if (!init_syntax_analyzer(minishell->token_list))
-		return (SYNT_ERR, 1);
+		return (ft_putstr_fd("minishell: syntax error near unexpected token\n", \
+		STDERR_FILENO), 0);
 	printf("\n\nTest debug\n\n");
 	minishell->pipeline = parse_rdp(minishell->token_list, minishell->data->env);
 	if (!minishell->pipeline)
@@ -47,7 +48,7 @@ void	run_shell(t_minishell *minishell)
 		if (parse_input(minishell, input))
 			execute_pipeline(minishell->pipeline, minishell->data);
 		free(input);
-		free_token_list(minishell->token_list);
-		free_pipeline(minishell->pipeline);
+		//free_token_list(minishell->token_list);
+		//free_pipeline(minishell->pipeline);
 	}
 }
