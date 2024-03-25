@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 15:50:14 by rogalio           #+#    #+#             */
-/*   Updated: 2024/03/22 12:32:20 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/03/25 13:10:34 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ t_env	*create_env_node(char *env_entry)
 		node->name = strdup(env_entry);
 		node->value = NULL;
 	}
-	node->next = NULL;
+	// node->next = NULL;
 	return (node);
 }
 

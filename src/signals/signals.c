@@ -6,23 +6,28 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 18:21:17 by cabdli            #+#    #+#             */
-/*   Updated: 2024/03/22 13:12:00 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/03/25 13:45:16 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "signals.h"
+#include "minishell.h"
 #include <readline/readline.h>
 #include <readline/history.h>
 
-//Le code 130 est conventionnellement utilisé pour indiquer une
-//sortie forcée due à un signal SIGINT
+int	g_exit_signal = 0;
+
+/*
+Le code 130 est conventionnellement utilisé pour indiquer une
+sortie forcée due à un signal SIGINT
+*/
 void	sigint_handler(int signum)
 {
 	(void)signum;
-	//g_exit_status = 130;
+	g_exit_signal = 130;
 	write(STDOUT_FILENO, "\n", 1);
 	rl_on_new_line();
-	//rl_replace_line("", 0);
+	rl_replace_line("", 0);
 	rl_redisplay();
 }
 
@@ -35,14 +40,14 @@ void	init_signals(void)
 void	sigint_process_handler(int signum)
 {
 	(void)signum;
-	//g_exit_status = 130;
+	g_exit_signal = 130;
 	write(STDOUT_FILENO, "\n", 1);
 }
 
 void	sigquit_process_handler(int signum)
 {
 	(void)signum;
-	//g_exit_status = 131;
+	g_exit_signal = 131;
 	write(STDOUT_FILENO, "Quit (core dumped)\n", 19);
 }
 

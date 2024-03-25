@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 12:46:02 by rogalio           #+#    #+#             */
-/*   Updated: 2024/03/21 16:05:57 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/03/25 13:26:05 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ const char *file)
 {
 	if (!(*redirect))
 	{
-		(*redirect) = malloc(sizeof(t_redirection));
+		(*redirect) = ft_calloc(1, sizeof(t_redirection));
 		if (!(*redirect))
 		{
 			perror("Allocation error");

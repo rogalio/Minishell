@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 15:03:34 by rogalio           #+#    #+#             */
-/*   Updated: 2024/03/19 13:47:59 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/03/25 13:29:20 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ char	**ft_split2(char const *s, char c)
 	j = 0;
 	if (!s)
 		return (0);
-	tab = malloc(sizeof(char *) * (ft_strlen(s) + 1));
+	tab = ft_calloc((ft_strlen(s) + 1), sizeof(char *));
 	if (!tab)
 		return (0);
 	while (s[i])
@@ -53,7 +53,7 @@ char	**ft_split2(char const *s, char c)
 			i++;
 		if (i > k)
 		{
-			tab[j] = malloc(sizeof(char) * (i - k + 1));
+			tab[j] = ft_calloc((i - k + 1), sizeof(char));
 			if (!tab[j])
 				return (0);
 			ft_strlcpy(tab[j], s + k, i - k + 1);
@@ -119,7 +119,7 @@ char	**env_to_char_array(t_env *env)
 		i++;
 		tmp = tmp->next;
 	}
-	envp = malloc(sizeof(char *) * (i + 1));
+	envp = ft_calloc((i + 1), sizeof(char *));
 	i = 0;
 	tmp = env;
 	while (tmp)

@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 13:30:23 by rogalio           #+#    #+#             */
-/*   Updated: 2024/02/13 19:09:38 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/03/25 14:00:03 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 static void	free_token(t_token *token)
 {
 	free(token->value);
+	// free(token->type);
 	free(token);
 }
 
@@ -29,4 +30,5 @@ void	free_token_list(t_token_list *list)
 		free_token(temp->token);
 		free(temp);
 	}
+	free(list);
 }

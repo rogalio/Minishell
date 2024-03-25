@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 17:45:14 by rogalio           #+#    #+#             */
-/*   Updated: 2024/03/21 13:24:59 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/03/25 13:23:46 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_token	*new_token(t_token_type type, char *value)
 {
 	t_token	*t;
 
-	t = (t_token *)malloc(sizeof(t_token));
+	t = ft_calloc(1, sizeof(t_token));
 	if (!t)
 		return (NULL);
 	t->type = type;
