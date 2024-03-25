@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 12:46:02 by rogalio           #+#    #+#             */
-/*   Updated: 2024/03/25 13:26:05 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/03/25 16:57:59 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,25 +78,27 @@ void	handle_redirection(t_token_list **token_list, t_command *command)
 		init_heredoc(token_list, &command->heredoc, type);
 }
 
-// void	handle_word(int *index, char *word, t_pipeline *pipeline, t_env *env)
-// {
-// 	expand_variables_and_handle_quotes(&word, env);
-// 	pipeline->commands[index[0]]->args[index[1]] = ft_strdup(word);
-// 	index[1]++;
-// }
-
-void    handle_word(int *index, char *word, t_pipeline *pipeline, t_env *env)
+int	expand_quotes(char *word)
 {
-    expand_variables_and_handle_quotes(&word, env);
-    if (pipeline->commands[index[0]]->args[index[1]] == NULL)
-    {
-        pipeline->commands[index[0]]->args[index[1]] = ft_strdup(word);
-        index[1]++;
-        pipeline->commands[index[0]]->args[index[1]] = NULL;
-    }
-    else
-    {
-        pipeline->commands[index[0]]->args[index[1]] = ft_strdup(word);
-        index[1]++;
-    }
+	int	i;
+
+	i = -1;
+	while (word[++i])
+	{
+		if (word[i] == '\'')
+			return (1);
+		if (word[i] == '\"')
+			return (1);
+		if (word[i] == '$')
+			return (1);
+	}
+	return (0);
+}
+
+void	handle_word(int *index, char *word, t_pipeline *pipeline, t_env *env)
+{
+	if (expand_quotes(word))
+		expand_var_handle_quotes(&word, env);
+	pipeline->commands[index[0]]->args[index[1]] = ft_strdup(word);
+	index[1]++;
 }

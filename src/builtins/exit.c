@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 16:20:13 by rogalio           #+#    #+#             */
-/*   Updated: 2024/03/13 15:36:51 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/03/25 16:07:45 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,27 +33,25 @@ int	exit_shell(t_data *data)
 {
 	if (data->args[1])
 	{
-		if (data->args[2])
-		{
-			ft_putstr_fd("exit\n", 2);
-			ft_putstr_fd("minishell: exit: too many arguments\n", 2);
-			return (1);
-		}
-		if (ft_isnumber(data->args[1]) == 0)
+		if (!ft_isnumber(data->args[1]))
 		{
 			ft_putstr_fd("exit\n", 2);
 			ft_putstr_fd("minishell: exit: ", 2);
 			ft_putstr_fd(data->args[1], 2);
 			ft_putstr_fd(": numeric argument required\n", 2);
-			return (255);
+			exit(EXIT_FAILURE);
+			return (2);
+		}
+		if (data->args[2])
+		{
+			ft_putstr_fd("exit\n", 2);
+			ft_putstr_fd("minishell: exit: too many arguments\n", 2);
+			exit(EXIT_FAILURE);
+			return (1);
 		}
 		return (ft_atoi(data->args[1]));
 	}
+	ft_putstr_fd("exit\n", 2);
+	exit(EXIT_FAILURE);
 	return (0);
 }
-
-
-
-
-
-

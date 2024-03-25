@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 18:36:27 by rogalio           #+#    #+#             */
-/*   Updated: 2024/03/22 13:18:36 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/03/25 16:12:33 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ char	*display_and_readline(void)
 		return (NULL);
 	input = readline(prompt);
 	free(prompt);
-	if (!input || strcmp(input, "exit") == 0)
+	if (!input)
 		return (free(input), ft_putstr_fd("exit\n", STDOUT_FILENO), NULL);
 	if (*input)
 		add_history(input);

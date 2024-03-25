@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 18:03:55 by rogalio           #+#    #+#             */
-/*   Updated: 2024/03/22 13:09:35 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/03/25 17:14:59 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@
 # include "libft.h"
 # include "token.h"
 # include "builtins.h"
-
-# define MAX_ARGS 10
 
 typedef struct s_redirection
 {
@@ -49,6 +47,21 @@ typedef struct s_pipeline
 	int			command_count;
 }t_pipeline;
 
+/*
+typedef struct s_expansion
+{
+	char	*new_word; // Le mot après expansion
+	int		new_word_len; // Longueur actuelle du nouveau mot
+	int		new_word_capacity; // Capacité allouée pour new_word
+}t_expansion;
+*/
+typedef struct s_expansion
+{
+	char	*new_word;
+	int		new_word_len;
+	int		new_word_capacity;
+}t_expansion;
+
 t_pipeline	*parse_rdp(t_token_list *token_list, t_env *env);
 void		*print_pipeline(t_pipeline *pipeline);
 void		free_command(t_command *cmd);
@@ -63,7 +76,9 @@ t_command	*create_cmd(void);
 int			count_args(t_command *cmd);
 void		add_argument_to_command(t_command *command, char *arg);
 
+/* rdp_token_handlers.c */
 void		handle_redirection(t_token_list **token_list, t_command *command);
+void		expand_var_handle_quotes(char **word, t_env *env);
 void		handle_word(int *index, char *word, t_pipeline *pipeline, \
 t_env *env);
 void		handle_pipe(t_pipeline *pipeline, t_command **current_command);
@@ -74,5 +89,12 @@ int			get_pipe_count(t_token_list *token_list);
 
 t_heredoc	*create_heredoc(int nb_heredocs);
 int			get_nb_heredocs(t_token_list *tmp_list);
+
+/* handle_expand.c */
+void		handle_expand(char **word, char *new_word, t_env *env, int *i, int *j);
+
+/* handle_quotes.c */
+void		handle_single_quote(char *word, char *new_word, int *i, int *j);
+void		handle_double_quote(char *word, char *new_word, t_env *env, int *i, int *j);
 
 #endif

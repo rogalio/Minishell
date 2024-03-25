@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 17:42:55 by rogalio           #+#    #+#             */
-/*   Updated: 2024/03/21 12:36:54 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/03/25 14:12:43 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ t_state	transition_q3(t_token *token)
 }
 
 
-int	init_syntax_analyzer(t_token_list *token_list)
+int	syntax_analyzer(t_token_list *token_list)
 {
 	t_state	state;
 	t_token	*token;

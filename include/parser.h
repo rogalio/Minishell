@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 19:40:36 by rogalio           #+#    #+#             */
-/*   Updated: 2024/03/22 13:06:44 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/03/25 16:52:25 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,24 +36,7 @@ typedef enum e_state
 	STATE_ERROR,
 }t_state;
 
-/*
-typedef struct s_expansion
-{
-	char	*new_word; // Le mot après expansion
-	int		new_word_len; // Longueur actuelle du nouveau mot
-	int		new_word_capacity; // Capacité allouée pour new_word
-}t_expansion;
-*/
-typedef struct s_expansion
-{
-	char	*new_word;
-	int		new_word_len;
-	int		new_word_capacity;
-}t_expansion;
-
-int				init_syntax_analyzer(t_token_list *token_list);
+int				syntax_analyzer(t_token_list *token_list);
 t_token_list	*init_token_list(const char *s);
-
-void			expand_variables_and_handle_quotes(char **word, t_env *env);
 
 #endif
