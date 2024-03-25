@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 18:03:55 by rogalio           #+#    #+#             */
-/*   Updated: 2024/03/25 17:14:59 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/03/25 17:21:08 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,14 +52,14 @@ typedef struct s_expansion
 {
 	char	*new_word; // Le mot après expansion
 	int		new_word_len; // Longueur actuelle du nouveau mot
-	int		new_word_capacity; // Capacité allouée pour new_word
+	int		new_word_size; // Taille a allouer pour new_word
 }t_expansion;
 */
 typedef struct s_expansion
 {
 	char	*new_word;
 	int		new_word_len;
-	int		new_word_capacity;
+	int		new_word_size;
 }t_expansion;
 
 t_pipeline	*parse_rdp(t_token_list *token_list, t_env *env);

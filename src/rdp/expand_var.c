@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 16:56:15 by rogalio           #+#    #+#             */
-/*   Updated: 2024/03/25 17:14:06 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/03/25 17:21:41 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,9 @@ t_expansion	*init_expansion(char *word)
 	exp = ft_calloc(1, sizeof(t_expansion));
 	if (!exp)
 		return (NULL);
-	exp->new_word_capacity = ft_strlen(word) * 2;
-	exp->new_word = ft_calloc(exp->new_word_capacity, sizeof(char));
+	// exp->new_word_size = ft_strlen(word) * 2;
+	// get_new_word_size()
+	exp->new_word = ft_calloc(exp->new_word_size, sizeof(char));
 	if (!exp->new_word)
 	{
 		free(exp);
