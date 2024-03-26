@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 16:56:15 by rogalio           #+#    #+#             */
-/*   Updated: 2024/03/25 17:21:41 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/03/26 17:38:02 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,11 @@ void	free_expansion(t_expansion *exp)
 
 void	ensure_capacity(t_expansion *exp, int additional_size)
 {
-	if (exp->new_word_len + additional_size >= exp->new_word_capacity)
+	if (exp->new_word_len + additional_size >= exp->new_word_size)
 	{
-		exp->new_word_capacity *= 2;
+		exp->new_word_size *= 2;
 		exp->new_word = realloc(exp->new_word, \
-		exp->new_word_capacity * sizeof(char));
+		exp->new_word_size * sizeof(char));
 		// Vérifiez si realloc a réussi
 	}
 }
@@ -49,29 +49,25 @@ char	*get_env_value(t_env *env, const char *var_name)
 			return (ft_strdup(env->value));
 		env = env->next;
 	}
-	return (ft_strdup(""));
+	return (NULL);
 }
 
-t_expansion	*init_expansion(char *word)
+t_expansion	*init_expansion(char *word, t_env *env)
 {
 	t_expansion	*exp;
 
 	exp = ft_calloc(1, sizeof(t_expansion));
 	if (!exp)
 		return (NULL);
-	// exp->new_word_size = ft_strlen(word) * 2;
-	// get_new_word_size()
-	exp->new_word = ft_calloc(exp->new_word_size, sizeof(char));
+	exp->env = env;
+	exp->nw_len = get_nw_len(word, env, exp);
+	exp->new_word = ft_calloc((exp->nw_len + 1), sizeof(char));
 	if (!exp->new_word)
-	{
-		free(exp);
-		return (NULL);
-	}
-	exp->new_word_len = 0;
+		return (free(exp), NULL);
 	return (exp);
 }
 
-void	expand_var_handle_quotes(char **word, t_env *env)
+void	handle_expand_quotes(char **word, t_env *env)
 {
 	int			i;
 	int			j;
@@ -79,7 +75,7 @@ void	expand_var_handle_quotes(char **word, t_env *env)
 
 	i = 0;
 	j = 0;
-	exp = init_expansion(*word);
+	exp = init_expansion(*word, env);
 	if (!exp)
 		return ;
 	while ((*word)[i])

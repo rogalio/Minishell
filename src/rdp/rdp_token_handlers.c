@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 12:46:02 by rogalio           #+#    #+#             */
-/*   Updated: 2024/03/25 16:57:59 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/03/26 17:37:05 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ int	expand_quotes(char *word)
 void	handle_word(int *index, char *word, t_pipeline *pipeline, t_env *env)
 {
 	if (expand_quotes(word))
-		expand_var_handle_quotes(&word, env);
+		handle_expand_quotes(&word, env);
 	pipeline->commands[index[0]]->args[index[1]] = ft_strdup(word);
 	index[1]++;
 }

@@ -6,15 +6,20 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 17:09:40 by cabdli            #+#    #+#             */
-/*   Updated: 2024/03/25 17:12:58 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/03/26 15:43:23 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rdp.h"
 
-static int	is_valid_variable_char(char c)
+/*
+ Selon la norme POSIX, les noms de variables d'environnement
+ peuvent contenir des lettres majuscules et minuscules,
+ des chiffres et le caractère souligné '_'.
+*/
+int	is_valid_variable_char(char c)
 {
-	return ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '_');
+	return (ft_isalnum || c == '_');
 }
 
 static char	*extract_variable_name(char *word, int *i)
