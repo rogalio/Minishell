@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 19:02:05 by rogalio           #+#    #+#             */
-/*   Updated: 2024/03/25 16:16:11 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/03/27 11:37:32 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ static int	parse_input(t_minishell *minishell, char *input)
 	minishell->data->env);
 	if (!minishell->pipeline)
 		return (0);
+	print_pipeline(minishell->pipeline);
 	return (1);
 }
 

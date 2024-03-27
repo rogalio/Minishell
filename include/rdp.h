@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 18:03:55 by rogalio           #+#    #+#             */
-/*   Updated: 2024/03/26 17:37:28 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/03/27 11:25:12 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,19 +47,13 @@ typedef struct s_pipeline
 	int			command_count;
 }t_pipeline;
 
-/*
-typedef struct s_expansion
-{
-	char	*new_word; // Le mot après expansion
-	int		new_word_len; // Longueur actuelle du nouveau mot
-}t_expansion;
-*/
 typedef struct s_expansion
 {
 	t_env	*env;
-	char	*new_word;
-	int		nw_len;
 	char	**var_name;
+	char	**var_value;
+	int		nw_len;
+	char	*new_word;
 }t_expansion;
 
 t_pipeline	*parse_rdp(t_token_list *token_list, t_env *env);
@@ -93,17 +87,20 @@ int			get_nb_heredocs(t_token_list *tmp_list);
 void		handle_expand_quotes(char **word, t_env *env);
 
 /* get_nw_len.c */
-int			get_nw_len(char *word, t_env *env, t_expansion *exp);
+int			get_nw_len(char *word, t_expansion *exp);
 
 /* get_nw_len_expand.c */
-int			get_nw_len_expand(char *word, int len, t_env *env, t_expansion *exp);
+int			get_nw_len_expand(char *word, int len, t_expansion *exp);
+
+/* expand_size */
+int			len_plus_exp_size(int len, t_expansion *exp);
+char		*get_env_value(t_env *env, const char *var_name);
 
 /* handle_expand.c */
-void		handle_expand(char **word, char *new_word, t_env *env, int *i, int *j);
-int			is_valid_variable_char(char c);
+void		handle_expand(char **word, char *new_word, char *var_value, int *i, int *j);
 
 /* handle_quotes.c */
 void		handle_single_quote(char *word, char *new_word, int *i, int *j);
-void		handle_double_quote(char *word, char *new_word, t_env *env, int *i, int *j);
+int		handle_double_quote(char *word, char *new_word, char *var_value, int *i, int *j);
 
 #endif
