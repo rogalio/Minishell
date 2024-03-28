@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 18:03:55 by rogalio           #+#    #+#             */
-/*   Updated: 2024/03/27 11:45:29 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/03/27 16:05:13 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,17 @@
 # define RDP_H
 
 # include <stdio.h>
-# include "libft.h"
-# include "token.h"
-# include "builtins.h"
+# include <stdlib.h>
+# include <string.h>
+# include <strings.h>
+# include <ctype.h>
+
+typedef struct s_env
+{
+	char			*name;
+	char			*value;
+	struct s_env	*next;
+}t_env;
 
 typedef struct s_redirection
 {
@@ -47,43 +55,30 @@ typedef struct s_pipeline
 	int			command_count;
 }t_pipeline;
 
+
 typedef struct s_expansion
 {
 	t_env	*env;
 	int		quotes;
-	int		expand;
+	char	quote_type;
+	int		nb_expand;
 	char	**var_name;
 	char	**var_value;
 	int		nw_len;
 	char	*new_word;
 }t_expansion;
 
-t_pipeline	*parse_rdp(t_token_list *token_list, t_env *env);
-void		*print_pipeline(t_pipeline *pipeline);
-void		free_command(t_command *cmd);
-void		free_pipeline(t_pipeline *pipeline);
 
-t_pipeline	*create_pipeline(t_token_list *token_list);
-void		add_command_to_pipeline(t_pipeline *pipeline, t_command *cmd);
+void		print_env(t_env *env);
+t_env		*init_env(char **envp);
+void		free_env(t_env *env);
+void		print_exp(t_expansion *exp);
 
-/* rdp_commands.c */
-t_command	*create_cmd(void);
+/* free_exp.c */
+void		free_expansion(t_expansion *exp);
 
-int			count_args(t_command *cmd);
-void		add_argument_to_command(t_command *command, char *arg);
-
-/* rdp_token_handlers.c */
-void		handle_redirection(t_token_list **token_list, t_command *command);
-void		handle_word(int *index, char *word, t_pipeline *pipeline, \
-t_env *env);
-void		handle_pipe(t_pipeline *pipeline, t_command **current_command);
-
-/* rdp_pipeline_utils.c */
-void		get_args_count(t_pipeline *pipeline, t_token_list *token_list);
-int			get_pipe_count(t_token_list *token_list);
-
-t_heredoc	*create_heredoc(int nb_heredocs);
-int			get_nb_heredocs(t_token_list *tmp_list);
+/* init_exp.c */
+t_expansion	*init_exp(void);
 
 /* expand_var.c */
 void		handle_expand_quotes(char **word, t_env *env);
@@ -99,10 +94,10 @@ int			len_plus_exp_size(int len, t_expansion *exp);
 char		*get_env_value(t_env *env, const char *var_name);
 
 /* handle_expand.c */
-void		handle_expand(char **word, char *new_word, char *var_value, int *i, int *j);
+void		handle_expand(char **word, char *new_word, char *var_value, int *ij);
 
 /* handle_quotes.c */
-void		handle_single_quote(char *word, char *new_word, int *i, int *j);
-int		handle_double_quote(char *word, char *new_word, char *var_value, int *i, int *j);
+void		handle_single_quote(char *word, char *new_word, int *ij);
+int			handle_double_quote(char *word, char *new_word, char *var_value, int *ij);
 
 #endif

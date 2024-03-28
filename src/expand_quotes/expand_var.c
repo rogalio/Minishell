@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 16:56:15 by rogalio           #+#    #+#             */
-/*   Updated: 2024/03/27 11:24:40 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/03/27 11:49:04 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,34 @@ void	free_expansion(t_expansion *exp)
 	}
 }
 
+static int	check_if_expand(char *word)
+{
+	int	i;
+
+	i = -1;
+	while (word[++i])
+	{
+		if (word[i] == '$')
+			return (1);
+	}
+	return (0);
+}
+
+static int	check_if_quotes(char *word)
+{
+	int	i;
+
+	i = -1;
+	while (word[++i])
+	{
+		if (word[i] == '\'')
+			return (1);
+		if (word[i] == '\"')
+			return (1);
+	}
+	return (0);
+}
+
 t_expansion	*init_expansion(char *word, t_env *env)
 {
 	t_expansion	*exp;
@@ -32,6 +60,8 @@ t_expansion	*init_expansion(char *word, t_env *env)
 	if (!exp)
 		return (NULL);
 	exp->env = env;
+	exp->quotes = check_if_quotes(word);
+	exp->expand = check_if_expand(word);
 	exp->nw_len = get_nw_len(word, exp);
 	exp->new_word = ft_calloc((exp->nw_len + 1), sizeof(char));
 	if (!exp->new_word)

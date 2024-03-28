@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 12:48:57 by rogalio           #+#    #+#             */
-/*   Updated: 2024/03/21 15:51:16 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/03/27 16:02:08 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,8 @@ t_pipeline	*init_pipeline(void)
 	pipeline = ft_calloc(1, sizeof(t_pipeline));
 	if (!pipeline)
 		return (NULL);
-	pipeline->commands = NULL;
-	pipeline->command_count = 0;
+	//pipeline->commands = NULL;
+	//pipeline->command_count = 0;
 	return (pipeline);
 }
 

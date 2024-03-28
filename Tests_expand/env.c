@@ -6,33 +6,31 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 15:50:14 by rogalio           #+#    #+#             */
-/*   Updated: 2024/03/27 12:30:45 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/03/27 12:30:09 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtins.h"
-#include "libft.h"
+#include "rdp.h"
 
 t_env	*create_env_node(char *env_entry)
 {
 	t_env	*node;
 	char	*separator;
 
-	node = ft_calloc(1, sizeof(t_env));
+	node = calloc(1, sizeof(t_env));
 	if (!node)
 		return (NULL);
-	separator = ft_strchr(env_entry, '=');
+	separator = strchr(env_entry, '=');
 	if (separator)
 	{
-		node->name = ft_strndup(env_entry, separator - env_entry);
-		node->value = ft_strdup(separator + 1);
+		node->name = strndup(env_entry, separator - env_entry);
+		node->value = strdup(separator + 1);
 	}
 	else
 	{
-		node->name = ft_strdup(env_entry);
+		node->name = strdup(env_entry);
 		node->value = NULL;
 	}
-	// node->next = NULL;
 	return (node);
 }
 
