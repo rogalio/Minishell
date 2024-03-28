@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 15:58:23 by cabdli            #+#    #+#             */
-/*   Updated: 2024/03/27 16:29:53 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/03/28 17:21:31 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_expansion	*init_exp(void)
 	return (exp);
 }
 
-static int	fill_var_name(char *word, int nb_expand, t_expansion *exp)
+static int	fill_var_name(char *word, char **var_name, int nb_expand)
 {
 	int	i;
 
@@ -31,22 +31,47 @@ static int	fill_var_name(char *word, int nb_expand, t_expansion *exp)
 	{
 		while (*word && *word != '$')
 			word++;
-		exp->var_name[++i] = extract_var_name(word);
-		if (!exp->var_name[i])
+		var_name[++i] = extract_var_name(++word);
+		if (!var_name[i])
 			return (0);
-		len -= strlen(exp->var_name[i]);
 	}
 	return (1);
 }
 
-char	**create_var_name(t_expansion *exp)
+char	**create_var_name(char *word, t_expansion *exp)
 {
 	char	**var_name;
 
 	var_name = calloc((exp->nb_expand + 1), sizeof(char *));
 	if (!var_name)
 		return (NULL);
-	if (!fill_var_name())
-		return (free(var_name), NULL);
+	if (!fill_var_name(word, var_name, exp->nb_expand))
+		return (free_exp_tab(var_name), free(var_name), NULL);
 	return (var_name);
+}
+
+static int	fill_var_value(char **var_value, char **var_name, t_env *env)
+{
+	int	i;
+
+	i = -1;
+	while (var_name[++i])
+	{
+		var_value[i] = get_env_value(env, var_name[i]);
+		if (!var_value[i])
+			return (0);
+	}
+	return (1);
+}
+
+char	**create_var_value(t_expansion *exp)
+{
+	char	**var_value;
+
+	var_value = calloc((exp->nb_expand + 1), sizeof(char *));
+	if (!var_value)
+		return (NULL);
+	if (!fill_var_value(var_value, exp->var_name, exp->env))
+		return (free_exp_tab(var_value), free(var_value), NULL);
+	return (var_value);
 }

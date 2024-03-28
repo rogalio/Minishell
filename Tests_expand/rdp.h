@@ -6,10 +6,9 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 18:03:55 by rogalio           #+#    #+#             */
-/*   Updated: 2024/03/27 16:05:13 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/03/28 17:40:28 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef RDP_H
 # define RDP_H
@@ -55,19 +54,16 @@ typedef struct s_pipeline
 	int			command_count;
 }t_pipeline;
 
-
 typedef struct s_expansion
 {
 	t_env	*env;
 	int		quotes;
-	char	quote_type;
 	int		nb_expand;
 	char	**var_name;
 	char	**var_value;
 	int		nw_len;
 	char	*new_word;
 }t_expansion;
-
 
 void		print_env(t_env *env);
 t_env		*init_env(char **envp);
@@ -76,9 +72,17 @@ void		print_exp(t_expansion *exp);
 
 /* free_exp.c */
 void		free_expansion(t_expansion *exp);
+void		free_exp_tab(char **exp_tab);
 
 /* init_exp.c */
 t_expansion	*init_exp(void);
+char		**create_var_name(char *word, t_expansion *exp);
+char		**create_var_value(t_expansion *exp);
+
+/* init_exp_utils.c */
+char		*extract_var_name(char *word);
+int			is_valid_variable_char(char c);
+char		*get_env_value(t_env *env, const char *var_name);
 
 /* expand_var.c */
 void		handle_expand_quotes(char **word, t_env *env);
@@ -86,18 +90,13 @@ void		handle_expand_quotes(char **word, t_env *env);
 /* get_nw_len.c */
 int			get_nw_len(char *word, t_expansion *exp);
 
-/* get_nw_len_expand.c */
-int			get_nw_len_expand(char *word, int len, t_expansion *exp);
-
 /* expand_size */
 int			len_plus_exp_size(int len, t_expansion *exp);
-char		*get_env_value(t_env *env, const char *var_name);
 
 /* handle_expand.c */
-void		handle_expand(char **word, char *new_word, char *var_value, int *ij);
+void		handle_expand(char *word, t_expansion *exp, int *ije);
 
 /* handle_quotes.c */
-void		handle_single_quote(char *word, char *new_word, int *ij);
-int			handle_double_quote(char *word, char *new_word, char *var_value, int *ij);
+void		handle_quotes(char *word, t_expansion *exp, int *ije);
 
 #endif

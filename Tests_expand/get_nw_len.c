@@ -6,12 +6,62 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 14:25:13 by cabdli            #+#    #+#             */
-/*   Updated: 2024/03/27 15:47:26 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/03/28 16:57:28 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rdp.h"
-#include "builtins.h"
+// #include "builtins.h"
+
+static int	len_minus_var_name(int len, int nb_expand, char **var_name)
+{
+	int	i;
+
+	i = 0;
+	while (nb_expand--)
+		len -= strlen(var_name[i++]);
+	return (len - 1);
+}
+
+/*
+int	len_plus_value_size(int len, int nb_expand, char **var_value)
+{
+	int	i;
+
+	i = 0;
+	while (nb_expand--)
+	{
+		if (strcmp(var_value[i], "Value not found"))
+			len += strlen(var_value[i]);
+	}
+	return (len);
+}
+*/
+
+static int	len_plus_value_size(int len, int nb_expand, char **var_value)
+{
+	int	i;
+
+	i = 0;
+	while (nb_expand)
+	{
+		if (!strcmp(var_value[i], "Value not found"))
+			nb_expand--;
+		else
+		{
+			len += strlen(var_value[i++]);
+			nb_expand--;
+		}
+	}
+	return (len);
+}
+
+static int	get_nw_len_expand(int len, t_expansion *exp)
+{
+	len = len_minus_var_name(len, exp->nb_expand, exp->var_name);
+	len = len_plus_value_size(len, exp->nb_expand, exp->var_value);
+	return (len);
+}
 
 int	get_nw_len(char *word, t_expansion *exp)
 {
@@ -21,7 +71,7 @@ int	get_nw_len(char *word, t_expansion *exp)
 	if (!exp->nb_expand && exp->quotes)
 		return ((len - 2));
 	else if (exp->nb_expand && !exp->quotes)
-		return (get_nw_len_expand(word, len, exp));
+		return (get_nw_len_expand(len, exp));
 	else
-		return ((get_nw_len_expand(word, len, exp) - 2));
+		return ((get_nw_len_expand(len, exp) - 2));
 }
