@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 18:36:27 by rogalio           #+#    #+#             */
-/*   Updated: 2024/03/25 16:12:33 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/03/27 17:57:03 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,15 +36,18 @@ static char	*get_cwd_display(void)
 		return (ft_strjoin("\033[1;34m", cwd));
 }
 
-static char	*create_prompt(char *user_colored, char *cwd_display)
+static char *create_prompt(char *user_colored, char *cwd_display)
 {
-	char	*at_minishell;
-	char	*prompt;
+    char *at_minishell;
+    char *prompt_part;
+    char *prompt;
 
-	at_minishell = ft_strjoin(user_colored, "@minishell:");
-	prompt = ft_strjoin(at_minishell, cwd_display);
-	free(at_minishell);
-	return (ft_strjoin(prompt, "> \033[0m"));
+		at_minishell = ft_strjoin(user_colored, "@minishell:");
+		prompt_part = ft_strjoin(at_minishell, cwd_display);
+		prompt = ft_strjoin(prompt_part, "> \033[0m");
+    free(at_minishell);
+    free(prompt_part); // S'assurer de libérer cette partie intermédiaire pour éviter les fuites
+    return prompt;
 }
 
 char	*display_prompt(void)

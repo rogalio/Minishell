@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rdp.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 18:03:55 by rogalio           #+#    #+#             */
-/*   Updated: 2024/03/27 11:25:12 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/03/28 16:21:49 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,5 +102,9 @@ void		handle_expand(char **word, char *new_word, char *var_value, int *i, int *j
 /* handle_quotes.c */
 void		handle_single_quote(char *word, char *new_word, int *i, int *j);
 int		handle_double_quote(char *word, char *new_word, char *var_value, int *i, int *j);
+
+t_pipeline	*create_pipeline2(t_token_list *token_list, t_env *env);
+t_pipeline	*init_pipeline(void);
+
 
 #endif

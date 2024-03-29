@@ -3,15 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   rdp_free.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 19:07:45 by rogalio           #+#    #+#             */
-/*   Updated: 2024/02/13 18:53:21 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/03/28 16:24:38 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rdp.h"
 
+
+/*
 void	free_command(t_command *cmd)
 {
 	int	i;
@@ -49,3 +51,4 @@ void	free_pipeline(t_pipeline *pipeline)
 	free(pipeline->commands);
 	free(pipeline);
 }
+*/

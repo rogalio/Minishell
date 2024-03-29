@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 13:02:19 by rogalio           #+#    #+#             */
-/*   Updated: 2024/03/25 13:49:23 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/03/27 17:39:04 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 #include "utils.h"
 
 extern int	g_exit_signal;
+
+
 
 static t_data	*init_data(char **envp)
 {
@@ -45,6 +47,34 @@ static t_minishell	*init_minishell(char **envp)
 	return (minishell);
 }
 
+
+void	free_env2(t_env *env)
+{
+	t_env	*tmp;
+
+	while (env)
+	{
+		tmp = env;
+		env = env->next;
+		free(tmp->name);
+		free(tmp->value);
+		free(tmp);
+	}
+}
+
+void free_data(t_data *data)
+{
+	free_env2(data->env);
+	free(data->args);
+	free(data);
+}
+
+void free_minishell(t_minishell *minishell)
+{
+	free_data(minishell->data);
+	free(minishell);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_minishell	*minishell;
@@ -57,6 +87,6 @@ int	main(int argc, char **argv, char **envp)
 	if (!minishell)
 		return (/*free_all(),*/1);
 	run_shell(minishell);
-	//free_all();
+	free_minishell(minishell);
 	return (0);
 }

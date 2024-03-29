@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 16:43:08 by rogalio           #+#    #+#             */
-/*   Updated: 2024/02/16 19:42:04 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/03/29 15:35:39 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,5 +58,8 @@ void			free_token_list(t_token_list *list);
 
 char			*handle_quotes(const char *str);
 char			*handle_rest(const char *str);
+
+t_token_list	*create_token_list(const char *str);
+t_token_list	*create_token_list2(const char *str);
 
 #endif
