@@ -6,7 +6,7 @@
 /*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 16:43:08 by rogalio           #+#    #+#             */
-/*   Updated: 2024/03/29 15:35:39 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/03/29 16:15:51 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,9 @@ typedef struct s_token
 
 typedef struct s_token_list
 {
-	t_token				*token;
+	t_token			*token;
 	struct s_token_list	*next;
-}t_token_list;
+} t_token_list;
 
 t_token			*new_word_token(const char *str);
 t_token			*new_token(t_token_type type, char *value);
