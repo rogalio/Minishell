@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 12:36:05 by cabdli            #+#    #+#             */
-/*   Updated: 2024/04/01 15:06:29 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/01 17:03:40 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,10 +67,3 @@ int	main(int ac, char **av, char **envp)
 	free_env(env);
 	return (0);
 }
-
-/*
-handle : 
-exp = create_expansion(*word, env);
-	if (!exp)
-		return ;
-*/
