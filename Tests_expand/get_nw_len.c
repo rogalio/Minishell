@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 14:25:13 by cabdli            #+#    #+#             */
-/*   Updated: 2024/03/28 16:57:28 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/01 15:11:10 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,10 @@ static int	len_minus_var_name(int len, int nb_expand, char **var_name)
 
 	i = 0;
 	while (nb_expand--)
-		len -= strlen(var_name[i++]);
-	return (len - 1);
+		len -= (strlen(var_name[i++]) + 1);
+	return (len);
 }
 
-/*
 int	len_plus_value_size(int len, int nb_expand, char **var_value)
 {
 	int	i;
@@ -32,12 +31,14 @@ int	len_plus_value_size(int len, int nb_expand, char **var_value)
 	while (nb_expand--)
 	{
 		if (strcmp(var_value[i], "Value not found"))
-			len += strlen(var_value[i]);
+			len += strlen(var_value[i++]);
+		else
+			i++;
 	}
 	return (len);
 }
-*/
 
+/*
 static int	len_plus_value_size(int len, int nb_expand, char **var_value)
 {
 	int	i;
@@ -46,7 +47,10 @@ static int	len_plus_value_size(int len, int nb_expand, char **var_value)
 	while (nb_expand)
 	{
 		if (!strcmp(var_value[i], "Value not found"))
+		{
+			i++;
 			nb_expand--;
+		}
 		else
 		{
 			len += strlen(var_value[i++]);
@@ -55,6 +59,7 @@ static int	len_plus_value_size(int len, int nb_expand, char **var_value)
 	}
 	return (len);
 }
+*/
 
 static int	get_nw_len_expand(int len, t_expansion *exp)
 {
@@ -73,5 +78,5 @@ int	get_nw_len(char *word, t_expansion *exp)
 	else if (exp->nb_expand && !exp->quotes)
 		return (get_nw_len_expand(len, exp));
 	else
-		return ((get_nw_len_expand(len, exp) - 2));
+		return (((get_nw_len_expand(len, exp)) - 2));
 }

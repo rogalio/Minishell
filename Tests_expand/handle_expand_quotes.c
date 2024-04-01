@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 16:56:15 by rogalio           #+#    #+#             */
-/*   Updated: 2024/03/28 17:42:06 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/01 15:07:35 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,6 @@ void	handle_expand_quotes(char **word, t_env *env)
 	}
 	free(*word);
 	*word = exp->new_word;
-	printf("\n");
-	print_exp(exp);
+	printf("\nnew_word = %s\n", exp->new_word);
 	free_expansion(exp);
 }

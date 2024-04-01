@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 12:36:05 by cabdli            #+#    #+#             */
-/*   Updated: 2024/03/28 17:36:19 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/01 15:06:29 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,15 @@ int	main(int ac, char **av, char **envp)
 	if (!env)
 		return (1);
 	handle_expand_quotes(&word, env);
+	printf("strlen word = %ld\n", strlen(word));
 	free(word);
 	free_env(env);
 	return (0);
 }
+
+/*
+handle : 
+exp = create_expansion(*word, env);
+	if (!exp)
+		return ;
+*/
