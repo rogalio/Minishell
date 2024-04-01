@@ -6,11 +6,40 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 15:50:14 by rogalio           #+#    #+#             */
-/*   Updated: 2024/03/27 12:30:09 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/01 15:31:00 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rdp.h"
+
+void	print_env(t_env *env)
+{
+	while (env)
+	{
+		if (env->value)
+			printf("%s=%s\n", env->name, env->value);
+		else
+			printf("%s\n", env->name);
+		env = env->next;
+	}
+}
+
+void	free_env(t_env *env)
+{
+	t_env	*tmp;
+
+	tmp = NULL;
+	while (env)
+	{
+		tmp = env;
+		env = env->next;
+		if (tmp->name)
+			free(tmp->name);
+		if (tmp->value)
+			free(tmp->value);
+		free(tmp);
+	}
+}
 
 t_env	*create_env_node(char *env_entry)
 {
@@ -60,31 +89,4 @@ t_env	*init_env(char **envp)
 		i++;
 	}
 	return (env);
-}
-
-void	print_env(t_env *env)
-{
-	while (env)
-	{
-		if (env->value)
-			printf("%s=%s\n", env->name, env->value);
-		else
-			printf("%s\n", env->name);
-		env = env->next;
-	}
-}
-
-void	free_env(t_env *env)
-{
-	t_env	*tmp;
-
-	while (env)
-	{
-		tmp = env->next;
-		free(env->name);
-		if (env->value)
-			free(env->value);
-		free(env);
-		env = tmp;
-	}
 }
