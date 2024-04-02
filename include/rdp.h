@@ -6,7 +6,7 @@
 /*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 18:03:55 by rogalio           #+#    #+#             */
-/*   Updated: 2024/03/28 16:21:49 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/04/02 16:06:15 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,17 @@ typedef struct s_expansion
 
 t_pipeline	*parse_rdp(t_token_list *token_list, t_env *env);
 void		*print_pipeline(t_pipeline *pipeline);
-void		free_command(t_command *cmd);
-void		free_pipeline(t_pipeline *pipeline);
 
 t_pipeline	*create_pipeline(t_token_list *token_list);
 void		add_command_to_pipeline(t_pipeline *pipeline, t_command *cmd);
+
+/* rdp_free.c */
+void free_redirection(t_redirection *redirection);
+void free_heredoc(t_heredoc *heredoc);
+void free_command(t_command *command);
+void free_commands(t_command **commands, int command_count);
+void free_pipeline(t_pipeline *pipeline);
+
 
 /* rdp_commands.c */
 t_command	*create_cmd(void);

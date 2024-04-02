@@ -6,7 +6,7 @@
 /*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 19:02:05 by rogalio           #+#    #+#             */
-/*   Updated: 2024/03/29 16:20:09 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/04/02 15:56:13 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,65 +19,6 @@
 #include "builtins.h"
 #include "signals.h"
 
-
-/*
-static int	parse_input(t_minishell *minishell, char *input)
-{
-	minishell->token_list = init_token_list(input);
-	if (!(minishell->token_list))
-		return (0);
-	if (!syntax_analyzer(minishell->token_list))
-		return (ft_putstr_fd("minishell: syntax error near unexpected token\n", \
-		STDERR_FILENO), 0);
-	minishell->pipeline = parse_rdp(minishell->token_list, \
-	minishell->data->env);
-	if (!minishell->pipeline)
-		return (0);
-//	print_pipeline(minishell->pipeline);
-	return (1);
-}
-*/
-
-/*
-void	run_shell(t_minishell *minishell)
-{
-	char			*input;
-
-	input = NULL;
-	while (1)
-	{
-		init_signals();
-		input = display_and_readline();
-		if (!input)
-			break ;
-		if (parse_input(minishell, input))
-			execute_pipeline(minishell->pipeline, minishell->data);
-		free(input);
-		free_token_list(minishell->token_list);
-		//free_pipeline(minishell->pipeline);
-	}
-}
-*/
-
-
-void free_token_list22(t_token_list **list)
-{
-	t_token_list	*temp;
-	t_token_list	*next;
-
-	if (!list || !*list)
-		return ;
-	temp = *list;
-	while (temp)
-	{
-		next = temp->next;
-		free(temp->token->value); // Supposant que value est dynamiquement allouée
-		free(temp->token);
-		free(temp);
-		temp = next;
-	}
-	*list = NULL;
-}
 
 
 
@@ -96,21 +37,22 @@ void	run_shell(t_minishell *minishell)
 		minishell->token_list = create_token_list2(input);
 		if (!(minishell->token_list))
 			return;
-
-		/*
+		if (!syntax_analyzer(minishell->token_list))
+		{
+			printf("syntax error\n");
+			free_token_list(&minishell->token_list);
+			return;
+		}
 		minishell->pipeline = create_pipeline2(minishell->token_list, \
 		minishell->data->env);
 		if (!minishell->pipeline)
 		{
 			printf("pipeline is NULL\n");
+			free_token_list(&minishell->token_list);
 			return;
 		}
-
-		*/
-		print_token_list(minishell->token_list);
-		free_token_list22(&minishell->token_list);
-		//free_token_list(minishell->token_list);
+		free_token_list(&minishell->token_list);
+		free_pipeline(minishell->pipeline);
 		free(input);
 	}
-	//free_token_list(minishell->token_list);
 }

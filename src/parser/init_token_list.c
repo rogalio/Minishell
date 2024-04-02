@@ -6,7 +6,7 @@
 /*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 12:19:30 by rogalio           #+#    #+#             */
-/*   Updated: 2024/03/29 16:18:52 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/04/02 14:06:01 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,39 +61,31 @@ t_token_list	*init_token_listv2(void)
 	list = ft_calloc(1, sizeof(t_token_list));
 	if (!list)
 		return (NULL);
-	list->token = ft_calloc(1, sizeof(t_token));
-	if (!list->token)
-	{
-		free(list);
-		return (NULL);
-	}
+	list->token = NULL;
+	list->next = NULL;
 	return (list);
 }
 
 
-void add_token_to_list2(t_token_list **list, t_token *token)
+int add_token_to_list2(t_token_list **list, t_token *token)
 {
-	t_token_list	*new_element;
-	t_token_list	*temp;
+	t_token_list	*new;
+	static t_token_list	*tmp;
 
-	if (!list || !token)
-		return ;
-	new_element = ft_calloc(1, sizeof(t_token_list));
-	if (!new_element)
-		return ;
-	new_element->token = token;
-	new_element->next = NULL;
+	new = ft_calloc(1, sizeof(t_token_list));
+	if (!new)
+		return (0) ;
+	new->token = token;
 	if (!*list)
 	{
-		*list = new_element;
-	}
-	else
+		*list = new;
+		tmp = *list;
+	} else
 	{
-		temp = *list;
-		while (temp->next)
-			temp = temp->next;
-		temp->next = new_element;
+		tmp->next = new;
+		tmp = tmp->next;
 	}
+	return (1);
 }
 
 t_token_list	*create_token_list2(const char *str)
@@ -101,9 +93,7 @@ t_token_list	*create_token_list2(const char *str)
 	t_token_list	*list;
 	t_token			*token;
 
-	list = init_token_listv2();
-	if (!list)
-		return (NULL);
+	list = NULL;
 	while (*str)
 	{
 		if (skip_whitespace(&str) == 0)
