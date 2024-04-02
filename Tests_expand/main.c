@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 12:36:05 by cabdli            #+#    #+#             */
-/*   Updated: 2024/04/01 17:03:40 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/02 14:52:40 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,33 @@ int	main(int ac, char **av, char **envp)
 	word = strdup("\"sa\'lut $USER check $PWD $PWDe test\"");
 	env = init_env(envp);
 	if (!env)
-		return (1);
+		return (free(word), 1);
+	print_env(env);
 	handle_expand_quotes(&word, env);
 	printf("strlen word = %ld\n", strlen(word));
 	free(word);
 	free_env(env);
 	return (0);
 }
+
+/*
+pb pour get_env en cas d'echec de strdup : comment differencier
+un echec de strdup et une value non existante ?
+create_node :
+else
+	{
+		node->name = strdup(env_entry);
+		node->value = NULL;
+	}
+
+Gerer echec de malloc et free de la list en cas de soucis :
+retourner un int
+static void	add_token_to_list(t_token_list **list, t_token *token)
+{
+	t_token_list		*new_elem;
+	static t_token_list	*temp;
+
+	new_elem = new_token_list(token);
+	if (!new_elem)
+		return ;
+*/

@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 15:50:14 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/01 15:31:00 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/02 14:51:18 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,40 +53,53 @@ t_env	*create_env_node(char *env_entry)
 	if (separator)
 	{
 		node->name = strndup(env_entry, separator - env_entry);
+		if (!node->name)
+			return (free(node), NULL);
 		node->value = strdup(separator + 1);
+		if (!node->value)
+			return (free(node->name), free(node), NULL);
 	}
 	else
 	{
 		node->name = strdup(env_entry);
-		node->value = NULL;
+		if (!node->name)
+			return (free(node), NULL);
 	}
 	return (node);
 }
 
-t_env	*add_to_env_list(t_env *head, t_env *new_node)
+int	add_to_env_list(t_env **head, char *envp)
 {
-	t_env	*temp;
+	static t_env	*temp;
+	t_env			*node;
 
-	if (!head)
-		return (new_node);
-	temp = head;
-	while (temp->next)
+	node = create_env_node(envp);
+	if (!node)
+		return (free_env(*head), 0);
+	if (!*head)
+	{
+		*head = node;
+		temp = *head;
+	}
+	else
+	{
+		temp->next = node;
 		temp = temp->next;
-	temp->next = new_node;
-	return (head);
+	}
+	return (1);
 }
 
 t_env	*init_env(char **envp)
 {
-	t_env	*env;
 	int		i;
+	t_env	*env_list;
 
-	env = NULL;
-	i = 0;
-	while (envp[i])
+	i = -1;
+	env_list = NULL;
+	while (envp[++i])
 	{
-		env = add_to_env_list(env, create_env_node(envp[i]));
-		i++;
+		if (!add_to_env_list(&env_list, envp[i]))
+			return (NULL);
 	}
-	return (env);
+	return (env_list);
 }
