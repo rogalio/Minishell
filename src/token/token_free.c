@@ -3,32 +3,58 @@
 /*                                                        :::      ::::::::   */
 /*   token_free.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 13:30:23 by rogalio           #+#    #+#             */
-/*   Updated: 2024/03/25 14:00:03 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/02 15:51:26 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "token.h"
 
+
+
 static void	free_token(t_token *token)
 {
+	if (!token)
+		return ;
 	free(token->value);
-	// free(token->type);
 	free(token);
 }
 
-void	free_token_list(t_token_list *list)
+void free_token_list(t_token_list **list)
 {
 	t_token_list	*temp;
+	t_token_list	*next;
 
-	while (list)
+	if (!list || !*list)
+		return ;
+	temp = *list;
+	while (temp)
 	{
-		temp = list;
-		list = list->next;
+		next = temp->next;
 		free_token(temp->token);
 		free(temp);
+		temp = next;
 	}
-	free(list);
+	*list = NULL;
+}
+
+void free_token_list22(t_token_list **list)
+{
+	t_token_list	*temp;
+	t_token_list	*next;
+
+	if (!list || !*list)
+		return ;
+	temp = *list;
+	while (temp)
+	{
+		next = temp->next;
+		free(temp->token->value);
+		free(temp->token);
+		free(temp);
+		temp = next;
+	}
+	*list = NULL;
 }

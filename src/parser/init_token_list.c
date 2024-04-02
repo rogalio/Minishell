@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_token_list.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 12:19:30 by rogalio           #+#    #+#             */
-/*   Updated: 2024/03/21 14:22:51 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/02 14:06:01 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,40 +24,83 @@ t_token	*find_next_token(const char **str)
 	return (token);
 }
 
-static void	add_token_to_list(t_token_list **list, t_token *token)
-{
-	t_token_list		*new_elem;
-	static t_token_list	*temp;
 
-	new_elem = new_token_list(token);
-	if (!new_elem)
-		return ;
-	if (!*list)
+
+
+
+
+
+
+
+
+
+
+
+
+void print_tokenlist2(t_token_list *token_list, int i)
+{
+	t_token_list	*tmp;
+
+	tmp = token_list;
+	while (tmp)
 	{
-		*list = new_elem;
-		temp = *list;
-	}
-	else
-	{
-		temp->next = new_elem;
-		temp = temp->next;
+		printf("token %d\n", i);
+		printf("type: %d\n", tmp->token->type);
+		printf("value: %s\n", tmp->token->value);
+		tmp = tmp->next;
+		i++;
 	}
 }
 
-t_token_list	*init_token_list(const char *str)
+
+
+t_token_list	*init_token_listv2(void)
+{
+	t_token_list	*list;
+
+	list = ft_calloc(1, sizeof(t_token_list));
+	if (!list)
+		return (NULL);
+	list->token = NULL;
+	list->next = NULL;
+	return (list);
+}
+
+
+int add_token_to_list2(t_token_list **list, t_token *token)
+{
+	t_token_list	*new;
+	static t_token_list	*tmp;
+
+	new = ft_calloc(1, sizeof(t_token_list));
+	if (!new)
+		return (0) ;
+	new->token = token;
+	if (!*list)
+	{
+		*list = new;
+		tmp = *list;
+	} else
+	{
+		tmp->next = new;
+		tmp = tmp->next;
+	}
+	return (1);
+}
+
+t_token_list	*create_token_list2(const char *str)
 {
 	t_token_list	*list;
 	t_token			*token;
 
 	list = NULL;
-	token = NULL;
 	while (*str)
 	{
 		if (skip_whitespace(&str) == 0)
 			break ;
 		token = find_next_token(&str);
 		if (token)
-			add_token_to_list(&list, token);
+			add_token_to_list2(&list, token);
 	}
 	return (list);
 }

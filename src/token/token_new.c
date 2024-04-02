@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_new.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 17:45:14 by rogalio           #+#    #+#             */
-/*   Updated: 2024/03/25 13:23:46 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/03/28 14:38:32 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ t_token_list	*new_token_list(t_token *token)
 	return (new_elem);
 }
 
-t_token	*new_word_token(const char *str)
+t_token	* new_word_token(const char *str)
 {
 	char	*word;
 	int		i;

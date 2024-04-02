@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   rdp.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 18:03:55 by rogalio           #+#    #+#             */
-/*   Updated: 2024/03/27 11:45:29 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/02 17:25:01 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 
 #ifndef RDP_H
@@ -60,11 +61,17 @@ typedef struct s_expansion
 
 t_pipeline	*parse_rdp(t_token_list *token_list, t_env *env);
 void		*print_pipeline(t_pipeline *pipeline);
-void		free_command(t_command *cmd);
-void		free_pipeline(t_pipeline *pipeline);
 
 t_pipeline	*create_pipeline(t_token_list *token_list);
 void		add_command_to_pipeline(t_pipeline *pipeline, t_command *cmd);
+
+/* rdp_free.c */
+void free_redirection(t_redirection *redirection);
+void free_heredoc(t_heredoc *heredoc);
+void free_command(t_command *command);
+void free_commands(t_command **commands, int command_count);
+void free_pipeline(t_pipeline *pipeline);
+
 
 /* rdp_commands.c */
 t_command	*create_cmd(void);
@@ -104,5 +111,9 @@ void		handle_expand(char **word, char *new_word, char *var_value, int *i, int *j
 /* handle_quotes.c */
 void		handle_single_quote(char *word, char *new_word, int *i, int *j);
 int		handle_double_quote(char *word, char *new_word, char *var_value, int *i, int *j);
+
+t_pipeline	*create_pipeline2(t_token_list *token_list, t_env *env);
+t_pipeline	*init_pipeline(void);
+
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 16:43:08 by rogalio           #+#    #+#             */
-/*   Updated: 2024/02/16 19:42:04 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/02 15:53:37 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,9 @@ typedef struct s_token
 
 typedef struct s_token_list
 {
-	t_token				*token;
+	t_token			*token;
 	struct s_token_list	*next;
-}t_token_list;
+} t_token_list;
 
 t_token			*new_word_token(const char *str);
 t_token			*new_token(t_token_type type, char *value);
@@ -54,9 +54,12 @@ t_token			*parse_token(const char *str);
 t_token_list	*new_token_list(t_token *token);
 t_token			*parse_token(const char *str);
 void			print_token_list(t_token_list *list);
-void			free_token_list(t_token_list *list);
+void			free_token_list(t_token_list **list);
 
 char			*handle_quotes(const char *str);
 char			*handle_rest(const char *str);
+
+t_token_list	*create_token_list(const char *str);
+t_token_list	*create_token_list2(const char *str);
 
 #endif

@@ -3,49 +3,86 @@
 /*                                                        :::      ::::::::   */
 /*   rdp_free.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 19:07:45 by rogalio           #+#    #+#             */
-/*   Updated: 2024/02/13 18:53:21 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/02 16:01:21 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rdp.h"
 
-void	free_command(t_command *cmd)
-{
-	int	i;
 
-	i = -1;
-	if (!cmd)
-		return ;
-	while (cmd->args && cmd->args[++i])
-		free(cmd->args[i]);
-	free(cmd->args);
-	if (cmd->redirect_in)
-	{
-		free(cmd->redirect_in->type);
-		free(cmd->redirect_in->file);
-		free(cmd->redirect_in);
-	}
-	if (cmd->redirect_out)
-	{
-		free(cmd->redirect_out->type);
-		free(cmd->redirect_out->file);
-		free(cmd->redirect_out);
-	}
-	free(cmd);
+void free_redirection(t_redirection *redirection)
+{
+    if (!redirection)
+        return;
+    free(redirection->type);
+    free(redirection->file);
+    free(redirection);
 }
 
-void	free_pipeline(t_pipeline *pipeline)
+void free_heredoc(t_heredoc *heredoc)
 {
-	int	i;
+    int i;
 
-	i = -1;
-	if (!pipeline)
-		return ;
-	while (++i < pipeline->command_count)
-		free_command(pipeline->commands[i]);
-	free(pipeline->commands);
-	free(pipeline);
+    if (!heredoc)
+        return;
+    free(heredoc->type);
+    if (heredoc->delimiter)
+    {
+        i = 0;
+        while (i < heredoc->nb_heredocs)
+        {
+            free(heredoc->delimiter[i]);
+            i++;
+        }
+        free(heredoc->delimiter);
+    }
+    free(heredoc);
+}
+
+void free_command(t_command *command)
+{
+    int i;
+
+    if (!command)
+        return;
+    if (command->args)
+    {
+        i = 0;
+        while (i < command->args_count)
+        {
+            free(command->args[i]);
+            i++;
+        }
+        free(command->args);
+    }
+    free_redirection(command->redirect_in);
+    free_redirection(command->redirect_out);
+    free_heredoc(command->heredoc);
+    free(command);
+}
+
+void free_commands(t_command **commands, int command_count)
+{
+    int i;
+
+    if (!commands)
+        return;
+    i = 0;
+    while (i < command_count)
+    {
+        free_command(commands[i]);
+        i++;
+    }
+    free(commands);
+}
+
+void free_pipeline(t_pipeline *pipeline)
+{
+		if (!pipeline)
+				return;
+		free_commands(pipeline->commands, pipeline->command_count);
+		free(pipeline);
 }
