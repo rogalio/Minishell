@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 16:56:15 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/01 15:07:35 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/02 14:59:56 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ t_expansion	*create_expansion(char *word, t_env *env)
 	return (exp);
 }
 
-void	handle_expand_quotes(char **word, t_env *env)
+int	handle_expand_quotes(char **word, t_env *env)
 {
 	int			ije[3];
 	t_expansion	*exp;
@@ -71,8 +71,7 @@ void	handle_expand_quotes(char **word, t_env *env)
 	bzero(ije, sizeof(ije));
 	exp = create_expansion(*word, env);
 	if (!exp)
-		return ;
-	print_exp(exp);
+		return (0);
 	while ((*word)[ije[0]])
 	{
 		if ((*word)[ije[0]] == '\'' || (*word)[ije[0]] == '\"')
@@ -84,6 +83,5 @@ void	handle_expand_quotes(char **word, t_env *env)
 	}
 	free(*word);
 	*word = exp->new_word;
-	printf("\nnew_word = %s\n", exp->new_word);
-	free_expansion(exp);
+	return (free_expansion(exp), 1);
 }

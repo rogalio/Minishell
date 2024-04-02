@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 18:03:55 by rogalio           #+#    #+#             */
-/*   Updated: 2024/03/28 17:40:28 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/02 14:57:44 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int			is_valid_variable_char(char c);
 char		*get_env_value(t_env *env, const char *var_name);
 
 /* expand_var.c */
-void		handle_expand_quotes(char **word, t_env *env);
+int			handle_expand_quotes(char **word, t_env *env);
 
 /* get_nw_len.c */
 int			get_nw_len(char *word, t_expansion *exp);
