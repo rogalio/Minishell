@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
+/*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 13:02:19 by rogalio           #+#    #+#             */
-/*   Updated: 2024/03/27 17:39:04 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/04/03 14:23:20 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,18 @@
 
 extern int	g_exit_signal;
 
+void free_data(t_data *data)
+{
+	free_env(data->env);
+	//free(data->args);
+	free(data);
+}
 
+void free_minishell(t_minishell *minishell)
+{
+	free_data(minishell->data);
+	free(minishell);
+}
 
 static t_data	*init_data(char **envp)
 {
@@ -31,6 +42,8 @@ static t_data	*init_data(char **envp)
 	if (!data)
 		return (NULL);
 	data->env = init_env(envp);
+	if (!data->env)
+		return (free(data), NULL);
 	return (data);
 }
 
@@ -43,36 +56,8 @@ static t_minishell	*init_minishell(char **envp)
 		return (NULL);
 	minishell->data = init_data(envp);
 	if (!minishell->data)
-		return (NULL);
+		return (free(minishell), NULL);
 	return (minishell);
-}
-
-
-void	free_env2(t_env *env)
-{
-	t_env	*tmp;
-
-	while (env)
-	{
-		tmp = env;
-		env = env->next;
-		free(tmp->name);
-		free(tmp->value);
-		free(tmp);
-	}
-}
-
-void free_data(t_data *data)
-{
-	free_env2(data->env);
-	free(data->args);
-	free(data);
-}
-
-void free_minishell(t_minishell *minishell)
-{
-	free_data(minishell->data);
-	free(minishell);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -82,10 +67,10 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	minishell = NULL;
 	if (argc != 1)
-		return (write(2, "Error: too many arguments\n", 26), 1);
+		return (ft_putstr_fd("Error: too many arguments\n", 2), 1);
 	minishell = init_minishell(envp);
 	if (!minishell)
-		return (/*free_all(),*/1);
+		return (1);
 	run_shell(minishell);
 	free_minishell(minishell);
 	return (0);
