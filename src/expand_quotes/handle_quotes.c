@@ -6,37 +6,37 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 17:13:38 by cabdli            #+#    #+#             */
-/*   Updated: 2024/03/27 11:25:28 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/03 13:22:39 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rdp.h"
+#include "exp_quotes.h"
 
-void	handle_single_quote(char *word, char *new_word, int *i, int *j)
+void	handle_single_quote(char *word, char *new_word, int *ije)
 {
-	(*i)++;
-	while (word[*i] && word[*i] != '\'')
-		new_word[(*j)++] = word[(*i)++];
-	(*i)++;
+	ije[0]++;
+	while (word[ije[0]] && word[ije[0]] != '\'')
+		new_word[ije[1]++] = word[ije[0]++];
+	ije[0]++;
 }
 
-
-int	handle_double_quote(char *word, char *new_word, char *var_value, int *i, int *j)
+void	handle_double_quote(char *word, t_expansion *exp, int *ije)
 {
-	int	nb_expand;
-
-	nb_expand = 0;
-	(*i)++;
-	while (word[*i] && word[*i] != '\"')
+	ije[0]++;
+	while (word[ije[0]] && word[ije[0]] != '\"')
 	{
-		if (word[*i] == '$')
-		{
-			nb_expand++;
-			handle_expand(&word, new_word, var_value, i, j);
-		}
+		if (word[ije[0]] == '$')
+			handle_expand(word, exp, ije);
 		else
-			new_word[(*j)++] = word[(*i)++];
+			exp->new_word[ije[1]++] = word[ije[0]++];
 	}
-	(*i)++;
-	return (nb_expand);
+	ije[0]++;
+}
+
+void	handle_quotes(char *word, t_expansion *exp, int *ije)
+{
+	if (word[ije[0]] == '\'')
+		handle_single_quote(word, exp->new_word, ije);
+	else
+		handle_double_quote(word, exp, ije);
 }

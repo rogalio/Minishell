@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_new.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
+/*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 17:45:14 by rogalio           #+#    #+#             */
-/*   Updated: 2024/03/28 14:38:32 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/04/03 13:31:31 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ t_token	* new_word_token(const char *str)
 	i = 0;
 	word = NULL;
 	if (str[i] && (str[i] == '\'' || str[i] == '\"'))
-		word = handle_quotes(str);
+		word = handle_qtes(str);
 	else
 		word = handle_rest(str);
 	return (new_token(TOKEN_WORD, word));

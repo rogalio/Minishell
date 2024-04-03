@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   free_exp.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/27 12:36:05 by cabdli            #+#    #+#             */
-/*   Updated: 2024/04/03 13:00:59 by cabdli           ###   ########.fr       */
+/*   Created: 2024/03/27 15:55:15 by cabdli            #+#    #+#             */
+/*   Updated: 2024/04/03 13:36:58 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rdp.h"
+#include "exp_quotes.h"
 
 void	print_exp(t_expansion *exp)
 {
@@ -50,43 +50,33 @@ void	print_exp(t_expansion *exp)
 	printf("new_word = .%s.\n\n", exp->new_word);
 }
 
-int	main(int ac, char **av, char **envp)
+void	free_exp_tab(char **exp_tab)
 {
-	t_env	*env;
-	char	*word;
+	char	*tmp;
 
-	(void)ac;
-	(void)av;
-	word = ft_strdup("\"sa\'lut $USER check $PWD $PWDe test\"");
-	env = init_env(envp);
-	if (!env)
-		return (free(word), 1);
-	handle_expand_quotes(&word, env);
-	printf("\nnew_word = %s\n", word);
-	printf("strlen word = %ld\n", ft_strlen(word));
-	free(word);
-	free_env(env);
-	return (0);
+	tmp = NULL;
+	while (*exp_tab)
+	{
+		tmp = *exp_tab;
+		exp_tab++;
+		free(tmp);
+	}
 }
 
-/*
-pb pour get_env en cas d'echec de strdup : comment differencier
-un echec de strdup et une value non existante ?
-create_node :
-else
-	{
-		node->name = strdup(env_entry);
-		node->value = NULL;
-	}
-
-Gerer echec de malloc et free de la list en cas de soucis :
-retourner un int
-static void	add_token_to_list(t_token_list **list, t_token *token)
+void	free_expansion(t_expansion *exp)
 {
-	t_token_list		*new_elem;
-	static t_token_list	*temp;
-
-	new_elem = new_token_list(token);
-	if (!new_elem)
-		return ;
-*/
+	if (exp)
+	{
+		if (exp->var_name)
+		{
+			free_exp_tab(exp->var_name);
+			free(exp->var_name);
+		}
+		if (exp->var_value)
+		{
+			free_exp_tab(exp->var_value);
+			free(exp->var_value);
+		}
+		free(exp);
+	}
+}

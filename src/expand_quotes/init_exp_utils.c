@@ -6,11 +6,11 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 12:44:22 by cabdli            #+#    #+#             */
-/*   Updated: 2024/04/03 12:59:51 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/03 13:24:24 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rdp.h"
+#include "exp_quotes.h"
 
 /*
  Selon la norme POSIX, les noms de variables d'environnement
@@ -19,7 +19,7 @@
 */
 int	is_valid_variable_char(char c)
 {
-	return (isalnum(c) || c == '_');
+	return (ft_isalnum(c) || c == '_');
 }
 
 char	*extract_var_name(char *word)

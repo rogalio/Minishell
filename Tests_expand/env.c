@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 15:50:14 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/02 14:51:18 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/03 12:54:19 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,22 +46,22 @@ t_env	*create_env_node(char *env_entry)
 	t_env	*node;
 	char	*separator;
 
-	node = calloc(1, sizeof(t_env));
+	node = ft_calloc(1, sizeof(t_env));
 	if (!node)
 		return (NULL);
-	separator = strchr(env_entry, '=');
+	separator = ft_strchr(env_entry, '=');
 	if (separator)
 	{
-		node->name = strndup(env_entry, separator - env_entry);
+		node->name = ft_strndup(env_entry, separator - env_entry);
 		if (!node->name)
 			return (free(node), NULL);
-		node->value = strdup(separator + 1);
+		node->value = ft_strdup(separator + 1);
 		if (!node->value)
 			return (free(node->name), free(node), NULL);
 	}
 	else
 	{
-		node->name = strdup(env_entry);
+		node->name = ft_strdup(env_entry);
 		if (!node->name)
 			return (free(node), NULL);
 	}

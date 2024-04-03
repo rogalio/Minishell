@@ -6,32 +6,33 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 17:09:40 by cabdli            #+#    #+#             */
-/*   Updated: 2024/03/27 11:33:46 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/03 13:22:31 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rdp.h"
+#include "exp_quotes.h"
 
 static void	replace_variable(char **new_word, char *var_value, int *j)
 {
 	int	i;
 
 	i = -1;
-	if (var_value)
+	if (ft_strcmp(var_value, "Value not found"))
 	{
 		while (var_value[++i])
 			(*new_word)[(*j)++] = var_value[i];
 	}
 }
 
-void	handle_expand(char **word, char *new_word, char *var_value, int *i, int *j)
+void	handle_expand(char *word, t_expansion *exp, int *ije)
 {
-	(*i)++;
-	if ((*word)[*i] == '?')
+	ije[0]++;
+	if (word[ije[0]] == '?')
 	{
-		(*i)++;
-		new_word[(*j)++] = '0';
+		ije[0]++;
+		exp->new_word[ije[1]++] = '0';
 		return ;
 	}
-	replace_variable(&new_word, var_value, j);
+	ije[0] += ft_strlen(exp->var_name[ije[2]]);
+	replace_variable(&(exp->new_word), exp->var_value[ije[2]++], &ije[1]);
 }

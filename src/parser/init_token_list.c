@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_token_list.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
+/*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 12:19:30 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/02 14:06:01 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/04/03 13:36:39 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,19 +23,6 @@ t_token	*find_next_token(const char **str)
 		*str += ft_strlen(token->value);
 	return (token);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 void print_tokenlist2(t_token_list *token_list, int i)
 {

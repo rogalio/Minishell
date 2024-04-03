@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 14:25:13 by cabdli            #+#    #+#             */
-/*   Updated: 2024/04/01 15:11:10 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/03 12:56:24 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	len_minus_var_name(int len, int nb_expand, char **var_name)
 
 	i = 0;
 	while (nb_expand--)
-		len -= (strlen(var_name[i++]) + 1);
+		len -= (ft_strlen(var_name[i++]) + 1);
 	return (len);
 }
 
@@ -30,8 +30,8 @@ int	len_plus_value_size(int len, int nb_expand, char **var_value)
 	i = 0;
 	while (nb_expand--)
 	{
-		if (strcmp(var_value[i], "Value not found"))
-			len += strlen(var_value[i++]);
+		if (ft_strcmp(var_value[i], "Value not found"))
+			len += ft_strlen(var_value[i++]);
 		else
 			i++;
 	}
@@ -72,7 +72,7 @@ int	get_nw_len(char *word, t_expansion *exp)
 {
 	int	len;
 
-	len = strlen(word);
+	len = ft_strlen(word);
 	if (!exp->nb_expand && exp->quotes)
 		return ((len - 2));
 	else if (exp->nb_expand && !exp->quotes)

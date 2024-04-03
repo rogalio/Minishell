@@ -1,58 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   rdp.h                                              :+:      :+:    :+:   */
+/*   exp_quotes.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/30 18:03:55 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/03 13:17:49 by cabdli           ###   ########.fr       */
+/*   Created: 2024/04/03 13:06:53 by cabdli            #+#    #+#             */
+/*   Updated: 2024/04/03 13:23:57 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RDP_H
-# define RDP_H
+#ifndef EXP_QUOTES_H
+# define EXP_QUOTES_H
 
-# include <stdio.h>
-# include <stdlib.h>
-# include <string.h>
-# include <strings.h>
-# include <ctype.h>
-
-typedef struct s_env
-{
-	char			*name;
-	char			*value;
-	struct s_env	*next;
-}t_env;
-
-typedef struct s_redirection
-{
-	char	*type;
-	char	*file;
-}t_redirection;
-
-typedef struct s_heredoc
-{
-	char	*type;
-	char	**delimiter;
-	int		nb_heredocs;
-}t_heredoc;
-
-typedef struct s_command
-{
-	char			**args;
-	int				args_count;
-	t_redirection	*redirect_in;
-	t_redirection	*redirect_out;
-	t_heredoc		*heredoc;
-}t_command;
-
-typedef struct s_pipeline
-{
-	t_command	**commands;
-	int			command_count;
-}t_pipeline;
+# include "builtins.h"
 
 typedef struct s_expansion
 {
@@ -65,9 +26,6 @@ typedef struct s_expansion
 	char	*new_word;
 }t_expansion;
 
-void		print_env(t_env *env);
-t_env		*init_env(char **envp);
-void		free_env(t_env *env);
 void		print_exp(t_expansion *exp);
 
 /* free_exp.c */
@@ -80,8 +38,8 @@ char		**create_var_name(char *word, t_expansion *exp);
 char		**create_var_value(t_expansion *exp);
 
 /* init_exp_utils.c */
-int			is_valid_variable_char(char c);
 char		*extract_var_name(char *word);
+int			is_valid_variable_char(char c);
 char		*get_env_value(t_env *env, const char *var_name);
 
 /* handle_expand_quotes.c */

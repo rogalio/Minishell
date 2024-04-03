@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rdp.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
+/*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 18:03:55 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/02 17:25:01 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/04/03 13:19:07 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,17 +48,6 @@ typedef struct s_pipeline
 	int			command_count;
 }t_pipeline;
 
-typedef struct s_expansion
-{
-	t_env	*env;
-	int		quotes;
-	int		expand;
-	char	**var_name;
-	char	**var_value;
-	int		nw_len;
-	char	*new_word;
-}t_expansion;
-
 t_pipeline	*parse_rdp(t_token_list *token_list, t_env *env);
 void		*print_pipeline(t_pipeline *pipeline);
 
@@ -71,7 +60,6 @@ void free_heredoc(t_heredoc *heredoc);
 void free_command(t_command *command);
 void free_commands(t_command **commands, int command_count);
 void free_pipeline(t_pipeline *pipeline);
-
 
 /* rdp_commands.c */
 t_command	*create_cmd(void);
@@ -91,26 +79,6 @@ int			get_pipe_count(t_token_list *token_list);
 
 t_heredoc	*create_heredoc(int nb_heredocs);
 int			get_nb_heredocs(t_token_list *tmp_list);
-
-/* expand_var.c */
-void		handle_expand_quotes(char **word, t_env *env);
-
-/* get_nw_len.c */
-int			get_nw_len(char *word, t_expansion *exp);
-
-/* get_nw_len_expand.c */
-int			get_nw_len_expand(char *word, int len, t_expansion *exp);
-
-/* expand_size */
-int			len_plus_exp_size(int len, t_expansion *exp);
-char		*get_env_value(t_env *env, const char *var_name);
-
-/* handle_expand.c */
-void		handle_expand(char **word, char *new_word, char *var_value, int *i, int *j);
-
-/* handle_quotes.c */
-void		handle_single_quote(char *word, char *new_word, int *i, int *j);
-int		handle_double_quote(char *word, char *new_word, char *var_value, int *i, int *j);
 
 t_pipeline	*create_pipeline2(t_token_list *token_list, t_env *env);
 t_pipeline	*init_pipeline(void);
