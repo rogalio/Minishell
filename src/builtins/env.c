@@ -6,11 +6,11 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 15:50:14 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/03 12:54:19 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/04 13:49:12 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rdp.h"
+#include "pipeline.h"
 
 void	print_env(t_env *env)
 {

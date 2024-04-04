@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 12:56:37 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/03 13:46:39 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/04 13:48:56 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include <sys/wait.h>
 # include "libft.h"
 # include "token.h"
-# include "rdp.h"
+# include "pipeline.h"
 # include "builtins.h"
 
 typedef struct s_minishell

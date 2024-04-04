@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 13:02:19 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/04 12:40:48 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/04 13:01:48 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ extern int	g_exit_signal;
 void	free_data(t_data *data)
 {
 	free_env(data->env);
-	//free(data->args);
+	if (data->args)
+		free(data->args);
 	free(data);
 }
 

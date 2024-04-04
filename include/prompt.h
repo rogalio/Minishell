@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 18:36:47 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/04 12:29:33 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/04 13:45:20 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@
 # include "minishell.h"
 
 /* prompt.c */
-char	*display_prompt(void);
 char	*display_and_readline(void);
+char	*display_prompt(void);
 
 /* shell.c */
 void	run_shell(t_minishell *minishell);

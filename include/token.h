@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 16:43:08 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/04 12:40:32 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/04 13:46:15 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ typedef struct s_token_list
 {
 	t_token				*token;
 	struct s_token_list	*next;
-} t_token_list;
+}t_token_list;
 
 t_token			*new_word_token(const char *str);
 t_token			*new_token(t_token_type type, char *value);

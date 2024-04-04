@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   rdp_free.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
+/*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 19:07:45 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/02 16:01:21 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/04/04 13:49:40 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rdp.h"
+#include "pipeline.h"
 
 
 void free_redirection(t_redirection *redirection)

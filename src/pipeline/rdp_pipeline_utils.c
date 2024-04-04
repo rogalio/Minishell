@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   rdp_pipeline_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
+/*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 17:45:36 by cabdli            #+#    #+#             */
-/*   Updated: 2024/03/28 14:54:48 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/04/04 13:49:57 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rdp.h"
+#include "pipeline.h"
 
 void	get_args_count(t_pipeline *pipeline, t_token_list *token_list)
 {
