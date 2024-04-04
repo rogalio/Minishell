@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
+/*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 19:02:05 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/02 17:25:37 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/04/04 12:42:26 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,10 @@
 #include "builtins.h"
 #include "signals.h"
 
-
-
-
+int	parse_input()
+{
+	
+}
 
 void	run_shell(t_minishell *minishell)
 {
@@ -31,6 +32,7 @@ void	run_shell(t_minishell *minishell)
 	while (1)
 	{
 		init_signals();
+		if (parse_input())
 		input = display_and_readline();
 		if (!input)
 			break ;

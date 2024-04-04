@@ -6,29 +6,24 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 13:02:19 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/03 14:23:20 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/04 12:40:48 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "token.h"
-#include "parser.h"
-#include "rdp.h"
 #include "builtins.h"
-#include "exec.h"
 #include "prompt.h"
-#include "utils.h"
 
 extern int	g_exit_signal;
 
-void free_data(t_data *data)
+void	free_data(t_data *data)
 {
 	free_env(data->env);
 	//free(data->args);
 	free(data);
 }
 
-void free_minishell(t_minishell *minishell)
+void	free_minishell(t_minishell *minishell)
 {
 	free_data(minishell->data);
 	free(minishell);
@@ -75,3 +70,28 @@ int	main(int argc, char **argv, char **envp)
 	free_minishell(minishell);
 	return (0);
 }
+
+/*
+-> pb pour get_env en cas d'echec de strdup : comment differencier
+un echec de strdup et une value non existante ?
+create_node :
+else
+	{
+		node->name = strdup(env_entry);
+		node->value = NULL;
+	}
+
+-> Gerer echec de malloc et free de la list en cas de soucis :
+retourner un int
+static void	add_token_to_list(t_token_list **list, t_token *token)
+{
+	t_token_list		*new_elem;
+	static t_token_list	*temp;
+
+	new_elem = new_token_list(token);
+	if (!new_elem)
+		return ;
+
+-> mettre les free part dans un dossier free, ou les laisser
+dans le dossier correspondant ?
+*/
