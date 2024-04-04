@@ -11,6 +11,7 @@
     "prompt.h": "c",
     "utils.h": "c",
     "exec.h": "c",
-    "pipeline.h": "c"
+    "pipeline.h": "c",
+    "minishell.h": "c"
   }
 }

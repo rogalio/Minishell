@@ -6,16 +6,16 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 19:02:05 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/04 13:50:32 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/04 13:56:22 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "prompt.h"
-#include "exec.h"
 #include "token.h"
 #include "parser.h"
 #include "pipeline.h"
+#include "exec.h"
 #include "builtins.h"
 #include "signals.h"
 
