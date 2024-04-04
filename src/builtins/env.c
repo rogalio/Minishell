@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 15:50:14 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/04 13:49:12 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/04 17:59:03 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void	free_env(t_env *env)
 			free(tmp->value);
 		free(tmp);
 	}
+	env = NULL;
 }
 
 t_env	*create_env_node(char *env_entry)

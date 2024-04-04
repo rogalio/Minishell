@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   token_new.c                                        :+:      :+:    :+:   */
+/*   new_token.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 17:45:14 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/03 13:31:31 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/04 17:27:55 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,29 +14,19 @@
 
 t_token	*new_token(t_token_type type, char *value)
 {
-	t_token	*t;
+	t_token	*token;
 
-	t = ft_calloc(1, sizeof(t_token));
-	if (!t)
+	if (!value)
 		return (NULL);
-	t->type = type;
-	t->value = value;
-	return (t);
+	token = ft_calloc(1, sizeof(t_token));
+	if (!token)
+		return (free(value), NULL);
+	token->type = type;
+	token->value = value;
+	return (token);
 }
 
-t_token_list	*new_token_list(t_token *token)
-{
-	t_token_list	*new_elem;
-
-	new_elem = ft_calloc(1, sizeof(t_token_list *));
-	if (!new_elem)
-		return (NULL);
-	new_elem->token = token;
-	// new_elem->next = NULL;
-	return (new_elem);
-}
-
-t_token	* new_word_token(const char *str)
+t_token	*new_token_word(const char *str)
 {
 	char	*word;
 	int		i;
@@ -48,4 +38,15 @@ t_token	* new_word_token(const char *str)
 	else
 		word = handle_rest(str);
 	return (new_token(TOKEN_WORD, word));
+}
+
+t_token_list	*new_token_node(t_token *token)
+{
+	t_token_list	*new;
+
+	new = ft_calloc(1, sizeof(t_token_list));
+	if (!new)
+		return (free_token(token), NULL);
+	new->token = token;
+	return (new);
 }

@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 19:40:36 by rogalio           #+#    #+#             */
-/*   Updated: 2024/03/25 16:52:25 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/04 17:39:03 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,5 @@ typedef enum e_state
 }t_state;
 
 int				syntax_analyzer(t_token_list *token_list);
-t_token_list	*init_token_list(const char *s);
 
 #endif

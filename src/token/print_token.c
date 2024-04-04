@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   token_print.c                                      :+:      :+:    :+:   */
+/*   print_token.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
+/*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 19:09:42 by rogalio           #+#    #+#             */
-/*   Updated: 2024/03/29 15:53:02 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/04/04 17:47:54 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,14 @@ void	print_token(const t_token *token)
 
 void	print_token_list(t_token_list *token_list)
 {
+	int				i;
 	t_token_list	*tmp;
 
+	i = 1;
 	tmp = token_list;
 	while (tmp)
 	{
+		printf("Token %d\n", i++);
 		print_token(tmp->token);
 		tmp = tmp->next;
 	}

@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 16:43:08 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/04 13:46:15 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/04 18:01:29 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,21 +19,17 @@
 # include <unistd.h>
 # include "libft.h"
 
-/*
-** All known symbols type.
-*/
-enum		e_token_type
+typedef enum e_token_type
 {
 	TOKEN_WORD,
 	TOKEN_REDIRECT,
 	TOKEN_PIPE,
-};
-typedef enum e_token_type	t_token_type;
+}t_token_type;
 
 /*
-** Represents a token.
-** type:	type of the token
-** value:	graphical representation
+	Represents a token.
+	type:	type of the token
+	value:	graphical representation
 */
 typedef struct s_token
 {
@@ -47,19 +43,31 @@ typedef struct s_token_list
 	struct s_token_list	*next;
 }t_token_list;
 
-t_token			*new_word_token(const char *str);
-t_token			*new_token(t_token_type type, char *value);
-void			print_token(const t_token *t);
-t_token			*parse_token(const char *str);
-t_token_list	*new_token_list(t_token *token);
-t_token			*parse_token(const char *str);
-void			print_token_list(t_token_list *list);
-void			free_token_list(t_token_list **list);
+/* create_token_list.c */
+t_token_list	*create_token_list(const char *str);
 
+/* parse_token.c */
+t_token			*parse_token(const char *str);
+
+/* new_token.c */
+t_token			*new_token(t_token_type type, char *value);
+t_token			*new_token_word(const char *str);
+t_token_list	*new_token_node(t_token *token);
+
+/* new_token_utils.c */
 char			*handle_qtes(const char *str);
 char			*handle_rest(const char *str);
 
-t_token_list	*create_token_list(const char *str);
-t_token_list	*create_token_list2(const char *str);
+/* print_token.c*/
+void			print_token(const t_token *t);
+void			print_token_list(t_token_list *list);
+
+/* free_token.c */
+void			free_token(t_token *token);
+void			free_token_list(t_token_list *list);
+
+/* utils.c */
+int				skip_whitespace(const char **str);
+int				check_regex(const char *s);
 
 #endif

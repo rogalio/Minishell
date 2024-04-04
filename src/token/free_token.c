@@ -1,24 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.h                                            :+:      :+:    :+:   */
+/*   free_token.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/03 18:37:23 by rogalio           #+#    #+#             */
-/*   Updated: 2024/03/22 13:01:03 by cabdli           ###   ########.fr       */
+/*   Created: 2024/02/06 13:30:23 by rogalio           #+#    #+#             */
+/*   Updated: 2024/04/04 17:58:32 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef UTILS_H
-# define UTILS_H
+#include "token.h"
 
-# include <libft.h>
-# include <stdio.h>
-# include <unistd.h>
+void	free_token(t_token *token)
+{
+	if (!token)
+		return ;
+	if (token->value)
+		free(token->value);
+	free(token);
+}
 
-/* utils.c */
-int	skip_whitespace(const char **str);
-int	check_regex(const char *s);
+void	free_token_list(t_token_list *list)
+{
+	t_token_list	*temp;
 
-#endif
+	temp = NULL;
+	if (!list)
+		return ;
+	while (list)
+	{
+		temp = list;
+		list = list->next;
+		free_token(temp->token);
+		free(temp);
+	}
+	list = NULL;
+}

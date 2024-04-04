@@ -5,13 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/03 18:37:07 by rogalio           #+#    #+#             */
-/*   Updated: 2024/03/16 00:33:08 by cabdli           ###   ########.fr       */
+/*   Created: 2024/04/04 18:00:51 by cabdli            #+#    #+#             */
+/*   Updated: 2024/04/04 18:02:28 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "utils.h"
-#include "libft.h"
+#include "token.h"
 
 int	skip_whitespace(const char **str)
 {
@@ -42,7 +41,7 @@ int	check_regex(const char *s)
 	while (s[++i])
 	{
 		if (!ft_isalnum((int)s[i]) && !allowed_char(s[i]))
-			return (write(2, "Error, wrong char used\n", 23), 0);
+			return (write(2, "Error: use of wrong char\n", 23), 0);
 	}
 	return (1);
 }

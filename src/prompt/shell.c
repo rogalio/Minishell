@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 19:02:05 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/04 13:56:22 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/04 18:11:22 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,21 +21,21 @@
 
 static int	parse_input(t_minishell *minishell, char *input)
 {
-	minishell->token_list = create_token_list2(input);
+	minishell->token_list = create_token_list(input);
 	if (!(minishell->token_list))
 		return (ft_putstr_fd("Error: malloc failure\n", STDERR_FILENO), 0);
 	if (!syntax_analyzer(minishell->token_list))
 	{
 		ft_putstr_fd("minishell: syntax error near unexpected token\n", \
 		STDERR_FILENO);
-		return (free_token_list(&(minishell->token_list)), 0);
+		return (free_token_list(minishell->token_list), 0);
 	}
 	minishell->pipeline = create_pipeline2(minishell->token_list, \
 	minishell->data->env);
 	if (!minishell->pipeline)
 	{
 		ft_putstr_fd("Error: malloc failure\n", STDERR_FILENO);
-		return (free_token_list(&(minishell->token_list)), 0);
+		return (free_token_list(minishell->token_list), 0);
 	}
 	print_pipeline(minishell->pipeline);
 	return (1);
@@ -54,34 +54,18 @@ void	run_shell(t_minishell *minishell)
 		if (!input)
 			break ;
 		if (!parse_input(minishell, input))
-		{
 			free(input);
-			return ;
+		else
+		{
+			free_token_list(minishell->token_list);
+			free_pipeline(minishell->pipeline);
+			free(input);
 		}
-		free_token_list(&minishell->token_list);
-		free_pipeline(minishell->pipeline);
-		free(input);
 	}
 	return ;
 }
 
 /*
-static int	parse_input(t_minishell *minishell, char *input)
-{
-	minishell->token_list = init_token_list(input);
-	if (!(minishell->token_list))
-		return (0);
-	if (!syntax_analyzer(minishell->token_list))
-		return (ft_putstr_fd("minishell: syntax error near unexpected token\n", \
-		STDERR_FILENO), 0);
-	minishell->pipeline = parse_rdp(minishell->token_list, \
-	minishell->data->env);
-	if (!minishell->pipeline)
-		return (0);
-	print_pipeline(minishell->pipeline);
-	return (1);
-}
-
 void	run_shell(t_minishell *minishell)
 {
 	char			*input;

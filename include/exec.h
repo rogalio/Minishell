@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 14:59:58 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/04 13:48:42 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/04 18:03:29 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <fcntl.h>
 # include <stdio.h>
 # include "parser.h"
-# include "utils.h"
+# include "token.h"
 # include "pipeline.h"
 
 void	execute_pipeline(t_pipeline *pipeline, t_data *data);

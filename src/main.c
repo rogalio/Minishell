@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 13:02:19 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/04 13:01:48 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/04 18:11:58 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,17 +82,10 @@ else
 		node->value = NULL;
 	}
 
--> Gerer echec de malloc et free de la list en cas de soucis :
-retourner un int
-static void	add_token_to_list(t_token_list **list, t_token *token)
-{
-	t_token_list		*new_elem;
-	static t_token_list	*temp;
-
-	new_elem = new_token_list(token);
-	if (!new_elem)
-		return ;
-
 -> mettre les free part dans un dossier free, ou les laisser
 dans le dossier correspondant ?
+
+-> pas de check_regex ?
+
+-> new_token : soucis unclosed quotes + malloc error
 */
