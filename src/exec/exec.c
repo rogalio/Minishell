@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 15:03:34 by rogalio           #+#    #+#             */
-/*   Updated: 2024/03/25 13:29:20 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/04 16:30:51 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec.h"
 #include "builtins.h"
 #include "signals.h"
+#include "token.h"
 
 typedef struct s_pipe
 {
@@ -135,7 +136,7 @@ char	**env_to_char_array(t_env *env)
 
 bool	check_if_builtins_cd_or_unset(char *cmd, char **args, t_data *data)
 {
-	t_builtins	builtins[] = 
+	t_builtins	builtins[] =
 	{
 		// {"echo", echo},
 		{"cd", cd},
@@ -217,8 +218,16 @@ void	redirect_if_needed(t_command *command)
 	}
 	if (command->heredoc)
 	{
-		
+
 	}
+}
+
+void free_token_test(t_token *token)
+{
+		if (!token)
+		return ;
+	free(token->value);
+	free(token);
 }
 
 void	execute_command(t_command *command, t_data *data)
@@ -245,76 +254,9 @@ void	execute_command(t_command *command, t_data *data)
 			exit(EXIT_FAILURE);
 		}
 	}
-	exit(EXIT_SUCCESS); // Sortie du processus enfant après exécution de la commande intégrée
+	exit(EXIT_SUCCESS);
 }
 
-// Fonction pour créer un pipe et gérer les erreurs
-int	create_pipe(int pipe_fds[2])
-{
-	if (pipe(pipe_fds) == -1)
-	{
-		perror("pipe");
-		exit(EXIT_FAILURE);
-	}
-	return (0);
-}
-
-// Fonction pour initialiser un processus enfant
-void	init_child_process(t_command *command, int pipe_fds[2], int in_fd, t_data *data)
-{
-	char	*path;
-	char	**envp;
-
-	// Si nous avons un fd d'entrée autre que stdin, dupliquez-le sur stdin et fermez-le
-	if (in_fd != STDIN_FILENO)
-	{
-		dup2(in_fd, STDIN_FILENO);
-		close(in_fd);
-	}
-	// Pour le pipe, dupliquez l'extrémité d'écriture sur stdout si nécessaire
-	if (pipe_fds[1] != STDOUT_FILENO) {
-		dup2(pipe_fds[1], STDOUT_FILENO);
-	}
-	close(pipe_fds[0]);
-	// Toujours fermer l'extrémité de lecture dans le processus enfant
-	// Gestion des redirections spécifiques à la commande
-	redirect_if_needed(command);
-	// Exécution de la commande externe ou intégrée
-	if (!check_if_builtins(command->args[0], command->args, data))
-	{
-		path = find_path(command->args[0]);
-		if (path)
-		{
-			envp = env_to_char_array(data->env);
-			execve(path, command->args, envp);
-			perror("execve");
-			exit(EXIT_FAILURE);
-		}
-		else
-		{
-			fprintf(stderr, "minishell: %s: command not found\n", command->args[0]);
-			exit(EXIT_FAILURE);
-		}
-	}
-	exit(EXIT_SUCCESS); // Sortie du processus enfant après exécution de la commande intégrée
-}
-
-/* 
-Fonction pour gérer un processus parent |
-- close(pipe_fds[1]);
-==> Toujours fermer l'extrémité d'écriture du pipe dans le parent
-- close(*in_fd);
-==> Fermer le précédent descripteur d'entrée si ce n'est pas STDIN
-- *in_fd = pipe_fds[0];
-==> Préparer l'extrémité de lecture pour le prochain enfant
-*/
-void	handle_parent_process(int pipe_fds[2], int *in_fd)
-{
-	close(pipe_fds[1]);
-	if (*in_fd != STDIN_FILENO)
-		close(*in_fd);
-	*in_fd = pipe_fds[0];
-}
 
 void	wait_for_children_to_finish(int command_count)
 {
@@ -344,42 +286,26 @@ bool	is_child_process(pid_t pid)
 	return (pid == 0);
 }
 
-void	execute_pipeline(t_pipeline *pipeline, t_data *data)
+// function to check_is_last_command
+bool	is_last_command(int i, int command_count)
 {
-	int		pipe_fds[2];
-	int		in_fd;
-	pid_t	pid;
-	int		i;
-	//int prev_fd = -1; // Stocke l'fd de sortie du pipe précédent
+	return (i == command_count - 1);
+}
 
-	in_fd = 0;
-	i = -1;
-	init_process_signals();
-	if (ft_strcmp(pipeline->commands[0]->args[0], "cd") == 0 || \
-	ft_strcmp(pipeline->commands[0]->args[0], "unset") == 0)
+// Fonction pour créer un pipe et gérer les erreurs
+int	create_pipe(int pipe_fds[2])
+{
+	if (pipe(pipe_fds) == -1)
 	{
-		check_if_builtins_cd_or_unset(pipeline->commands[0]->args[0], \
-		pipeline->commands[0]->args, data);
-		return ;
+		perror("pipe");
+		exit(EXIT_FAILURE);
 	}
-	while (++i < pipeline->command_count)
-	{
-		if (i < pipeline->command_count - 1)
-		{
-			if (pipe(pipe_fds) == -1)
-			{
-				perror("pipe");
-				exit(EXIT_FAILURE);
-			}
-		}
-		pid = fork();
-		if (pid == -1)
-		{
-			perror("fork");
-			exit(EXIT_FAILURE);
-		}
-		else if (pid == 0) // Enfant
-		{
+	return (0);
+}
+
+// handle child process
+void handle_child_process(int in_fd, int pipe_fds[2], int i, t_pipeline *pipeline, t_data *data)
+{
 			if (in_fd != 0)
 			{
 				dup2(in_fd, STDIN_FILENO);
@@ -392,18 +318,49 @@ void	execute_pipeline(t_pipeline *pipeline, t_data *data)
 				close(pipe_fds[1]);
 			}
 			execute_command(pipeline->commands[i], data);
+			// free
+			//free_pipeline(pipeline);
 			exit(EXIT_SUCCESS);
 		}
-		else // Parent
+
+// handle parent process
+void handle_parent_process(int *in_fd, int pipe_fds[2], int i, t_pipeline *pipeline)
+{
+    if (*in_fd != 0)
+        close(*in_fd);
+    if (i < pipeline->command_count - 1)
 		{
-			wait(NULL); // Attend le processus enfant pour s'assurer que la sortie est prête pour la commande suivante
-			if (in_fd != 0)
-				close(in_fd);
-			if (i < pipeline->command_count - 1)
-			{
-				in_fd = pipe_fds[0];
-				close(pipe_fds[1]);
-			}
-		}
+        *in_fd = pipe_fds[0];
+        close(pipe_fds[1]);
+    }
+}
+
+void	execute_pipeline(t_pipeline *pipeline, t_data *data)
+{
+	int		pipe_fds[2];
+	int		in_fd;
+	pid_t	pid;
+	int		i;
+
+	in_fd = 0;
+	i = 0;
+	init_process_signals();
+	if (ft_strcmp(pipeline->commands[0]->args[0], "cd") == 0 || ft_strcmp(pipeline->commands[0]->args[0], "unset") == 0 || ft_strcmp(pipeline->commands[0]->args[0], "export") == 0)
+	{
+		check_if_builtins_cd_or_unset(pipeline->commands[0]->args[0], pipeline->commands[0]->args, data);
+		return ;
 	}
+	while (i < pipeline->command_count)
+	{
+		if (!is_last_command(i, pipeline->command_count))
+			create_pipe(pipe_fds);
+		pid = fork();
+		check_pid_error(pid);
+		if (is_child_process(pid))
+			handle_child_process(in_fd, pipe_fds, i, pipeline, data);
+		else
+			handle_parent_process(&in_fd, pipe_fds, i, pipeline);
+		i++;
+	}
+	wait_for_children_to_finish(pipeline->command_count);
 }
