@@ -1,17 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_syntax_analyser.c                             :+:      :+:    :+:   */
+/*   syntax_analyser.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 17:42:55 by rogalio           #+#    #+#             */
-/*   Updated: 2024/03/25 14:12:43 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/05 13:08:31 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
-#include "token.h"
 
 t_state	transition_q0(t_token *token)
 {
@@ -49,8 +48,7 @@ t_state	transition_q3(t_token *token)
 	return (STATE_ERROR);
 }
 
-
-int	syntax_analyzer(t_token_list *token_list)
+int	syntax_analyzer(t_token_list *token_list, t_error *error)
 {
 	t_state	state;
 	t_token	*token;
@@ -69,8 +67,10 @@ int	syntax_analyzer(t_token_list *token_list)
 		else if (state == STATE_Q3)
 			state = transition_q3(token);
 		if (state == STATE_ERROR)
-			return (0);
+			return (*error = SYNTAX, 0);
 		token_list = token_list->next;
 	}
-	return (state == STATE_Q1);
+	if (state != STATE_Q1)
+		return (*error = SYNTAX, 0);
+	return (1);
 }

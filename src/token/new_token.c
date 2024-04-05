@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 17:45:14 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/04 17:27:55 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/05 12:39:09 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_token	*new_token(t_token_type type, char *value)
 	return (token);
 }
 
-t_token	*new_token_word(const char *str)
+t_token	*new_token_word(const char *str, t_error *error)
 {
 	char	*word;
 	int		i;
@@ -34,7 +34,7 @@ t_token	*new_token_word(const char *str)
 	i = 0;
 	word = NULL;
 	if (str[i] && (str[i] == '\'' || str[i] == '\"'))
-		word = handle_qtes(str);
+		word = handle_qtes(str, error);
 	else
 		word = handle_rest(str);
 	return (new_token(TOKEN_WORD, word));

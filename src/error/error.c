@@ -1,34 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/10 12:56:37 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/05 12:50:40 by cabdli           ###   ########.fr       */
+/*   Created: 2024/04/05 12:47:01 by cabdli            #+#    #+#             */
+/*   Updated: 2024/04/05 13:03:30 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "error.h"
 
-# include <stdio.h>
-# include <stdlib.h>
-# include <unistd.h>
-# include <sys/wait.h>
-# include "libft.h"
-# include "token.h"
-# include "pipeline.h"
-# include "builtins.h"
-
-typedef struct s_minishell
+void	print_err_msg(t_error *error)
 {
-	t_data			*data;
-	t_token_list	*token_list;
-	t_pipeline		*pipeline;
-	int				exit_status;
-	t_error			error;
-}t_minishell;
-
-#endif
+	if (*error == QUOTES)
+		ft_putstr_fd("Error: unclosed quotes\n", STDERR_FILENO);
+	else if (*error == SYNTAX)
+		ft_putstr_fd("minishell: syntax error near unexpected token\n", \
+		STDERR_FILENO);
+	else
+		ft_putstr_fd("Error: malloc failure\n", STDERR_FILENO);
+}

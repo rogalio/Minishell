@@ -1,34 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   error.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/10 12:56:37 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/05 12:50:40 by cabdli           ###   ########.fr       */
+/*   Created: 2024/04/05 12:45:16 by cabdli            #+#    #+#             */
+/*   Updated: 2024/04/05 13:01:53 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#ifndef ERROR_H
+# define ERROR_H
 
-# include <stdio.h>
-# include <stdlib.h>
 # include <unistd.h>
-# include <sys/wait.h>
 # include "libft.h"
-# include "token.h"
-# include "pipeline.h"
-# include "builtins.h"
 
-typedef struct s_minishell
+typedef enum s_error
 {
-	t_data			*data;
-	t_token_list	*token_list;
-	t_pipeline		*pipeline;
-	int				exit_status;
-	t_error			error;
-}t_minishell;
+	MALLOC,
+	QUOTES,
+	SYNTAX,
+}t_error;
+
+void	print_err_msg(t_error *error);
 
 #endif

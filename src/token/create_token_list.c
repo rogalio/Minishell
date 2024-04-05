@@ -6,17 +6,17 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 12:19:30 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/04 18:06:02 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/05 12:38:43 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "token.h"
 
-static t_token	*find_next_token(const char **str)
+static t_token	*find_next_token(const char **str, t_error *error)
 {
 	t_token	*token;
 
-	token = parse_token(*str);
+	token = parse_token(*str, error);
 	if (!token)
 		return (NULL);
 	*str += ft_strlen(token->value);
@@ -45,7 +45,7 @@ static int	add_token_to_list(t_token_list **list, t_token *token)
 	return (1);
 }
 
-t_token_list	*create_token_list(const char *str)
+t_token_list	*create_token_list(const char *str, t_error *error)
 {
 	t_token_list	*list;
 	t_token			*token;
@@ -55,7 +55,7 @@ t_token_list	*create_token_list(const char *str)
 	{
 		if (skip_whitespace(&str) == 0)
 			break ;
-		token = find_next_token(&str);
+		token = find_next_token(&str, error);
 		if (!token)
 			return (free_token_list(list), NULL);
 		if (!add_token_to_list(&list, token))

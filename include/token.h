@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 16:43:08 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/04 18:01:29 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/05 12:49:04 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <stdio.h>
 # include <unistd.h>
 # include "libft.h"
+# include "error.h"
 
 typedef enum e_token_type
 {
@@ -44,18 +45,18 @@ typedef struct s_token_list
 }t_token_list;
 
 /* create_token_list.c */
-t_token_list	*create_token_list(const char *str);
+t_token_list	*create_token_list(const char *str, t_error *error);
 
 /* parse_token.c */
-t_token			*parse_token(const char *str);
+t_token			*parse_token(const char *str, t_error *error);
 
 /* new_token.c */
 t_token			*new_token(t_token_type type, char *value);
-t_token			*new_token_word(const char *str);
+t_token			*new_token_word(const char *str, t_error *error);
 t_token_list	*new_token_node(t_token *token);
 
 /* new_token_utils.c */
-char			*handle_qtes(const char *str);
+char			*handle_qtes(const char *str, t_error *error);
 char			*handle_rest(const char *str);
 
 /* print_token.c*/

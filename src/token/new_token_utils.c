@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 19:16:58 by cabdli            #+#    #+#             */
-/*   Updated: 2024/04/04 17:41:39 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/05 12:39:31 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static int	ft_isquote(char c, char quote)
 	return (c == quote);
 }
 
-char	*handle_qtes(const char *str)
+char	*handle_qtes(const char *str, t_error *error)
 {
 	int		i;
 	char	*word;
@@ -29,7 +29,7 @@ char	*handle_qtes(const char *str)
 	while (str[i] && !ft_isquote(str[i], quote))
 		i++;
 	if (!str[i])
-		return (ft_putstr_fd("Error: unclosed quotes\n", STDERR_FILENO), NULL);
+		return (*error = QUOTES, NULL);
 	word = ft_strndup(str, ++i);
 	return (word);
 }

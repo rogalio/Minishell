@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 19:40:36 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/04 17:39:03 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/05 12:59:10 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,6 @@
 
 # include "libft.h"
 # include "token.h"
-# include "builtins.h"
-
-# define SYNT_ERR	"minishell: syntax error near unexpected token `%s'\n"
-# define STATE_SIZE		6
 
 /*
 	STATE_Q0 = start
@@ -36,6 +32,7 @@ typedef enum e_state
 	STATE_ERROR,
 }t_state;
 
-int				syntax_analyzer(t_token_list *token_list);
+/* syntax_analyser.c */
+int	syntax_analyzer(t_token_list *token_list, t_error *error);
 
 #endif
