@@ -1,28 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   rdp_commands.c                                     :+:      :+:    :+:   */
+/*   expand_quotes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/06 12:47:30 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/04 13:49:25 by cabdli           ###   ########.fr       */
+/*   Created: 2024/04/05 14:50:50 by cabdli            #+#    #+#             */
+/*   Updated: 2024/04/05 14:51:13 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipeline.h"
+#include "exp_quotes.h"
 
-t_command	*create_cmd(void)
+int	expand_quotes(char *word)
 {
-	t_command	*cmd;
+	int	i;
 
-	cmd = ft_calloc(1, sizeof(t_command));
-	if (!cmd)
-		return (NULL);
-	cmd->args = NULL;
-	cmd->args_count = 0;
-	cmd->redirect_in = NULL;
-	cmd->redirect_out = NULL;
-	cmd->heredoc = NULL;
-	return (cmd);
+	i = -1;
+	while (word[++i])
+	{
+		if (word[i] == '\'')
+			return (1);
+		if (word[i] == '\"')
+			return (1);
+		if (word[i] == '$')
+			return (1);
+	}
+	return (0);
 }

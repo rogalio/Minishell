@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 18:03:55 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/04 13:48:02 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/05 16:36:51 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,9 @@
 # include <stdio.h>
 # include "libft.h"
 # include "token.h"
+# include "error.h"
 # include "builtins.h"
+# include "exp_quotes.h"
 
 typedef struct s_redirection
 {
@@ -46,40 +48,33 @@ typedef struct s_pipeline
 	int			command_count;
 }t_pipeline;
 
-t_pipeline	*parse_rdp(t_token_list *token_list, t_env *env);
+/* init_pipeline.c */
+t_pipeline	*create_pipeline(t_token_list *token_list, t_env *env);
+
+/* create_commands.c */
+int			create_commands(t_pipeline *pipeline, t_token_list *token_list);
+
+/* create_cmds_args.c */
+int			create_cmds_args(t_pipeline *pipeline, t_token_list *token_list);
+
+/* fill_pipeline.c*/
+int			fill_pipeline(t_token_list *token_list, t_pipeline \
+*pipeline, t_env *env);
+
+/* init_redirection.c */
+int			init_redirection(t_redirection **redirect, const char *type, \
+const char *file);
+int			init_heredoc(t_token_list **token_list, t_heredoc **heredoc, \
+char *type);
+
+/* print_pipeline.c */
 void		*print_pipeline(t_pipeline *pipeline);
 
-t_pipeline	*create_pipeline(t_token_list *token_list);
-void		add_command_to_pipeline(t_pipeline *pipeline, t_command *cmd);
-
 /* rdp_free.c */
-void free_redirection(t_redirection *redirection);
-void free_heredoc(t_heredoc *heredoc);
-void free_command(t_command *command);
-void free_commands(t_command **commands, int command_count);
-void free_pipeline(t_pipeline *pipeline);
-
-/* rdp_commands.c */
-t_command	*create_cmd(void);
-
-int			count_args(t_command *cmd);
-void		add_argument_to_command(t_command *command, char *arg);
-
-/* rdp_token_handlers.c */
-void		handle_redirection(t_token_list **token_list, t_command *command);
-void		handle_word(int *index, char *word, t_pipeline *pipeline, \
-t_env *env);
-void		handle_pipe(t_pipeline *pipeline, t_command **current_command);
-
-/* rdp_pipeline_utils.c */
-void		get_args_count(t_pipeline *pipeline, t_token_list *token_list);
-int			get_pipe_count(t_token_list *token_list);
-
-t_heredoc	*create_heredoc(int nb_heredocs);
-int			get_nb_heredocs(t_token_list *tmp_list);
-
-t_pipeline	*create_pipeline2(t_token_list *token_list, t_env *env);
-t_pipeline	*init_pipeline(void);
-
+void		free_redirection(t_redirection *redirection);
+void		free_heredoc(t_heredoc *heredoc);
+void		free_command(t_command *command);
+void		free_commands(t_command **commands, int command_count);
+void		free_pipeline(t_pipeline *pipeline);
 
 #endif

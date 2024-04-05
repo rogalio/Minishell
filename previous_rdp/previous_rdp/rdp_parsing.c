@@ -6,15 +6,15 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 17:52:57 by rogalio           #+#    #+#             */
-/*   Updated: 2024/03/21 14:26:25 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/05 13:29:20 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdio.h>
 #include "token.h"
 #include "parser.h"
 #include "rdp.h"
 #include "builtins.h"
-#include <stdio.h>
 
 void	handle_token(t_token_list **token_list, t_pipeline *pipeline, \
 int *index, t_env *env)

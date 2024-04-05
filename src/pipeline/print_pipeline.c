@@ -1,18 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   rdp_print.c                                        :+:      :+:    :+:   */
+/*   print_pipeline.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 20:04:04 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/04 13:50:12 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/05 17:02:47 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipeline.h"
-#include "token.h"
-
 
 void	*print_redirection_in(t_redirection *redirection)
 {
@@ -48,17 +46,6 @@ void	*print_heredoc(t_heredoc *heredoc)
 		printf("Heredoc delimiter %d: %s\n", i + 1, heredoc->delimiter[i]);
 	return (NULL);
 }
-/*
-int	ft_strslen(char **strs)
-{
-	int	i;
-
-	i = 0;
-	while (strs[i])
-		i++;
-	return (i);
-}
-*/
 
 void	*print_command(t_command *cmd)
 {
@@ -84,11 +71,12 @@ void	*print_pipeline(t_pipeline *pipeline)
 	i = -1;
 	if (!pipeline)
 		return (printf("Empty pipeline\n"), NULL);
-	printf("Pipeline with %d command(s):\n\n", pipeline->command_count);
+	printf("Pipeline with %d command(s):\n", pipeline->command_count);
 	while (++i < pipeline->command_count)
 	{
 		printf("Command %d:\n", i + 1);
 		print_command(pipeline->commands[i]);
+		printf("\n");
 	}
 	return (NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 13:06:53 by cabdli            #+#    #+#             */
-/*   Updated: 2024/04/03 13:23:57 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/05 14:51:50 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,5 +56,8 @@ void		handle_expand(char *word, t_expansion *exp, int *ije);
 
 /* handle_quotes.c */
 void		handle_quotes(char *word, t_expansion *exp, int *ije);
+
+/* expand_quotes.c */
+int			expand_quotes(char *word);
 
 #endif

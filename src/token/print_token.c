@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 19:09:42 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/04 17:47:54 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/05 16:28:00 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	print_token_list(t_token_list *token_list)
 	{
 		printf("Token %d\n", i++);
 		print_token(tmp->token);
+		printf("\n");
 		tmp = tmp->next;
 	}
 }
