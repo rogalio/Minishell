@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 16:56:15 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/03 13:22:25 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/06 13:28:49 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static int	get_nb_expand(char *word)
 	return (expand);
 }
 
-t_expansion	*create_expansion(char *word, t_env *env)
+static t_expansion	*create_expansion(char *word, t_env *env)
 {
 	t_expansion	*exp;
 

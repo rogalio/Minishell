@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 18:03:55 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/05 16:36:51 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/06 13:34:27 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,8 @@ typedef struct s_pipeline
 }t_pipeline;
 
 /* init_pipeline.c */
-t_pipeline	*create_pipeline(t_token_list *token_list, t_env *env);
+t_pipeline	*create_pipeline(t_token_list *token_list, t_env *env, \
+t_error *error);
 
 /* create_commands.c */
 int			create_commands(t_pipeline *pipeline, t_token_list *token_list);
