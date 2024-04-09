@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 17:52:57 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/05 15:01:20 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/09 13:53:33 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ static t_pipeline	*init_pipeline(void)
 	return (pipeline);
 }
 
-t_pipeline	*create_pipeline(t_token_list *token_list, t_env *env)
+t_pipeline	*create_pipeline(t_token_list *token_list, t_env *env, \
+t_error *error)
 {
 	t_pipeline	*pipeline;
 
@@ -30,10 +31,10 @@ t_pipeline	*create_pipeline(t_token_list *token_list, t_env *env)
 	if (!pipeline)
 		return (NULL);
 	if (!create_commands(pipeline, token_list))
-		return (free_pipeline(pipeline), NULL);
+		return (*error = MALLOC, free_pipeline(pipeline), NULL);
 	if (!create_cmds_args(pipeline, token_list))
-		return (free_pipeline(pipeline), NULL);
+		return (*error = MALLOC, free_pipeline(pipeline), NULL);
 	if (!fill_pipeline(token_list, pipeline, env))
-		return (free_pipeline(pipeline), NULL);
+		return (*error = MALLOC, free_pipeline(pipeline), NULL);
 	return (pipeline);
 }

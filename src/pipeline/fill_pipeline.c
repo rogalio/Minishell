@@ -6,21 +6,21 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 14:39:39 by cabdli            #+#    #+#             */
-/*   Updated: 2024/04/06 13:31:55 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/09 14:42:15 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipeline.h"
 
-static int	handle_word(int *cmd_arg, char *word, t_pipeline *pipeline, \
+static int	handle_word(int *cmd_arg, char **word, t_pipeline *pipeline, \
 t_env *env)
 {
-	if (expand_quotes(word))
+	if (expand_quotes(*word))
 	{
-		if (!handle_expand_quotes(&word, env))
+		if (!handle_expand_quotes(word, env))
 			return (0);
 	}
-	pipeline->commands[cmd_arg[0]]->args[cmd_arg[1]] = ft_strdup(word);
+	pipeline->commands[cmd_arg[0]]->args[cmd_arg[1]] = ft_strdup(*word);
 	if (!(pipeline->commands[cmd_arg[0]]->args[cmd_arg[1]]))
 		return (0);
 	cmd_arg[1]++;
@@ -64,7 +64,7 @@ int *cmd_arg, t_env *env)
 {
 	if ((*token_list)->token->type == TOKEN_WORD)
 	{
-		if (!handle_word(cmd_arg, (*token_list)->token->value, pipeline, env))
+		if (!handle_word(cmd_arg, &((*token_list)->token->value), pipeline, env))
 			return (0);
 	}
 	else if ((*token_list)->token->type == TOKEN_REDIRECT)

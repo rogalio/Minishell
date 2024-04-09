@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 19:02:05 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/06 12:58:22 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/09 14:11:34 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,16 +24,17 @@ static int	parse_input(t_minishell *minishell, char *input)
 	minishell->token_list = create_token_list(input, &(minishell->error));
 	if (!(minishell->token_list))
 		return (print_err_msg(&(minishell->error)), 0);
+	print_token_list(minishell->token_list);
 	if (!syntax_analyzer(minishell->token_list, &(minishell->error)))
 	{
 		print_err_msg(&(minishell->error));
 		return (free_token_list(minishell->token_list), 0);
 	}
 	minishell->pipeline = create_pipeline(minishell->token_list, \
-	minishell->data->env);
+	minishell->data->env, &(minishell->error));
 	if (!minishell->pipeline)
 	{
-		ft_putstr_fd("Error: malloc failure\n", STDERR_FILENO);
+		print_err_msg(&(minishell->error));
 		return (free_token_list(minishell->token_list), 0);
 	}
 	print_pipeline(minishell->pipeline);
@@ -46,6 +47,7 @@ void	run_shell(t_minishell *minishell)
 	char			*input;
 
 	input = NULL;
+	(void)minishell;
 	while (1)
 	{
 		init_signals();
