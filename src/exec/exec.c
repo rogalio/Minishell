@@ -6,7 +6,7 @@
 /*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 15:03:34 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/09 16:23:47 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/04/09 17:08:57 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void	free_tab(char **tab)
 	}
 	free(tab);
 }
-
+/*
 char	*find_path(char *cmd)
 {
 	char	**paths;
@@ -105,6 +105,79 @@ char	*find_path(char *cmd)
 	}
 	free_tab(paths);
 	return (NULL);
+}
+
+*/
+
+char	*ft_strjoin_three(const char *s1, const char *s2, const char *s3)
+{
+    char	*new_str;
+    size_t	total_length;
+    size_t	s1_len;
+    size_t	s2_len;
+
+    if (!s1 || !s2 || !s3)
+        return (NULL);
+    s1_len = ft_strlen(s1);
+    s2_len = ft_strlen(s2);
+    total_length = s1_len + ft_strlen(s2) + ft_strlen(s3);
+    new_str = (char *)malloc(sizeof(char) * (total_length + 1));
+    if (!new_str)
+        return (NULL);
+    ft_strlcpy(new_str, s1, s1_len + 1);
+    ft_strlcat(new_str, s2, s1_len + s2_len + 1);
+    ft_strlcat(new_str, s3, total_length + 1);
+    return (new_str);
+}
+
+static char *check_directories(char **dirs, const char *cmd) {
+    char	*path;
+    int		i;
+
+    i = 0;
+    while (dirs[i]) {
+        path = ft_strjoin_three(dirs[i], "/", cmd);
+        if (access(path, X_OK) == 0)
+            return (path);
+        free(path);
+        i++;
+    }
+    return (NULL);
+}
+
+static char **get_search_paths(void) {
+    char	*path_env;
+    char	**paths;
+
+    path_env = getenv("PATH");
+    if (!path_env)
+        return (NULL);
+    paths = ft_split2(path_env, ':'); // Assurez-vous que ft_split2 gère correctement la mémoire et les erreurs
+    return (paths);
+}
+
+static char *search_in_current(const char *cmd) {
+    if (access(cmd, X_OK) == 0)
+        return (ft_strdup(cmd));
+    return (NULL);
+}
+
+char *find_path(const char *cmd) {
+    char	**paths;
+    char	*found_path;
+
+    if (!cmd || cmd[0] == '\0')
+        return (NULL);
+    // Recherche directe pour les chemins absolus/relatifs
+    if (cmd[0] == '/' || strncmp(cmd, "./", 2) == 0 || strncmp(cmd, "../", 3) == 0)
+        return (search_in_current(cmd));
+    // Recherche dans PATH
+    paths = get_search_paths();
+    if (!paths)
+        return (NULL);
+    found_path = check_directories(paths, cmd);
+    free_tab(paths); // Assurez-vous que free_tab gère correctement la mémoire
+    return (found_path);
 }
 
 char	**env_to_char_array(t_env *env)
@@ -244,7 +317,6 @@ void	execute_command(t_command *command, t_data *data, t_minishell *minishell)
 	if (!check_if_builtins(command->args[0], command->args, data))
 	{
 		path = find_path(command->args[0]);
-		printf("path = %s\n", path);
 		if (path)
 		{
 			envp = env_to_char_array(data->env);
