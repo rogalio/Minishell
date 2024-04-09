@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 13:02:19 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/04 18:11:58 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/09 17:12:01 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,4 @@ else
 dans le dossier correspondant ?
 
 -> pas de check_regex ?
-
--> new_token : soucis unclosed quotes + malloc error
 */
