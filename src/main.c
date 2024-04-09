@@ -6,7 +6,7 @@
 /*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 13:02:19 by rogalio           #+#    #+#             */
-/*   Updated: 2024/03/27 17:39:04 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/04/09 15:21:05 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,14 @@ static t_minishell	*init_minishell(char **envp)
 	return (minishell);
 }
 
+/*
 
 void	free_env2(t_env *env)
 {
 	t_env	*tmp;
 
+	if (!env)
+		return ;
 	while (env)
 	{
 		tmp = env;
@@ -64,6 +67,8 @@ void	free_env2(t_env *env)
 
 void free_data(t_data *data)
 {
+	if (!data)
+		return ;
 	free_env2(data->env);
 	free(data->args);
 	free(data);
@@ -74,6 +79,55 @@ void free_minishell(t_minishell *minishell)
 	free_data(minishell->data);
 	free(minishell);
 }
+*/
+
+void free_env2(t_env **env)
+{
+    t_env *current;
+    t_env *next;
+
+    if (!env || !*env)
+        return;
+
+    current = *env;
+    while (current != NULL)
+    {
+        next = current->next;
+        free(current->name);
+        free(current->value);
+        free(current);
+        current = next;
+    }
+    *env = NULL;
+}
+
+void free_data(t_data **data)
+{
+    if (!data || !*data)
+        return;
+
+    free_env2(&(*data)->env);
+    free(*data);
+    *data = NULL;
+}
+
+void free_minishell(t_minishell **minishell)
+{
+    if (!minishell || !*minishell)
+        return;
+
+    free_data(&(*minishell)->data);
+    free(*minishell);
+    *minishell = NULL;
+}
+
+
+
+
+
+
+
+
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -87,6 +141,6 @@ int	main(int argc, char **argv, char **envp)
 	if (!minishell)
 		return (/*free_all(),*/1);
 	run_shell(minishell);
-	free_minishell(minishell);
+	free_minishell(&minishell);
 	return (0);
 }

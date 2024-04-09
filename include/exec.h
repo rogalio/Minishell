@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 14:59:58 by rogalio           #+#    #+#             */
-/*   Updated: 2024/03/14 13:06:09 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/04 17:09:20 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@
 # include "parser.h"
 # include "utils.h"
 # include "rdp.h"
+# include "minishell.h"
 
-void	execute_pipeline(t_pipeline *pipeline, t_data *data);
+void	execute_pipeline(t_pipeline *pipeline, t_data *data, t_minishell *minishell);
 
 #endif

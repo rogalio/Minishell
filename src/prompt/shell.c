@@ -6,7 +6,7 @@
 /*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 19:02:05 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/04 15:56:36 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/04/08 20:18:11 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ void	run_shell(t_minishell *minishell)
 			free_token_list(&minishell->token_list);
 			return;
 		}
-		execute_pipeline(minishell->pipeline, minishell->data);
+		execute_pipeline(minishell->pipeline, minishell->data, minishell);
+		print_pipeline(minishell->pipeline);
 		free_token_list(&minishell->token_list);
 		free_pipeline(minishell->pipeline);
 		free(input);

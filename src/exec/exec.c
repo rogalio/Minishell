@@ -6,7 +6,7 @@
 /*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 15:03:34 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/04 16:30:51 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/04/09 16:23:47 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -230,10 +230,13 @@ void free_token_test(t_token *token)
 	free(token);
 }
 
-void	execute_command(t_command *command, t_data *data)
+
+void	execute_command(t_command *command, t_data *data, t_minishell *minishell)
 {
 	char	**envp;
 	char	*path;
+	(void)minishell;
+
 
 	// Gestion des redirections spécifiques à la commande
 	redirect_if_needed(command);
@@ -241,6 +244,7 @@ void	execute_command(t_command *command, t_data *data)
 	if (!check_if_builtins(command->args[0], command->args, data))
 	{
 		path = find_path(command->args[0]);
+		printf("path = %s\n", path);
 		if (path)
 		{
 			envp = env_to_char_array(data->env);
@@ -254,6 +258,10 @@ void	execute_command(t_command *command, t_data *data)
 			exit(EXIT_FAILURE);
 		}
 	}
+	// add free
+	free_token_list(&minishell->token_list);
+	free_pipeline(minishell->pipeline);
+	free_minishell(&minishell);
 	exit(EXIT_SUCCESS);
 }
 
@@ -304,7 +312,7 @@ int	create_pipe(int pipe_fds[2])
 }
 
 // handle child process
-void handle_child_process(int in_fd, int pipe_fds[2], int i, t_pipeline *pipeline, t_data *data)
+void handle_child_process(int in_fd, int pipe_fds[2], int i, t_pipeline *pipeline, t_data *data, t_minishell *minishell)
 {
 			if (in_fd != 0)
 			{
@@ -317,15 +325,14 @@ void handle_child_process(int in_fd, int pipe_fds[2], int i, t_pipeline *pipelin
 				dup2(pipe_fds[1], STDOUT_FILENO);
 				close(pipe_fds[1]);
 			}
-			execute_command(pipeline->commands[i], data);
-			// free
-			//free_pipeline(pipeline);
+			execute_command(pipeline->commands[i], data, minishell);
 			exit(EXIT_SUCCESS);
 		}
 
 // handle parent process
-void handle_parent_process(int *in_fd, int pipe_fds[2], int i, t_pipeline *pipeline)
+void handle_parent_process(int *in_fd, int pipe_fds[2], int i, t_pipeline *pipeline, t_minishell *minishell)
 {
+		(void)minishell;
     if (*in_fd != 0)
         close(*in_fd);
     if (i < pipeline->command_count - 1)
@@ -335,7 +342,7 @@ void handle_parent_process(int *in_fd, int pipe_fds[2], int i, t_pipeline *pipel
     }
 }
 
-void	execute_pipeline(t_pipeline *pipeline, t_data *data)
+void	execute_pipeline(t_pipeline *pipeline, t_data *data, t_minishell *minishell)
 {
 	int		pipe_fds[2];
 	int		in_fd;
@@ -345,11 +352,13 @@ void	execute_pipeline(t_pipeline *pipeline, t_data *data)
 	in_fd = 0;
 	i = 0;
 	init_process_signals();
+
 	if (ft_strcmp(pipeline->commands[0]->args[0], "cd") == 0 || ft_strcmp(pipeline->commands[0]->args[0], "unset") == 0 || ft_strcmp(pipeline->commands[0]->args[0], "export") == 0)
 	{
 		check_if_builtins_cd_or_unset(pipeline->commands[0]->args[0], pipeline->commands[0]->args, data);
 		return ;
 	}
+	printf("command count666 %d\n", pipeline->command_count);
 	while (i < pipeline->command_count)
 	{
 		if (!is_last_command(i, pipeline->command_count))
@@ -357,9 +366,9 @@ void	execute_pipeline(t_pipeline *pipeline, t_data *data)
 		pid = fork();
 		check_pid_error(pid);
 		if (is_child_process(pid))
-			handle_child_process(in_fd, pipe_fds, i, pipeline, data);
+			handle_child_process(in_fd, pipe_fds, i, pipeline, data, minishell);
 		else
-			handle_parent_process(&in_fd, pipe_fds, i, pipeline);
+			handle_parent_process(&in_fd, pipe_fds, i, pipeline, minishell);
 		i++;
 	}
 	wait_for_children_to_finish(pipeline->command_count);

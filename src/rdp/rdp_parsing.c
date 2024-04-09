@@ -6,7 +6,7 @@
 /*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 17:52:57 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/02 16:01:09 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/04/08 20:24:06 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,6 @@ int create_commands(t_pipeline *pipeline, t_token_list *token_list)
         return (0);
     while (nb_cmd < pipeline->command_count)
     {
-			printf("nb_cmd: %d\n", nb_cmd +1);
         pipeline->commands[nb_cmd] = init_command();
         if (!pipeline->commands[nb_cmd])
         {
