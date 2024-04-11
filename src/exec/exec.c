@@ -6,7 +6,7 @@
 /*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 15:03:34 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/11 16:25:01 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/04/11 18:28:47 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,59 +207,33 @@ char	**env_to_char_array(t_env *env)
 	return (envp);
 }
 
-bool	check_if_builtins_cd_or_unset(char *cmd, char **args, t_data *data)
+bool    execute_builtin(char *cmd, char **args, t_data *data, t_minishell *minishell)
 {
-	t_builtins	builtins[] =
-	{
-		{"echo", echo},
-		{"cd", cd},
-		{"pwd", pwd},
-		{"unset", unset},
-		{"exit", exit_shell},
-		{NULL, NULL}
-	};
-	int			i;
+    t_builtins    builtins[] = {
+        {"echo", echo},
+        {"cd", cd},
+        {"pwd", pwd},
+        {"unset", unset},
+        {"exit", exit_shell},
+        {NULL, NULL}
+    };
+    int            i;
 
-	i = 0;
-	data->args = args;
-	while (builtins[i].name)
-	{
-		if (strcmp(builtins[i].name, cmd) == 0)
-		{
-			builtins[i].func(data, NULL);
-			return (true);
-		}
-		i++;
-	}
-	return (false);
+    i = 0;
+    data->args = args;
+    while (builtins[i].name)
+    {
+        if (strcmp(builtins[i].name, cmd) == 0)
+        {
+            builtins[i].func(data, minishell);
+            return (true);
+        }
+        i++;
+    }
+    return (false);
 }
 
-bool	execute_builtins(char *cmd, char **args, t_data *data, t_minishell *minishell)
-{
-	(void)minishell;
-	t_builtins	builtins[] = {
-		{"echo", echo},
-		{"cd", cd},
-		{"pwd", pwd},
-		{"unset", unset},
-		{"exit", exit_shell},
-		{NULL, NULL}
-	};
-	int			i;
 
-	i = 0;
-	data->args = args;
-	while (builtins[i].name)
-	{
-		if (strcmp(builtins[i].name, cmd) == 0)
-		{
-			builtins[i].func(data, minishell);
-			return (true);
-		}
-		i++;
-	}
-	return (false);
-}
 
 void	redirect_if_needed(t_command *command)
 {
@@ -305,37 +279,37 @@ void free_token_test(t_token *token)
 }
 
 
-void	execute_command(t_command *command, t_data *data, t_minishell *minishell)
+void free_resources2(t_minishell *minishell)
 {
-	char	**envp;
+    // Libérer la liste des tokens, le pipeline, et d'autres allocations mémoire.
+    free_token_list(&minishell->token_list);
+    free_pipeline(minishell->pipeline);
+    free_minishell(&minishell);
+}
+
+void	execute_cmd(t_command *command, t_data *data, t_minishell *minishell)
+{
 	char	*path;
-	(void)minishell;
+	char	**envp;
 
-
-	// Gestion des redirections spécifiques à la commande
-	redirect_if_needed(command);
-	// Exécution de la commande externe ou intégrée
-	if (!execute_builtins(command->args[0], command->args, data, minishell))
+	if (execute_builtin(command->args[0], command->args, data, minishell))
 	{
-		path = find_path(command->args[0]);
-		if (path)
-		{
-			envp = env_to_char_array(data->env);
-			execve(path, command->args, envp);
-			perror("execve");
-			exit(EXIT_FAILURE);
-		}
-		else
-		{
-			fprintf(stderr, "minishell: %s: command not found\n", command->args[0]);
-			exit(EXIT_FAILURE);
-		}
+		free_resources2(minishell);
+		exit(EXIT_SUCCESS);
 	}
-	// add free
-	free_token_list(&minishell->token_list);
-	free_pipeline(minishell->pipeline);
-	free_minishell(&minishell);
-	exit(EXIT_SUCCESS);
+	path = find_path(command->args[0]);
+	if (!path)
+	{
+		ft_putstr_fd("minishell: ", STDERR_FILENO);
+		ft_putstr_fd(command->args[0], STDERR_FILENO);
+		ft_putstr_fd(": command not found\n", STDERR_FILENO);
+		exit(EXIT_FAILURE);
+	}
+	envp = env_to_char_array(data->env);
+	redirect_if_needed(command);
+	execve(path, command->args, envp);
+	perror("execve");
+	exit(EXIT_FAILURE);
 }
 
 
@@ -398,7 +372,7 @@ void handle_child_process(int in_fd, int pipe_fds[2], int i, t_pipeline *pipelin
 				dup2(pipe_fds[1], STDOUT_FILENO);
 				close(pipe_fds[1]);
 			}
-			execute_command(pipeline->commands[i], data, minishell);
+			execute_cmd(pipeline->commands[i], data, minishell);
 			exit(EXIT_SUCCESS);
 		}
 
@@ -425,7 +399,13 @@ int get_cmd_count(t_pipeline *pipeline)
 	return (i);
 }
 
-void	execute_pipeline(t_pipeline *pipeline, t_data *data, t_minishell *minishell)
+
+
+
+
+
+// Gère l'exécution de plusieurs commandes avec un pipeline
+void	execute_commands(t_pipeline *pipeline, t_data *data, t_minishell *minishell)
 {
 	int		pipe_fds[2];
 	int		in_fd;
@@ -434,13 +414,6 @@ void	execute_pipeline(t_pipeline *pipeline, t_data *data, t_minishell *minishell
 
 	in_fd = 0;
 	i = 0;
-	init_process_signals();
-
-	if (get_cmd_count(pipeline) == 1)
-	{
-		execute_builtins(pipeline->commands[0]->args[0], pipeline->commands[0]->args, data, minishell);
-		return ;
-	}
 	while (i < pipeline->command_count)
 	{
 		if (!is_last_command(i, pipeline->command_count))
@@ -455,3 +428,29 @@ void	execute_pipeline(t_pipeline *pipeline, t_data *data, t_minishell *minishell
 	}
 	wait_for_children_to_finish(pipeline->command_count);
 }
+
+void execute_single_builtin(t_pipeline *pipeline, t_data *data, t_minishell *minishell)
+{
+	execute_builtin(pipeline->commands[0]->args[0], pipeline->commands[0]->args, data, minishell);
+}
+
+bool is_builtins(char *cmd)
+{
+	// Vérifiez si cmd est un builtin utilisant ft_strcmp
+	return (ft_strcmp(cmd, "echo") == 0 || ft_strcmp(cmd, "cd") == 0 || ft_strcmp(cmd, "pwd") == 0 || ft_strcmp(cmd, "export") == 0 || ft_strcmp(cmd, "unset") == 0 || ft_strcmp(cmd, "env") == 0 || ft_strcmp(cmd, "exit") == 0);
+}
+
+// Choix et exécution de la stratégie basée sur le nombre de commandes dans le pipeline
+void	execute_pipeline(t_pipeline *pipeline, t_data *data, t_minishell *minishell)
+{
+	void	(*execute)(t_pipeline *, t_data *, t_minishell *);
+	int		cmd_count;
+
+	cmd_count = pipeline->command_count;
+	if (cmd_count == 1 && is_builtins(pipeline->commands[0]->args[0]))
+		execute = execute_single_builtin;
+	else
+		execute = execute_commands;
+	execute(pipeline, data, minishell);
+}
+
