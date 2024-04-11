@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 15:50:14 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/04 17:59:03 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/11 19:28:53 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,26 @@ void	free_env(t_env *env)
 		free(tmp);
 	}
 	env = NULL;
+}
+
+void free_env2(t_env **env)
+{
+    t_env *current;
+    t_env *next;
+
+    if (!env || !*env)
+        return;
+
+    current = *env;
+    while (current != NULL)
+    {
+        next = current->next;
+        free(current->name);
+        free(current->value);
+        free(current);
+        current = next;
+    }
+    *env = NULL;
 }
 
 t_env	*create_env_node(char *env_entry)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_token.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 13:30:23 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/04 17:58:32 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/11 19:21:40 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,19 +21,19 @@ void	free_token(t_token *token)
 	free(token);
 }
 
-void	free_token_list(t_token_list *list)
+void	free_token_list(t_token_list **list)
 {
 	t_token_list	*temp;
 
 	temp = NULL;
 	if (!list)
 		return ;
-	while (list)
+	while (*list)
 	{
-		temp = list;
-		list = list->next;
+		temp = *list;
+		*list = (*list)->next;
 		free_token(temp->token);
 		free(temp);
 	}
-	list = NULL;
+	*list = NULL;
 }

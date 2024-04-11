@@ -6,7 +6,7 @@
 /*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 12:56:37 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/11 18:48:21 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/04/11 19:11:37 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,12 @@
 # include <sys/wait.h>
 # include "libft.h"
 
+# include "data.h"
 # include "token.h"
 # include "pipeline.h"
-# include "data.h"
+# include "error.h"
+
+
 
 typedef struct s_minishell
 {

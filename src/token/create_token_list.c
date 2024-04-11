@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_token_list.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 12:19:30 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/11 14:26:59 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/11 19:18:54 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,9 @@ t_token_list	*create_token_list(const char *str, t_error *error)
 			break ;
 		token = find_next_token(&str, error);
 		if (!token)
-			return (free_token_list(list), NULL);
+			return (free_token_list(&list), NULL);
 		if (!add_token_to_list(&list, token))
-			return (free_token_list(list), NULL);
+			return (free_token_list(&list), NULL);
 	}
 	return (list);
 }

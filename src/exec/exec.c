@@ -6,7 +6,7 @@
 /*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 15:03:34 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/11 18:28:47 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/04/11 19:43:38 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -303,6 +303,7 @@ void	execute_cmd(t_command *command, t_data *data, t_minishell *minishell)
 		ft_putstr_fd("minishell: ", STDERR_FILENO);
 		ft_putstr_fd(command->args[0], STDERR_FILENO);
 		ft_putstr_fd(": command not found\n", STDERR_FILENO);
+		free_resources2(minishell);
 		exit(EXIT_FAILURE);
 	}
 	envp = env_to_char_array(data->env);

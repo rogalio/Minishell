@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 18:03:55 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/11 15:11:49 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/11 19:09:26 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include "libft.h"
 # include "token.h"
 # include "error.h"
-# include "builtins.h"
+# include "data.h"
 # include "exp_quotes.h"
 
 typedef struct s_redirection

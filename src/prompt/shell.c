@@ -6,7 +6,7 @@
 /*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 19:02:05 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/11 18:58:42 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/04/11 19:34:05 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,14 @@ static int	parse_input(t_minishell *minishell, char *input)
 	if (!syntax_analyzer(minishell->token_list, &(minishell->error)))
 	{
 		print_err_msg(&(minishell->error));
-		return (free_token_list(minishell->token_list), 0);
+		return (free_token_list(&minishell->token_list), 0);
 	}
 	minishell->pipeline = create_pipeline(minishell->token_list, \
 	minishell->data->env, &(minishell->error));
 	if (!minishell->pipeline)
 	{
 		print_err_msg(&(minishell->error));
-		return (free_token_list(minishell->token_list), 0);
+		return (free_token_list(&minishell->token_list), 0);
 	}
 	return (1);
 }
@@ -55,8 +55,8 @@ void	run_shell(t_minishell *minishell)
 			break ;
 		if (parse_input(minishell, input))
 		{
-			print_pipeline(minishell->pipeline);
-			free_token_list(minishell->token_list);
+			execute_pipeline(minishell->pipeline, minishell->data, minishell);
+			free_token_list(&minishell->token_list);
 			free_pipeline(minishell->pipeline);
 		}
 		free(input);

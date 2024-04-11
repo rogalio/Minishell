@@ -12,6 +12,8 @@
     "utils.h": "c",
     "exec.h": "c",
     "pipeline.h": "c",
-    "minishell.h": "c"
+    "minishell.h": "c",
+    "data.h": "c",
+    "exp_quotes.h": "c"
   }
 }

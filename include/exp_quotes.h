@@ -3,17 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   exp_quotes.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 13:06:53 by cabdli            #+#    #+#             */
-/*   Updated: 2024/04/11 15:53:43 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/11 19:17:38 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXP_QUOTES_H
 # define EXP_QUOTES_H
 
-# include "builtins.h"
+# include "data.h"
+# include <string.h>
+# include <stdlib.h>
+# include <stdio.h>
+# include "libft.h"
+
 
 typedef struct s_expansion
 {

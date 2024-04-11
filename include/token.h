@@ -6,7 +6,7 @@
 /*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 16:43:08 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/11 18:49:04 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/04/11 19:14:30 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void			print_token_list(t_token_list *list);
 
 /* free_token.c */
 void			free_token(t_token *token);
-void			free_token_list(t_token_list *list);
+void			free_token_list(t_token_list **list);
 
 /* utils.c */
 int				skip_whitespace(const char **str);
