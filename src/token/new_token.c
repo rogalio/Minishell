@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 17:45:14 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/11 10:37:20 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/11 14:28:46 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,9 @@ t_token	*new_token(t_token_type type, char *value)
 t_token	*new_token_word(const char *str, t_error *error)
 {
 	char	*word;
-	int		i;
 
-	i = 0;
 	word = NULL;
-	if (str[i] && (str[i] == '\'' || str[i] == '\"'))
+	if (*str && (*str == '\'' || *str == '\"'))
 		word = handle_qtes(str, error);
 	else
 		word = handle_rest(str);

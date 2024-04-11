@@ -6,11 +6,33 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 15:55:15 by cabdli            #+#    #+#             */
-/*   Updated: 2024/04/03 13:36:58 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/11 15:15:51 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exp_quotes.h"
+
+void	print_exp2(t_expansion *exp)
+{
+	int	i;
+
+	i = 0;
+	printf("Var_value_tab:\n");
+	printf("Var_value = %p\n", exp->var_value);
+	if (exp->var_value)
+	{
+		if (exp->var_value[i])
+		{
+			while (exp->var_value[i])
+			{
+				printf("* var_value[%d] = .%s.\n", i, exp->var_value[i]);
+				i++;
+			}
+		}
+	}
+	printf("nw_len = .%d.\n", exp->nw_len);
+	printf("new_word = .%s.\n\n", exp->new_word);
+}
 
 void	print_exp(t_expansion *exp)
 {
@@ -33,21 +55,7 @@ void	print_exp(t_expansion *exp)
 			i = 0;
 		}
 	}
-	printf("Var_value_tab:\n");
-	printf("Var_value = %p\n", exp->var_value);
-	if (exp->var_value)
-	{
-		if (exp->var_value[i])
-		{
-			while (exp->var_value[i])
-			{
-				printf("* var_value[%d] = .%s.\n", i, exp->var_value[i]);
-				i++;
-			}
-		}
-	}
-	printf("nw_len = .%d.\n", exp->nw_len);
-	printf("new_word = .%s.\n\n", exp->new_word);
+	print_exp2(exp);
 }
 
 void	free_exp_tab(char **exp_tab)

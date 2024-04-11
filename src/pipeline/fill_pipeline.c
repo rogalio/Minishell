@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 14:39:39 by cabdli            #+#    #+#             */
-/*   Updated: 2024/04/09 14:42:15 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/11 15:06:31 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,8 @@ int *cmd_arg, t_env *env)
 {
 	if ((*token_list)->token->type == TOKEN_WORD)
 	{
-		if (!handle_word(cmd_arg, &((*token_list)->token->value), pipeline, env))
+		if (!handle_word(cmd_arg, &((*token_list)->token->value), \
+		pipeline, env))
 			return (0);
 	}
 	else if ((*token_list)->token->type == TOKEN_REDIRECT)

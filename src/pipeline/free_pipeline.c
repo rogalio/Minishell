@@ -6,65 +6,13 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 19:07:45 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/05 17:34:52 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/11 15:12:24 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipeline.h"
 
-void	free_redirection(t_redirection *redirection)
-{
-	if (!redirection)
-		return ;
-	if (redirection->type)
-		free(redirection->type);
-	if (redirection->file)
-		free(redirection->file);
-	free(redirection);
-	redirection = NULL;
-}
-
-void	free_heredoc(t_heredoc *heredoc)
-{
-	int	i;
-
-	i = -1;
-	if (!heredoc)
-		return ;
-	if (heredoc->type)
-		free(heredoc->type);
-	if (heredoc->delimiter)
-	{
-		while (++i < heredoc->nb_heredocs)
-		{
-			if (!heredoc->delimiter[i])
-				break ;
-			free(heredoc->delimiter[i]);
-		}
-		free(heredoc->delimiter);
-	}
-	free(heredoc);
-	heredoc = NULL;
-}
-
-void	free_args(char **args, int args_count)
-{
-	int	i;
-
-	i = -1;
-	if (!args)
-		return ;
-	while (++i < args_count)
-	{
-		if (!args[i])
-			break ;
-		free(args[i]);
-	}
-	free(args);
-	args = NULL;
-}
-
-void	free_command(t_command *command)
+void	free_cmd(t_command *command)
 {
 	if (!command)
 		return ;
@@ -85,7 +33,10 @@ void	free_commands(t_command **commands, int command_count)
 		return ;
 	while (i < command_count)
 	{
-		free_command(commands[i]);
+		if (!commands[i])
+			break ;
+		free_cmd(commands[i]);
+		commands[i] = NULL;
 		i++;
 	}
 	free(commands);

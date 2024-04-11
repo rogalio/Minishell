@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 13:06:53 by cabdli            #+#    #+#             */
-/*   Updated: 2024/04/05 14:51:50 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/11 15:53:43 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ typedef struct s_expansion
 {
 	t_env	*env;
 	int		quotes;
+	int		s_quotes;
 	int		nb_expand;
 	char	**var_name;
 	char	**var_value;

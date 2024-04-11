@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 18:03:55 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/06 13:34:27 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/11 15:11:49 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,11 +71,14 @@ char *type);
 /* print_pipeline.c */
 void		*print_pipeline(t_pipeline *pipeline);
 
-/* rdp_free.c */
-void		free_redirection(t_redirection *redirection);
-void		free_heredoc(t_heredoc *heredoc);
-void		free_command(t_command *command);
+/* free_pipeline.c */
+void		free_cmd(t_command *command);
 void		free_commands(t_command **commands, int command_count);
 void		free_pipeline(t_pipeline *pipeline);
+
+/* free_pipeline_utils.c */
+void		free_redirection(t_redirection *redirection);
+void		free_heredoc(t_heredoc *heredoc);
+void		free_args(char **args, int args_count);
 
 #endif

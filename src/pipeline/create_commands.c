@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 13:58:45 by cabdli            #+#    #+#             */
-/*   Updated: 2024/04/06 13:22:53 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/11 14:29:31 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,12 +54,12 @@ int	create_commands(t_pipeline *pipeline, t_token_list *token_list)
 	pipeline->command_count = count_pipes(token_list) + 1;
 	pipeline->commands = init_commands(pipeline->command_count);
 	if (!pipeline->commands)
-		return (free_pipeline(pipeline), 0);
+		return (0);
 	while (++nb_cmd < pipeline->command_count)
 	{
 		pipeline->commands[nb_cmd] = init_cmd();
 		if (!pipeline->commands[nb_cmd])
-			return (free_commands(pipeline->commands, nb_cmd), 0);
+			return (0);
 	}
 	return (1);
 }
