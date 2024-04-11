@@ -6,7 +6,7 @@
 /*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 18:03:55 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/02 17:25:01 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/04/11 15:39:08 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,9 @@
 # include <stdio.h>
 # include "libft.h"
 # include "token.h"
-# include "builtins.h"
+
+# include "data.h"
+
 
 typedef struct s_redirection
 {

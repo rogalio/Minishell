@@ -3,18 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 15:34:43 by rogalio           #+#    #+#             */
-/*   Updated: 2024/03/15 14:20:04 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/11 15:35:42 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 #include "rdp.h"
 
-int	echo(t_data *data)
+int	echo(t_data *data, t_minishell *minishell)
 {
+	(void)minishell;
 	int	i;
 
 	i = 1;

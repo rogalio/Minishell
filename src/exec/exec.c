@@ -6,7 +6,7 @@
 /*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 15:03:34 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/09 17:08:57 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/04/11 16:25:01 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,11 +211,11 @@ bool	check_if_builtins_cd_or_unset(char *cmd, char **args, t_data *data)
 {
 	t_builtins	builtins[] =
 	{
-		// {"echo", echo},
+		{"echo", echo},
 		{"cd", cd},
-		//{"pwd", pwd},
+		{"pwd", pwd},
 		{"unset", unset},
-		//{"exit", exit_shell},
+		{"exit", exit_shell},
 		{NULL, NULL}
 	};
 	int			i;
@@ -226,7 +226,7 @@ bool	check_if_builtins_cd_or_unset(char *cmd, char **args, t_data *data)
 	{
 		if (strcmp(builtins[i].name, cmd) == 0)
 		{
-			builtins[i].func(data);
+			builtins[i].func(data, NULL);
 			return (true);
 		}
 		i++;
@@ -234,8 +234,9 @@ bool	check_if_builtins_cd_or_unset(char *cmd, char **args, t_data *data)
 	return (false);
 }
 
-bool	check_if_builtins(char *cmd, char **args, t_data *data)
+bool	execute_builtins(char *cmd, char **args, t_data *data, t_minishell *minishell)
 {
+	(void)minishell;
 	t_builtins	builtins[] = {
 		{"echo", echo},
 		{"cd", cd},
@@ -252,7 +253,7 @@ bool	check_if_builtins(char *cmd, char **args, t_data *data)
 	{
 		if (strcmp(builtins[i].name, cmd) == 0)
 		{
-			builtins[i].func(data);
+			builtins[i].func(data, minishell);
 			return (true);
 		}
 		i++;
@@ -314,7 +315,7 @@ void	execute_command(t_command *command, t_data *data, t_minishell *minishell)
 	// Gestion des redirections spécifiques à la commande
 	redirect_if_needed(command);
 	// Exécution de la commande externe ou intégrée
-	if (!check_if_builtins(command->args[0], command->args, data))
+	if (!execute_builtins(command->args[0], command->args, data, minishell))
 	{
 		path = find_path(command->args[0]);
 		if (path)
@@ -414,6 +415,16 @@ void handle_parent_process(int *in_fd, int pipe_fds[2], int i, t_pipeline *pipel
     }
 }
 
+int get_cmd_count(t_pipeline *pipeline)
+{
+	int	i;
+
+	i = 0;
+	while (pipeline->commands[i])
+		i++;
+	return (i);
+}
+
 void	execute_pipeline(t_pipeline *pipeline, t_data *data, t_minishell *minishell)
 {
 	int		pipe_fds[2];
@@ -425,12 +436,11 @@ void	execute_pipeline(t_pipeline *pipeline, t_data *data, t_minishell *minishell
 	i = 0;
 	init_process_signals();
 
-	if (ft_strcmp(pipeline->commands[0]->args[0], "cd") == 0 || ft_strcmp(pipeline->commands[0]->args[0], "unset") == 0 || ft_strcmp(pipeline->commands[0]->args[0], "export") == 0)
+	if (get_cmd_count(pipeline) == 1)
 	{
-		check_if_builtins_cd_or_unset(pipeline->commands[0]->args[0], pipeline->commands[0]->args, data);
+		execute_builtins(pipeline->commands[0]->args[0], pipeline->commands[0]->args, data, minishell);
 		return ;
 	}
-	printf("command count666 %d\n", pipeline->command_count);
 	while (i < pipeline->command_count)
 	{
 		if (!is_last_command(i, pipeline->command_count))

@@ -1,39 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   data.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/10 12:56:37 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/11 15:34:49 by rogalio          ###   ########.fr       */
+/*   Created: 2024/02/03 18:37:23 by rogalio           #+#    #+#             */
+/*   Updated: 2024/04/11 15:33:47 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#ifndef DATA_H
+# define DATA_H
 
-# include <stdio.h>
-# include <stdlib.h>
-# include <unistd.h>
-# include <sys/wait.h>
-# include "libft.h"
-
-# include "token.h"
-# include "rdp.h"
-# include "data.h"
-
-typedef struct s_minishell
+typedef struct s_env
 {
-	t_data			*data;
-	t_token_list	*token_list;
-	t_pipeline		*pipeline;
-	int				exit_status;
-}t_minishell;
+	char			*name;
+	char			*value;
+	struct s_env	*next;
+}t_env;
 
-void free_minishell(t_minishell **minishell);
+typedef struct s_data
+{
+	t_env			*env;
+	char			**args;
+}t_data;
 
-// test
 
 
 #endif
