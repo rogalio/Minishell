@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 16:56:15 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/11 16:15:18 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/11 17:39:04 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,22 @@ static int	get_nb_expand(char *word)
 	return (expand);
 }
 
+static int	exp_expand(t_expansion	**exp, char *word)
+{
+	(*exp)->nb_expand = get_nb_expand(word);
+	if ((*exp)->nb_expand == 0)
+		return (1);
+	// if ((*exp)->quotes)
+	// 	word++;
+	(*exp)->var_name = create_var_name(word, *exp);
+	if (!(*exp)->var_name)
+		return (free_expansion(*exp), 0);
+	(*exp)->var_value = create_var_value(*exp);
+	if (!(*exp)->var_value)
+		return (free_expansion(*exp), 0);
+	return (1);
+}
+
 static t_expansion	*create_expansion(char *word, t_env *env)
 {
 	t_expansion	*exp;
@@ -55,13 +71,8 @@ static t_expansion	*create_expansion(char *word, t_env *env)
 	exp->quotes = check_if_quotes(word, exp);
 	if (!exp->s_quotes)
 	{
-		exp->nb_expand = get_nb_expand(word);
-		exp->var_name = create_var_name(word, exp);
-		if (!exp->var_name)
-			return (free_expansion(exp), NULL);
-		exp->var_value = create_var_value(exp);
-		if (!exp->var_value)
-			return (free_expansion(exp), NULL);
+		if (!exp_expand(&exp, word))
+			return (NULL);
 	}
 	exp->nw_len = get_nw_len(word, exp);
 	exp->new_word = ft_calloc((exp->nw_len + 1), sizeof(char));
@@ -75,7 +86,6 @@ int	handle_expand_quotes(char **word, t_env *env)
 	int			ije[3];
 	t_expansion	*exp;
 
-	printf("word = %s\n\n", *word);
 	bzero(ije, sizeof(ije));
 	exp = create_expansion(*word, env);
 	if (!exp)
@@ -91,6 +101,5 @@ int	handle_expand_quotes(char **word, t_env *env)
 	}
 	free(*word);
 	*word = exp->new_word;
-	print_exp(exp);
 	return (free_expansion(exp), 1);
 }

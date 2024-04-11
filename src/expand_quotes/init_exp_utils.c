@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 12:44:22 by cabdli            #+#    #+#             */
-/*   Updated: 2024/04/09 17:02:38 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/11 17:36:00 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,11 @@ char	*extract_var_name(char *word)
 	i = 0;
 	var_len = 0;
 	var_name = NULL;
-	while (*word && is_valid_variable_char(*word++))
+	while (*word && is_valid_variable_char(*word))
+	{
 		var_len++;
+		word++;
+	}
 	var_name = ft_calloc((var_len + 1), sizeof(char));
 	if (!var_name)
 		return (NULL);
