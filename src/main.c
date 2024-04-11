@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 13:02:19 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/09 17:12:01 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/11 18:56:25 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,47 @@ static t_minishell	*init_minishell(char **envp)
 	return (minishell);
 }
 
+
+void free_env2(t_env **env)
+{
+    t_env *current;
+    t_env *next;
+
+    if (!env || !*env)
+        return;
+
+    current = *env;
+    while (current != NULL)
+    {
+        next = current->next;
+        free(current->name);
+        free(current->value);
+        free(current);
+        current = next;
+    }
+    *env = NULL;
+}
+
+void free_data(t_data **data)
+{
+    if (!data || !*data)
+        return;
+
+    free_env2(&(*data)->env);
+    free(*data);
+    *data = NULL;
+}
+
+void free_minishell(t_minishell **minishell)
+{
+    if (!minishell || !*minishell)
+        return;
+
+    free_data(&(*minishell)->data);
+    free(*minishell);
+    *minishell = NULL;
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_minishell	*minishell;
@@ -66,9 +107,9 @@ int	main(int argc, char **argv, char **envp)
 		return (ft_putstr_fd("Error: too many arguments\n", 2), 1);
 	minishell = init_minishell(envp);
 	if (!minishell)
-		return (1);
+		return (free(minishell), NULL);
 	run_shell(minishell);
-	free_minishell(minishell);
+	free_minishell(&minishell);
 	return (0);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 15:24:29 by rogalio           #+#    #+#             */
-/*   Updated: 2024/03/19 16:19:06 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/11 15:35:32 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,10 +67,11 @@ void	set_env_var(t_env *env, char *name, char *value)
 	env->next = NULL;
 }
 
-int	cd(t_data *data)
+int	cd(t_data *data, t_minishell *minishell)
 {
 	char	*path;
 	char	*cwd;
+	(void)minishell;
 
 	if (!get_path(data, &path))
 		return (1);

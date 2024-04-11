@@ -3,18 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 15:34:43 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/04 13:49:05 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/11 18:43:50 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 #include "pipeline.h"
 
-int	echo(t_data *data)
+int	echo(t_data *data, t_minishell *minishell)
 {
+	(void)minishell;
 	int	i;
 
 	i = 1;

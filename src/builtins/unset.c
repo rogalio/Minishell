@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 16:07:36 by rogalio           #+#    #+#             */
-/*   Updated: 2024/03/13 15:49:06 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/11 15:36:35 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,10 @@ static void	remove_env(t_env **env, char *name)
 	}
 }
 
-int	unset(t_data *data)
+int	unset(t_data *data, t_minishell *minishell)
 {
 	int	i;
+	(void)minishell;
 
 	i = 1;
 	while (data->args[i])

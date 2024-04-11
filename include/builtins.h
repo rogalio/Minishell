@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 15:47:29 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/05 13:45:29 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/11 18:44:08 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,38 +18,29 @@
 # include <string.h>
 # include <unistd.h>
 # include "libft.h"
+# include "data.h"
+# include "minishell.h"
 
-typedef struct s_env
-{
-	char			*name;
-	char			*value;
-	struct s_env	*next;
-}t_env;
 
-typedef struct s_data
-{
-	t_env			*env;
-	char			**args;
-}t_data;
 
 typedef struct s_builtins
 {
 	char	*name;
-	int		(*func)(t_data *);
+	int		(*func)(t_data *, t_minishell *);
 }t_builtins;
 
 void	print_env(t_env *env);
 t_env	*init_env(char **envp);
 void	free_env(t_env *env);
 
-int		exit_shell(t_data *data);
+int		exit_shell(t_data *data, t_minishell *minishell);
 
-int		echo(t_data *data);
+int		echo(t_data *data, t_minishell *minishell);
 
-int		cd(t_data *data);
+int		cd(t_data *data, t_minishell *minishell);
 
-int		pwd(t_data *data);
+int		pwd(t_data *data,	t_minishell *minishell);
 
-int		unset(t_data *data);
+int		unset(t_data *data, t_minishell *minishell);
 
 #endif
