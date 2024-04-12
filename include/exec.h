@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
+/*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 14:59:58 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/11 18:47:00 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/04/12 15:02:58 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include "builtins.h"
 # include "minishell.h"
 
-void	execute_pipeline(t_pipeline *pipeline, t_data *data, t_minishell *minishell);
+void	execute_pipeline(t_pipeline *pipeline, t_data *data, \
+t_minishell *minishell);
 
 #endif

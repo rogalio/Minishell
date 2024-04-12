@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
+/*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 15:50:14 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/11 19:28:53 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/04/12 16:41:57 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipeline.h"
+#include "data.h"
 
 void	print_env(t_env *env)
 {
@@ -24,42 +24,25 @@ void	print_env(t_env *env)
 	}
 }
 
-void	free_env(t_env *env)
+void	free_env(t_env **env)
 {
-	t_env	*tmp;
+	t_env	*current;
+	t_env	*next;
 
-	tmp = NULL;
-	while (env)
+	if (!env || !*env)
+		return ;
+	current = *env;
+	while (current != NULL)
 	{
-		tmp = env;
-		env = env->next;
-		if (tmp->name)
-			free(tmp->name);
-		if (tmp->value)
-			free(tmp->value);
-		free(tmp);
+		next = current->next;
+		if (current->name)
+			free(current->name);
+		if (current->value)
+			free(current->value);
+		free(current);
+		current = next;
 	}
-	env = NULL;
-}
-
-void free_env2(t_env **env)
-{
-    t_env *current;
-    t_env *next;
-
-    if (!env || !*env)
-        return;
-
-    current = *env;
-    while (current != NULL)
-    {
-        next = current->next;
-        free(current->name);
-        free(current->value);
-        free(current);
-        current = next;
-    }
-    *env = NULL;
+	*env = NULL;
 }
 
 t_env	*create_env_node(char *env_entry)
@@ -96,7 +79,7 @@ int	add_to_env_list(t_env **head, char *envp)
 
 	node = create_env_node(envp);
 	if (!node)
-		return (free_env(*head), 0);
+		return (free_env(head), 0);
 	if (!*head)
 	{
 		*head = node;

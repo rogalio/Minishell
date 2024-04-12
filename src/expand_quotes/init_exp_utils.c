@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 12:44:22 by cabdli            #+#    #+#             */
-/*   Updated: 2024/04/11 17:36:00 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/12 15:00:27 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,20 +55,3 @@ char	*get_env_value(t_env *env, const char *var_name)
 	}
 	return (ft_strdup("Value not found"));
 }
-
-// char	*get_env_value(t_env *env, const char *var_name)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (env)
-// 	{
-// 		i = 0;
-// 		while (env->name[i] && var_name[i] && env->name[i] == var_name[i])
-// 			i++;
-// 		if (!var_name[i] && !env->name[i])
-// 			return (strdup(env->value));
-// 		env = env->next;
-// 	}
-// 	return (strdup("Value not found"));
-// }

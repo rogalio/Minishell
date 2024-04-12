@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
+/*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 13:02:19 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/11 19:32:58 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/04/12 16:42:19 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,27 +16,22 @@
 
 extern int	g_exit_signal;
 
-
-
-void free_data(t_data **data)
+void	free_data(t_data **data)
 {
-    if (!data || !*data)
-        return;
-    free_env2(&(*data)->env);
-    free(*data);
-    *data = NULL;
+	if (!data || !*data)
+		return ;
+	free_env(&(*data)->env);
+	free(*data);
+	*data = NULL;
 }
 
-
-
-
-void free_minishell(t_minishell **minishell)
+void	free_minishell(t_minishell **minishell)
 {
-    if (!minishell || !*minishell)
-        return;
-    free_data(&(*minishell)->data);
-    free(*minishell);
-    *minishell = NULL;
+	if (!minishell || !*minishell)
+		return ;
+	free_data(&(*minishell)->data);
+	free(*minishell);
+	*minishell = NULL;
 }
 
 static t_data	*init_data(char **envp)
@@ -65,9 +60,6 @@ static t_minishell	*init_minishell(char **envp)
 	return (minishell);
 }
 
-
-
-
 int	main(int argc, char **argv, char **envp)
 {
 	t_minishell	*minishell;
@@ -78,7 +70,7 @@ int	main(int argc, char **argv, char **envp)
 		return (ft_putstr_fd("Error: too many arguments\n", 2), 1);
 	minishell = init_minishell(envp);
 	if (!minishell)
-		return (free(minishell), 1);
+		return (1);
 	run_shell(minishell);
 	free_minishell(&minishell);
 	return (0);
@@ -97,5 +89,8 @@ else
 -> mettre les free part dans un dossier free, ou les laisser
 dans le dossier correspondant ?
 
--> pas de check_regex ?
+-> check regex, supprimer ?
+
+-> changer free_pipeline en passant **pipeline, pour mettre ppipeline a NULL
+-> pareil que precedemment pour free_token (+mettre a NULL)
 */

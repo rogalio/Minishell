@@ -3,22 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   exp_quotes.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
+/*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 13:06:53 by cabdli            #+#    #+#             */
-/*   Updated: 2024/04/11 19:17:38 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/04/12 15:04:17 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXP_QUOTES_H
 # define EXP_QUOTES_H
 
-# include "data.h"
 # include <string.h>
 # include <stdlib.h>
 # include <stdio.h>
 # include "libft.h"
-
+# include "data.h"
 
 typedef struct s_expansion
 {
@@ -32,11 +31,10 @@ typedef struct s_expansion
 	char	*new_word;
 }t_expansion;
 
-void		print_exp(t_expansion *exp);
-
 /* free_exp.c */
-void		free_expansion(t_expansion *exp);
 void		free_exp_tab(char **exp_tab);
+void		free_expansion(t_expansion *exp);
+void		print_exp(t_expansion *exp);
 
 /* init_exp.c */
 t_expansion	*init_exp(void);

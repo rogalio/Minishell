@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 16:56:15 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/11 17:39:04 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/12 14:59:39 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,6 @@ static int	exp_expand(t_expansion	**exp, char *word)
 	(*exp)->nb_expand = get_nb_expand(word);
 	if ((*exp)->nb_expand == 0)
 		return (1);
-	// if ((*exp)->quotes)
-	// 	word++;
 	(*exp)->var_name = create_var_name(word, *exp);
 	if (!(*exp)->var_name)
 		return (free_expansion(*exp), 0);
