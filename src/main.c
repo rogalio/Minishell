@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 13:02:19 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/12 16:42:19 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/15 14:56:31 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,9 +85,6 @@ else
 		node->name = strdup(env_entry);
 		node->value = NULL;
 	}
-
--> mettre les free part dans un dossier free, ou les laisser
-dans le dossier correspondant ?
 
 -> check regex, supprimer ?
 
