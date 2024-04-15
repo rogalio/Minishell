@@ -6,7 +6,7 @@
 /*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 15:03:34 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/11 19:43:38 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/04/15 17:10:25 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,6 +215,8 @@ bool    execute_builtin(char *cmd, char **args, t_data *data, t_minishell *minis
         {"pwd", pwd},
         {"unset", unset},
         {"exit", exit_shell},
+				{"export", export},
+				//{"env", env},
         {NULL, NULL}
     };
     int            i;
