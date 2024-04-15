@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
+/*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 19:02:05 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/11 19:34:05 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/04/15 17:47:46 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ void	run_shell(t_minishell *minishell)
 			break ;
 		if (parse_input(minishell, input))
 		{
+			print_pipeline(minishell->pipeline);
 			execute_pipeline(minishell->pipeline, minishell->data, minishell);
 			free_token_list(&minishell->token_list);
 			free_pipeline(minishell->pipeline);
