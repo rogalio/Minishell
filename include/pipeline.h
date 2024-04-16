@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
+/*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 18:03:55 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/11 19:09:26 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/04/16 16:05:12 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,9 @@ typedef struct s_redirection
 typedef struct s_heredoc
 {
 	char	*type;
+	char	**heredoc_name;
 	char	**delimiter;
+	int		**fd;
 	int		nb_heredocs;
 }t_heredoc;
 

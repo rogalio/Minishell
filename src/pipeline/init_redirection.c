@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 14:54:21 by cabdli            #+#    #+#             */
-/*   Updated: 2024/04/05 17:05:54 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/16 16:07:40 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,14 @@ static t_heredoc	*create_heredoc(int nb_heredocs, char *type)
 	heredoc = ft_calloc(1, sizeof(t_heredoc));
 	if (!heredoc)
 		return (NULL);
+	heredoc->heredoc_name = ft_calloc((nb_heredocs + 1), sizeof(char *));
+	if (!heredoc->heredoc_name)
+		return (NULL);
 	heredoc->delimiter = ft_calloc((nb_heredocs + 1), sizeof(char *));
 	if (!heredoc->delimiter)
+		return (NULL);
+	heredoc->fd = ft_calloc((nb_heredocs), sizeof(int *));
+	if (!heredoc->fd)
 		return (NULL);
 	heredoc->nb_heredocs = nb_heredocs;
 	heredoc->type = ft_strdup(type);
