@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 19:02:05 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/16 16:13:52 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/16 17:43:51 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	run_shell(t_minishell *minishell)
 			break ;
 		if (parse_input(minishell, input))
 		{
-			// handle_heredocs(minishell->pipeline, minishell);
+			handle_heredocs(minishell->pipeline, minishell);
 			execute_pipeline(minishell->pipeline, minishell->data, minishell);
 			free_cmd_resources(minishell);
 		}

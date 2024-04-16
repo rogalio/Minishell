@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 14:15:45 by cabdli            #+#    #+#             */
-/*   Updated: 2024/04/16 16:08:44 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/16 18:20:56 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	open_heredoc(t_heredoc *heredoc, int i)
 	int	pid;
 	int	childval;
 
-	heredoc->heredoc_name[i] = ;
+	heredoc->heredoc_name[i] = //generer le nom du fichier (getpid + compteur);
 }
 
 int	handle_cmd_heredoc(t_heredoc *heredoc)
