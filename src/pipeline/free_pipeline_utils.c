@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 15:10:25 by cabdli            #+#    #+#             */
-/*   Updated: 2024/04/12 16:19:12 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/17 19:21:23 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,18 +31,10 @@ void	free_heredoc(t_heredoc *heredoc)
 	i = -1;
 	if (!heredoc)
 		return ;
-	if (heredoc->type)
-		free(heredoc->type);
 	if (heredoc->delimiter)
-	{
-		while (++i < heredoc->nb_heredocs)
-		{
-			if (!heredoc->delimiter[i])
-				break ;
-			free(heredoc->delimiter[i]);
-		}
 		free(heredoc->delimiter);
-	}
+	if (heredoc->hdoc_name)
+		free(heredoc->hdoc_name);
 	free(heredoc);
 	heredoc = NULL;
 }

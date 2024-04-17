@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 18:03:55 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/16 16:05:12 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/17 19:09:15 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,9 @@ typedef struct s_redirection
 
 typedef struct s_heredoc
 {
-	char	*type;
-	char	**heredoc_name;
-	char	**delimiter;
-	int		**fd;
-	int		nb_heredocs;
+	char	*hdoc_name;
+	char	*delimiter;
+	int		fd;
 }t_heredoc;
 
 typedef struct s_command
@@ -41,7 +39,8 @@ typedef struct s_command
 	int				args_count;
 	t_redirection	*redirect_in;
 	t_redirection	*redirect_out;
-	t_heredoc		*heredoc;
+	t_heredoc		**heredoc;
+	int				nb_heredocs;
 }t_command;
 
 typedef struct s_pipeline
@@ -64,19 +63,21 @@ int			create_cmds_args(t_pipeline *pipeline, t_token_list *token_list);
 int			fill_pipeline(t_token_list *token_list, t_pipeline \
 *pipeline, t_env *env);
 
-/* init_redirection.c */
-int			init_redirection(t_redirection **redirect, const char *type, \
+/* create_redirection.c */
+int			create_redirection(t_redirection **redirect, const char *type, \
 const char *file);
-int			init_heredoc(t_token_list **token_list, t_heredoc **heredoc, \
-char *type);
+
+/* create_heredoc.c */
+int			create_heredoc(t_token_list **token_list, t_heredoc ***heredoc, \
+t_command *command);
 
 /* print_pipeline.c */
 void		*print_pipeline(t_pipeline *pipeline);
 
 /* free_pipeline.c */
 void		free_cmd(t_command *command);
-void		free_commands(t_command **commands, int command_count);
-void		free_pipeline(t_pipeline *pipeline);
+void		free_commands(t_command ***commands, int command_count);
+void		free_pipeline(t_pipeline **pipeline);
 
 /* free_pipeline_utils.c */
 void		free_redirection(t_redirection *redirection);

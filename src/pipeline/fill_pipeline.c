@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 14:39:39 by cabdli            #+#    #+#             */
-/*   Updated: 2024/04/11 15:06:31 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/17 19:25:52 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,17 +37,17 @@ static int	handle_redirection(t_token_list **token_list, t_command *command)
 	file = (*token_list)->token->value;
 	if (ft_strcmp(type, ">") == 0 || ft_strcmp(type, ">>") == 0)
 	{
-		if (!init_redirection(&command->redirect_out, type, file))
+		if (!create_redirection(&command->redirect_out, type, file))
 			return (0);
 	}
 	else if (ft_strcmp(type, "<") == 0)
 	{
-		if (!init_redirection(&command->redirect_in, type, file))
+		if (!create_redirection(&command->redirect_in, type, file))
 			return (0);
 	}
 	else if (ft_strcmp(type, "<<") == 0)
 	{
-		if (!init_heredoc(token_list, &command->heredoc, type))
+		if (!create_heredoc(token_list, &command->heredoc, command))
 			return (0);
 	}
 	return (1);

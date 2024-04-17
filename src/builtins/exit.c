@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
+/*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 16:20:13 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/11 15:58:18 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/04/17 19:24:28 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void free_resources(t_minishell *minishell)
 {
     // Libérer la liste des tokens, le pipeline, et d'autres allocations mémoire.
     free_token_list(&minishell->token_list);
-    free_pipeline(minishell->pipeline);
+    free_pipeline(&minishell->pipeline);
     free_minishell(&minishell);
 }
 

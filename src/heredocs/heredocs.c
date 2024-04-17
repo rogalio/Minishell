@@ -1,43 +1,55 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   heredocs.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/16 14:15:45 by cabdli            #+#    #+#             */
-/*   Updated: 2024/04/16 18:20:56 by cabdli           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+// /* ************************************************************************** */
+// /*                                                                            */
+// /*                                                        :::      ::::::::   */
+// /*   heredocs.c                                         :+:      :+:    :+:   */
+// /*                                                    +:+ +:+         +:+     */
+// /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
+// /*                                                +#+#+#+#+#+   +#+           */
+// /*   Created: 2024/04/16 14:15:45 by cabdli            #+#    #+#             */
+// /*   Updated: 2024/04/17 15:46:12 by cabdli           ###   ########.fr       */
+// /*                                                                            */
+// /* ************************************************************************** */
 
-#include "heredocs.h"
+// #include "heredocs.h"
 
-int	open_heredoc(t_heredoc *heredoc, int i)
-{
-	int	pid;
-	int	childval;
+// char	*get_heredoc_name(int i)
+// {
+// 	return (ft_strjoin(".tmp_heredoc", ft_itoa(i)));
+// }
 
-	heredoc->heredoc_name[i] = //generer le nom du fichier (getpid + compteur);
-}
+// int	open_heredoc(t_heredoc *heredoc, int i)
+// {
+// 	int	pid;
+// 	int	childval;
 
-int	handle_cmd_heredoc(t_heredoc *heredoc)
-{
-	int	i;
+// 	heredoc->heredoc_name[i] = get_hredoc_name(i);
+// 	if (!heredoc->heredoc_name[i])
+// 		return (0);
+// }
 
-	i = -1;
-	if (!heredoc)
-		return (1);
-	while (++i < heredoc->nb_heredocs)
-		open_heredoc(heredoc, i);
-}
+// int	handle_cmd_heredoc(t_heredoc *heredoc)
+// {
+// 	int	i;
 
-int	handle_heredocs(t_pipeline *pipeline, t_minishell *minishell)
-{
-	int	i;
+// 	i = -1;
+// 	if (!heredoc)
+// 		return (1);
+// 	while (++i < heredoc->nb_heredocs)
+// 	{
+// 		if (!open_heredoc(heredoc, i))
+// 			return (0);
+// 	}
+// }
 
-	i = -1;
-	while (++i < pipeline->command_count)
-	{
-		handle_cmd_heredoc(pipeline->commands[i]->heredoc);
-	}
-}
+// int	handle_heredocs(t_pipeline *pipeline, t_minishell *minishell)
+// {
+// 	int	i;
+
+// 	i = -1;
+// 	while (++i < pipeline->command_count)
+// 	{
+// 		if (!handle_cmd_heredoc(pipeline->commands[i]->heredoc))
+// 			return (0);
+// 	}
+// 	return (1);
+// }

@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 19:02:05 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/16 17:43:51 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/17 19:30:03 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static int	parse_input(t_minishell *minishell, char *input)
 static void	free_cmd_resources(t_minishell *minishell)
 {
 	free_token_list(&minishell->token_list);
-	free_pipeline(minishell->pipeline);
+	free_pipeline(&minishell->pipeline);
 }
 
 void	run_shell(t_minishell *minishell)
@@ -52,7 +52,6 @@ void	run_shell(t_minishell *minishell)
 	char			*input;
 
 	input = NULL;
-	(void)minishell;
 	while (1)
 	{
 		init_signals();
@@ -61,7 +60,7 @@ void	run_shell(t_minishell *minishell)
 			break ;
 		if (parse_input(minishell, input))
 		{
-			handle_heredocs(minishell->pipeline, minishell);
+			// if (handle_heredocs(minishell->pipeline, minishell))
 			execute_pipeline(minishell->pipeline, minishell->data, minishell);
 			free_cmd_resources(minishell);
 		}
