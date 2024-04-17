@@ -6,7 +6,7 @@
 /*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:08:16 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/17 16:58:43 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/04/17 17:23:18 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,15 +107,47 @@ void print_export(t_env *env)
 }
 
 
+static int validate_and_split_arg(char *arg, char **name, char **value)
+{
+	if (parse_export_arg(arg, name, value) == -1)
+		return (-1);
+
+	if (!is_valid_env_char((*name)[0]))
+	{
+		free(*name);
+		free(*value);
+		*name = NULL;
+		*value = NULL;
+		return (-1);
+	}
+	return (0);
+}
+
+
+static int process_export_argument(t_data *data, char *arg)
+{
+	char *name = NULL;
+	char *value = NULL;
+
+	if (validate_and_split_arg(arg, &name, &value) == -1)
+	{
+		ft_putstr_fd("export: `", 2);
+		ft_putstr_fd(arg, 2);
+		ft_putstr_fd("': not a valid identifier\n", 2);
+		return (-1);
+	}
+
+	update_or_add_env(data, name, value);
+	return (0);
+}
+
+
 // Main export function
 int	export(t_data *data, t_minishell *minishell)
 {
 	char	**args;
 	int		i;
-	char	*name;
-	char	*value;
 
-	(void)minishell;
 	args = minishell->pipeline->commands[0]->args;
 	i = 1;
 	if (!args[i])
@@ -125,23 +157,8 @@ int	export(t_data *data, t_minishell *minishell)
 	}
 	while (args[i])
 	{
-		if (parse_export_arg(args[i], &name, &value) == -1)
-		{
-			ft_putstr_fd("export: `", 2);
-			ft_putstr_fd(args[i], 2);
-			ft_putstr_fd("': not a valid identifier\n", 2);
-			return (-1);
-		}
-		if (!is_valid_env_char(name[0]))
-		{ // Check for a valid starting character
-			ft_putstr_fd("export: `", 2);
-			ft_putstr_fd(name, 2);
-			ft_putstr_fd("': not a valid identifier\n", 2);
-			free(name);
-			free(value);
-			return (-1);
-		}
-		update_or_add_env(data, name, value);
+		if (process_export_argument(data, args[i]) == -1)
+			return (1);
 		i++;
 	}
 	return (0);
