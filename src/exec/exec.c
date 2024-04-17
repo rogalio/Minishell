@@ -6,7 +6,7 @@
 /*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 15:03:34 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/15 17:10:25 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/04/17 15:44:46 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -283,10 +283,9 @@ void free_token_test(t_token *token)
 
 void free_resources2(t_minishell *minishell)
 {
-    // Libérer la liste des tokens, le pipeline, et d'autres allocations mémoire.
     free_token_list(&minishell->token_list);
     free_pipeline(minishell->pipeline);
-    free_minishell(&minishell);
+		free_minishell(&minishell);
 }
 
 void	execute_cmd(t_command *command, t_data *data, t_minishell *minishell)
@@ -310,6 +309,34 @@ void	execute_cmd(t_command *command, t_data *data, t_minishell *minishell)
 	}
 	envp = env_to_char_array(data->env);
 	redirect_if_needed(command);
+	//free_resources2(minishell);
+	execve(path, command->args, envp);
+	perror("execve");
+	exit(EXIT_FAILURE);
+}
+
+void	execute_cmdtest(t_command *command, t_data *data, t_minishell *minishell)
+{
+	char	*path;
+	char	**envp;
+
+	if (execute_builtin(command->args[0], command->args, data, minishell))
+	{
+		free_resources2(minishell);
+		exit(EXIT_SUCCESS);
+	}
+	path = find_path(command->args[0]);
+	if (!path)
+	{
+		ft_putstr_fd("minishell: ", STDERR_FILENO);
+		ft_putstr_fd(command->args[0], STDERR_FILENO);
+		ft_putstr_fd(": command not found\n", STDERR_FILENO);
+		free_resources2(minishell);
+		exit(EXIT_FAILURE);
+	}
+	envp = env_to_char_array(data->env);
+	redirect_if_needed(command);
+	//free_resources2(minishell);
 	execve(path, command->args, envp);
 	perror("execve");
 	exit(EXIT_FAILURE);

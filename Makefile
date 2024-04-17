@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+         #
+#    By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/08/27 16:09:01 by asoursou          #+#    #+#              #
-#    Updated: 2024/03/13 16:50:54 by cabdli           ###   ########.fr        #
+#    Updated: 2024/04/17 16:00:40 by rogalio          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,9 +22,9 @@ WHITE = \033[0;37m
 RESET = \033[0m
 
 #Bold
-BRED = \033[1;31m	
-BGREEN = \033[1;32m	
-BYELLOW = \033[1;33m	
+BRED = \033[1;31m
+BGREEN = \033[1;32m
+BYELLOW = \033[1;33m
 BBLUE = \033[1;34m
 BPURPLE = \033[1;35m
 BCYAN = \033[1;36m
@@ -36,7 +36,7 @@ BK_GREEN = \033[42m
 # COMPILATION
 FT		:= libft
 CC		:= clang
-CFLAGS	:= -Wall -Wextra -Werror
+CFLAGS	:= -Wall -Wextra -Werror -g
 DFLAGS	= -MP -MMD -MF $(BUILD)/$*.d -MT $@
 IFLAGS	:= -isystem./$(FT)/inc -I./include -I./inc/private
 LDFLAGS	:= -L./$(FT) -lft -lreadline
