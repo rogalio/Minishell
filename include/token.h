@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
+/*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 16:43:08 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/11 19:14:30 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/04/18 18:35:11 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,8 @@ t_token_list	*new_token_node(t_token *token);
 
 /* new_token_utils.c */
 char			*handle_qtes(const char *str, t_error *error);
-char			*handle_rest(const char *str);
+char			*handle_rest(const char *str, t_error *error);
+int				ft_isquote(char c, char quote);
 
 /* print_token.c*/
 void			print_token(const t_token *t);

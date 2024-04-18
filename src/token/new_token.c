@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 17:45:14 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/11 14:28:46 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/18 18:35:24 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ t_token	*new_token_word(const char *str, t_error *error)
 	if (*str && (*str == '\'' || *str == '\"'))
 		word = handle_qtes(str, error);
 	else
-		word = handle_rest(str);
+		word = handle_rest(str, error);
 	return (new_token(TOKEN_WORD, word));
 }
 
