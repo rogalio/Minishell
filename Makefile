@@ -6,7 +6,7 @@
 #    By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/08/27 16:09:01 by asoursou          #+#    #+#              #
-#    Updated: 2024/03/13 16:50:54 by cabdli           ###   ########.fr        #
+#    Updated: 2024/04/18 11:14:32 by cabdli           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,7 @@ BK_GREEN = \033[42m
 # COMPILATION
 FT		:= libft
 CC		:= clang
-CFLAGS	:= -Wall -Wextra -Werror
+CFLAGS	:= -Wall -Wextra -Werror -g
 DFLAGS	= -MP -MMD -MF $(BUILD)/$*.d -MT $@
 IFLAGS	:= -isystem./$(FT)/inc -I./include -I./inc/private
 LDFLAGS	:= -L./$(FT) -lft -lreadline

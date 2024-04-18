@@ -6,40 +6,11 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 14:54:21 by cabdli            #+#    #+#             */
-/*   Updated: 2024/04/17 19:23:23 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/18 12:42:09 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipeline.h"
-
-#include <fcntl.h>
-
-// generate random name
-char    *generate_random_name(void)
-{
-        int     i;
-        int     fd;
-        char    *name;
-        char    c;
-
-        i = 1;
-        name = ft_calloc(8, sizeof(char));
-        if (!name)
-                return (NULL);
-        fd = open("/dev/random", O_RDONLY);
-        if (fd == -1)
-                return (free(name), NULL);
-        while (i < 7)
-        {
-                if (read(fd, &c, 1) == -1)
-                        return (free(name), close(fd), NULL);
-                if (ft_isalnum(c))
-                        name[i++] = c;
-        }
-        close(fd);
-        name[0] = '.';
-        return (name);
-}
 
 static int	get_nb_heredocs(t_token_list *token_list)
 {
@@ -64,14 +35,14 @@ static t_heredoc	**init_heredocs(int nb_heredocs)
 	return (heredoc);
 }
 
-static t_heredoc	*init_hdcs(void)
+static t_heredoc	*init_hdoc(void)
 {
-	t_heredoc	*hdcs;
+	t_heredoc	*hdoc;
 
-	hdcs = ft_calloc(1, sizeof(t_heredoc));
-	if (!hdcs)
+	hdoc = ft_calloc(1, sizeof(t_heredoc));
+	if (!hdoc)
 		return (NULL);
-	return (hdcs);
+	return (hdoc);
 }
 
 static int	fill_heredocs(int nb_heredocs, t_heredoc **heredoc, t_token_list \
@@ -106,7 +77,7 @@ t_command *command)
 		return (0);
 	while (++nb_hdcs < command->nb_heredocs)
 	{
-		(*heredoc)[nb_hdcs] = init_hdcs();
+		(*heredoc)[nb_hdcs] = init_hdoc();
 		if (!(*heredoc)[nb_hdcs])
 			return (0);
 	}

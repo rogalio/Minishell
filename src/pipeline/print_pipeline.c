@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 20:04:04 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/17 19:29:51 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/18 11:11:31 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,19 +32,23 @@ void	*print_redirection_out(t_redirection *redirection)
 	return (NULL);
 }
 
-// void	*print_heredoc(t_heredoc *heredoc, int nb_heredocs)
-// {
-// 	int	i;
+void	*print_heredoc(t_heredoc **heredoc, int nb_heredocs)
+{
+	int	i;
 
-// 	i = -1;
-// 	if (!heredoc)
-// 		return (printf("No heredoc\n"), NULL);
-// 	printf("Heredoc:\n");
-// 	printf("Number of heredocs : %d\n", nb_heredocs);
-// 	while (heredoc->delimiter && heredoc->delimiter[++i])
-// 		printf("Heredoc delimiter %d: %s\n", i + 1, heredoc->delimiter[i]);
-// 	return (NULL);
-// }
+	i = -1;
+	if (!heredoc)
+		return (printf("No heredoc\n"), NULL);
+	printf("Heredoc:\n");
+	printf("Number of heredocs : %d\n", nb_heredocs);
+	while (++i < nb_heredocs)
+	{
+		printf("Heredoc %d:\n", i + 1);
+		printf("Heredoc name: %s\n", heredoc[i]->hdoc_name);
+		printf("Heredoc delimiter: %s\n\n", heredoc[i]->delimiter);
+	}
+	return (NULL);
+}
 
 void	*print_command(t_command *cmd)
 {
@@ -58,7 +62,7 @@ void	*print_command(t_command *cmd)
 		printf("Argument %d: %s\n", i + 1, cmd->args[i]);
 	print_redirection_in(cmd->redirect_in);
 	print_redirection_out(cmd->redirect_out);
-	// print_heredoc(cmd->heredoc, cmd->nb_heredocs);
+	print_heredoc(cmd->heredoc, cmd->nb_heredocs);
 	printf("\n");
 	return (NULL);
 }

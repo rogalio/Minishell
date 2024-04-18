@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 13:02:19 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/17 19:29:28 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/18 13:30:27 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,12 +91,7 @@ else
 -> changer free_pipeline en passant **pipeline, pour mettre pipeline a NULL
 
 -> pareil que precedemment pour free_token (+mettre a NULL)
-
--> trouver solution pour nom de fichier heredoc
-
--> Tester : free heredocs avec les modifs et elements ajoutes !!!
-
--> ajouer fonction pr generer le hdoc_name dans fill_heredoc
-
--> modifier print_pipeline en adaptant print_heredoc
+-> 255 = terminaison anormale des processus : voir msg elodie,
+return values, pour gestion exit status, inverser verifications 
+(return 0 si tout va bien et sinon return les bons codes error)
 */

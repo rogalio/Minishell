@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 15:10:25 by cabdli            #+#    #+#             */
-/*   Updated: 2024/04/17 19:21:23 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/18 11:24:14 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	free_redirection(t_redirection *redirection)
 	redirection = NULL;
 }
 
-void	free_heredoc(t_heredoc *heredoc)
+void	free_hdoc(t_heredoc *heredoc)
 {
 	int	i;
 
@@ -35,6 +35,23 @@ void	free_heredoc(t_heredoc *heredoc)
 		free(heredoc->delimiter);
 	if (heredoc->hdoc_name)
 		free(heredoc->hdoc_name);
+	free(heredoc);
+	heredoc = NULL;
+}
+
+void	free_heredocs(int nb_heredocs, t_heredoc **heredoc)
+{
+	int	i;
+
+	i = -1;
+	if (!heredoc)
+		return ;
+	while (++i < nb_heredocs)
+	{
+		if (!heredoc[i])
+			break ;
+		free_hdoc(heredoc[i]);
+	}
 	free(heredoc);
 	heredoc = NULL;
 }

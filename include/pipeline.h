@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 18:03:55 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/17 19:09:15 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/18 12:08:22 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define PIPELINE_H
 
 # include <stdio.h>
+# include <fcntl.h>
 # include "libft.h"
 # include "token.h"
 # include "error.h"
@@ -71,6 +72,9 @@ const char *file);
 int			create_heredoc(t_token_list **token_list, t_heredoc ***heredoc, \
 t_command *command);
 
+/* create_heredocs_utils.c */
+char		*generate_random_name(void);
+
 /* print_pipeline.c */
 void		*print_pipeline(t_pipeline *pipeline);
 
@@ -81,7 +85,8 @@ void		free_pipeline(t_pipeline **pipeline);
 
 /* free_pipeline_utils.c */
 void		free_redirection(t_redirection *redirection);
-void		free_heredoc(t_heredoc *heredoc);
+void		free_hdoc(t_heredoc *heredoc);
+void		free_heredocs(int nb_heredocs, t_heredoc **heredoc);
 void		free_args(char **args, int args_count);
 
 #endif
