@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 13:06:53 by cabdli            #+#    #+#             */
-/*   Updated: 2024/04/12 15:04:17 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/19 13:28:36 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ char		*get_env_value(t_env *env, const char *var_name);
 
 /* handle_expand_quotes.c */
 int			handle_expand_quotes(char **word, t_env *env);
+int			check_if_quotes(char *word, t_expansion	*exp);
 
 /* get_nw_len.c */
 int			get_nw_len(char *word, t_expansion *exp);

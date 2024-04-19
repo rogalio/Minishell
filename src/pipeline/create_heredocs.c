@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 14:54:21 by cabdli            #+#    #+#             */
-/*   Updated: 2024/04/18 12:42:09 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/19 13:55:05 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,11 @@ static int	fill_heredocs(int nb_heredocs, t_heredoc **heredoc, t_token_list \
 		heredoc[i]->delimiter = ft_strdup((*token_list)->token->value);
 		if (!heredoc[i]->delimiter)
 			return (0);
+		if (check_if_quotes(heredoc[i]->delimiter, NULL))
+		{
+			if (!remove_quotes(&(heredoc[i]->delimiter)))
+				return (0);
+		}
 		heredoc[i]->hdoc_name = generate_random_name();
 		if (!heredoc[i]->hdoc_name)
 			return (0);

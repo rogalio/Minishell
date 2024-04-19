@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 18:03:55 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/18 12:08:22 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/19 13:55:01 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ t_command *command);
 
 /* create_heredocs_utils.c */
 char		*generate_random_name(void);
+int			remove_quotes(char **delimiter);
 
 /* print_pipeline.c */
 void		*print_pipeline(t_pipeline *pipeline);

@@ -6,13 +6,13 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 16:56:15 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/18 17:30:34 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/19 13:30:23 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exp_quotes.h"
 
-static int	check_if_quotes(char *word, t_expansion	*exp)
+int	check_if_quotes(char *word, t_expansion	*exp)
 {
 	int	i;
 
@@ -22,7 +22,10 @@ static int	check_if_quotes(char *word, t_expansion	*exp)
 		if (word[i] == '\'' || word[i] == '\"')
 		{
 			if (word[i] == '\'')
-				exp->s_quotes = 1;
+			{
+				if (exp)
+					exp->s_quotes = 1;
+			}
 			return (1);
 		}
 	}

@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 13:02:19 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/18 19:01:09 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/19 13:21:16 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,17 +77,6 @@ int	main(int argc, char **argv, char **envp)
 }
 
 /*
--> pb pour get_env en cas d'echec de strdup : comment differencier
-un echec de strdup et une value non existante ?
-create_node :
-else
-	{
-		node->name = strdup(env_entry);
-		node->value = NULL;
-	}
-
--> check regex, supprimer ?
-
 -> changer free_pipeline en passant **pipeline, pour mettre pipeline a NULL
 -> pareil que precedemment pour free_token (+mettre a NULL)
 
@@ -98,13 +87,7 @@ return values, pour gestion exit status, inverser verifications
 -> pb : << ex"it" << 2 : si on a pas d'espace entre les 2 les laisser 
 ensembles sans les quotes !!! "ex"it pareil !!!, retester les leaks
 pour ces cas la
-bash-5.1$ echo "exit"
-exit
-bash-5.1$ echo "ex"it
-exit
-bash-5.1$ echo ex"it"
-exit
-==> OK mais gerer les leaks
+
 
 -> dans fill_pipeline (redirection), gerer les noms de fichiers avec des quotes
 et les expand (fontionne seulement si ce n'est pas un dossier!!!!!!
@@ -113,4 +96,12 @@ bash: /mnt/nfs/homes/cabdli/HomeWork/Minishell_GH_rogalio: Is a directory
 
 -> dans fill_pipeline (create_Heredoc) gerer les quotes pour le delimiter
 
+-> pb pour get_env en cas d'echec de strdup : comment differencier
+un echec de strdup et une value non existante ?
+create_node :
+else
+	{
+		node->name = strdup(env_entry);
+		node->value = NULL;
+	}
 */
