@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 19:16:58 by cabdli            #+#    #+#             */
-/*   Updated: 2024/04/18 18:46:09 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/19 13:17:36 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ char	*handle_qtes(const char *str, t_error *error)
 	word = ft_strndup(str, i + 1);
 	if (!ft_isspace(str[++i]))
 	{
+		tmp = word;
 		word2 = handle_rest((str + i), error);
 		word = ft_strjoin(word, word2);
 		free(tmp);
@@ -60,9 +61,9 @@ char	*handle_rest(const char *str, t_error *error)
 	!ft_isquote(str[i], '\'') && !ft_isquote(str[i], '\"'))
 		i++;
 	word = ft_strndup(str, i);
-	tmp = word;
 	if (str[i] && !ft_isspace(str[i]))
 	{
+		tmp = word;
 		word2 = handle_qtes((str + i), error);
 		word = ft_strjoin(word, word2);
 		free(tmp);
