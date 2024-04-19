@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 13:02:19 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/19 13:21:16 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/19 16:06:54 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,15 +84,14 @@ int	main(int argc, char **argv, char **envp)
 return values, pour gestion exit status, inverser verifications 
 (return 0 si tout va bien et sinon return les bons codes error)
 
--> pb : << ex"it" << 2 : si on a pas d'espace entre les 2 les laisser 
-ensembles sans les quotes !!! "ex"it pareil !!!, retester les leaks
-pour ces cas la
-
-
 -> dans fill_pipeline (redirection), gerer les noms de fichiers avec des quotes
 et les expand (fontionne seulement si ce n'est pas un dossier!!!!!!
 bash-5.1$ echo salut > $PWD
 bash: /mnt/nfs/homes/cabdli/HomeWork/Minishell_GH_rogalio: Is a directory
+caracteres specaux a refuser
+$ fonctionne soit seul soit avec certains expands
+enlever les '\
+refuser les '/'
 
 -> dans fill_pipeline (create_Heredoc) gerer les quotes pour le delimiter
 

@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 19:16:58 by cabdli            #+#    #+#             */
-/*   Updated: 2024/04/19 13:17:36 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/19 19:04:07 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ char	*handle_rest(const char *str, t_error *error)
 	!ft_isquote(str[i], '\'') && !ft_isquote(str[i], '\"'))
 		i++;
 	word = ft_strndup(str, i);
+	printf("Word = %s\n\n", word);
 	if (str[i] && !ft_isspace(str[i]))
 	{
 		tmp = word;

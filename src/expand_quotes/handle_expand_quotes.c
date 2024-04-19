@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 16:56:15 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/19 13:30:23 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/19 19:05:43 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,12 +93,14 @@ int	handle_expand_quotes(char **word, t_env *env)
 		return (0);
 	while ((*word)[ije[0]])
 	{
+		printf("dans handle exp quotes = %c\n\n", (*word)[ije[0]]);
 		if ((*word)[ije[0]] == '\'' || (*word)[ije[0]] == '\"')
 			handle_quotes(*word, exp, ije);
 		else if ((*word)[ije[0]] == '$')
 			handle_expand(*word, exp, ije);
 		else
 			exp->new_word[ije[1]++] = (*word)[ije[0]++];
+		printf("Fin boucle while de handle exp quotes\n\n");
 	}
 	print_exp(exp);
 	free(*word);

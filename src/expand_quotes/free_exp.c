@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_exp.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
+/*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 15:55:15 by cabdli            #+#    #+#             */
-/*   Updated: 2024/04/11 19:15:30 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/04/19 17:38:13 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	print_exp(t_expansion *exp)
 
 	i = 0;
 	printf("quotes = .%d.\n", exp->quotes);
+	printf("s_quotes = .%d.\n", exp->s_quotes);
 	printf("expand = .%d.\n", exp->nb_expand);
 	printf("Var_name_tab:\n");
 	printf("Var_name = %p\n", exp->var_name);

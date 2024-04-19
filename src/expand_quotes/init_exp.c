@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 15:58:23 by cabdli            #+#    #+#             */
-/*   Updated: 2024/04/11 17:36:07 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/19 18:52:16 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,13 @@ static int	fill_var_name(char *word, char **var_name, int nb_expand)
 	{
 		while (*word && *word != '$')
 			word++;
-		var_name[++i] = extract_var_name(++word);
+		if (!is_valid_variable_char(*(word + 1)))
+		{
+			var_name[++i] = ft_strdup("$");
+			word++;
+		}
+		else
+			var_name[++i] = extract_var_name(++word);
 		if (!var_name[i])
 			return (0);
 	}
@@ -57,7 +63,10 @@ static int	fill_var_value(char **var_value, char **var_name, t_env *env)
 	i = -1;
 	while (var_name[++i])
 	{
-		var_value[i] = get_env_value(env, var_name[i]);
+		if (!ft_strcmp(var_name[i], "$"))
+			var_value[i] = ft_strdup("$");
+		else
+			var_value[i] = get_env_value(env, var_name[i]);
 		if (!var_value[i])
 			return (0);
 	}
