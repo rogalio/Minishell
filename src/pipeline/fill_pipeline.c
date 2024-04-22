@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 14:39:39 by cabdli            #+#    #+#             */
-/*   Updated: 2024/04/17 19:25:52 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/22 13:38:00 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ t_env *env)
 	return (1);
 }
 
-static int	handle_redirection(t_token_list **token_list, t_command *command)
+static int	handle_redirection(t_token_list **token_list, t_command *command, \
+t_env *env)
 {
 	char	*type;
 	char	*file;
@@ -37,12 +38,12 @@ static int	handle_redirection(t_token_list **token_list, t_command *command)
 	file = (*token_list)->token->value;
 	if (ft_strcmp(type, ">") == 0 || ft_strcmp(type, ">>") == 0)
 	{
-		if (!create_redirection(&command->redirect_out, type, file))
+		if (!create_redirection(&command->redirect_out, type, file, env))
 			return (0);
 	}
 	else if (ft_strcmp(type, "<") == 0)
 	{
-		if (!create_redirection(&command->redirect_in, type, file))
+		if (!create_redirection(&command->redirect_in, type, file, env))
 			return (0);
 	}
 	else if (ft_strcmp(type, "<<") == 0)
@@ -70,7 +71,8 @@ int *cmd_arg, t_env *env)
 	}
 	else if ((*token_list)->token->type == TOKEN_REDIRECT)
 	{
-		if (!handle_redirection(token_list, pipeline->commands[cmd_arg[0]]))
+		if (!handle_redirection(token_list, pipeline->commands[cmd_arg[0]], \
+		env))
 			return (0);
 	}
 	else

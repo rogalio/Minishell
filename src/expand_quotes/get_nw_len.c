@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 14:25:13 by cabdli            #+#    #+#             */
-/*   Updated: 2024/04/19 18:58:11 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/22 13:24:09 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static int	len_minus_var_name(int len, int nb_expand, char **var_name)
 	return (len);
 }
 
-int	len_plus_value_size(int len, int nb_expand, char **var_value)
+static int	len_plus_value_size(int len, int nb_expand, char **var_value)
 {
 	int	i;
 
@@ -46,7 +46,6 @@ static int	get_nw_len_expand(int len, t_expansion *exp)
 {
 	len = len_minus_var_name(len, exp->nb_expand, exp->var_name);
 	len = len_plus_value_size(len, exp->nb_expand, exp->var_value);
-	printf("new word len = %d\n\n", len);
 
 	return (len);
 }
@@ -56,11 +55,10 @@ int	get_nw_len(char *word, t_expansion *exp)
 	int	len;
 
 	len = ft_strlen(word);
-	printf("previous word len = %d\n\n", len);
 	if (exp->nb_expand && !exp->quotes)
 		return (get_nw_len_expand(len, exp));
 	else if (exp->nb_expand && exp->quotes)
-		return (((get_nw_len_expand(len, exp)) - 2));
+		return (((get_nw_len_expand(len, exp)) - exp->quotes));
 	else
-		return ((len - 2));
+		return ((len - exp->quotes));
 }

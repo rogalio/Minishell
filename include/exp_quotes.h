@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 13:06:53 by cabdli            #+#    #+#             */
-/*   Updated: 2024/04/19 13:28:36 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/22 13:07:45 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,12 @@
 # include <stdio.h>
 # include "libft.h"
 # include "data.h"
+# include "token.h"
 
 typedef struct s_expansion
 {
 	t_env	*env;
 	int		quotes;
-	int		s_quotes;
 	int		nb_expand;
 	char	**var_name;
 	char	**var_value;
@@ -48,7 +48,6 @@ char		*get_env_value(t_env *env, const char *var_name);
 
 /* handle_expand_quotes.c */
 int			handle_expand_quotes(char **word, t_env *env);
-int			check_if_quotes(char *word, t_expansion	*exp);
 
 /* get_nw_len.c */
 int			get_nw_len(char *word, t_expansion *exp);
@@ -57,9 +56,11 @@ int			get_nw_len(char *word, t_expansion *exp);
 int			len_plus_exp_size(int len, t_expansion *exp);
 
 /* handle_expand.c */
+int			get_nb_expand(char *word);
 void		handle_expand(char *word, t_expansion *exp, int *ije);
 
 /* handle_quotes.c */
+int			count_quotes(char *word);
 void		handle_quotes(char *word, t_expansion *exp, int *ije);
 
 /* expand_quotes.c */

@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 18:03:55 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/19 13:55:01 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/22 13:37:02 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int			fill_pipeline(t_token_list *token_list, t_pipeline \
 
 /* create_redirection.c */
 int			create_redirection(t_redirection **redirect, const char *type, \
-const char *file);
+const char *file, t_env *env);
 
 /* create_heredoc.c */
 int			create_heredoc(t_token_list **token_list, t_heredoc ***heredoc, \

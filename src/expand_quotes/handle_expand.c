@@ -6,11 +6,32 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 17:09:40 by cabdli            #+#    #+#             */
-/*   Updated: 2024/04/19 19:12:43 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/22 13:12:59 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exp_quotes.h"
+
+int	get_nb_expand(char *word)
+{
+	int	i;
+	int	expand;
+
+	i = -1;
+	expand = 0;
+	while (word[++i])
+	{
+		if (word[i] == '\'')
+		{
+			i++;
+			while (word[i] && !ft_isquote(word[i], '\''))
+				i++;
+		}
+		if (word[i] == '$')
+			expand++;
+	}
+	return (expand);
+}
 
 static void	replace_variable(char **new_word, char *var_value, int *j)
 {

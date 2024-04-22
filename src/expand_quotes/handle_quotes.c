@@ -6,11 +6,33 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 17:13:38 by cabdli            #+#    #+#             */
-/*   Updated: 2024/04/03 13:22:39 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/22 12:53:30 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exp_quotes.h"
+
+int	count_quotes(char *word)
+{
+	int		nb_quotes;
+	int		i;
+	char	quote;
+
+	nb_quotes = 0;
+	i = -1;
+	quote = '\0';
+	while (word[++i])
+	{
+		if (word[i] == '\'' || word[i] == '\"')
+		{
+			quote = word[i++];
+			while (word[i] && !ft_isquote(word[i], quote))
+				i++;
+			nb_quotes += 2;
+		}
+	}
+	return (nb_quotes);
+}
 
 void	handle_single_quote(char *word, char *new_word, int *ije)
 {

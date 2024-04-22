@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 13:02:19 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/19 16:06:54 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/22 12:20:36 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,13 +77,6 @@ int	main(int argc, char **argv, char **envp)
 }
 
 /*
--> changer free_pipeline en passant **pipeline, pour mettre pipeline a NULL
--> pareil que precedemment pour free_token (+mettre a NULL)
-
--> 255 = terminaison anormale des processus : voir msg elodie,
-return values, pour gestion exit status, inverser verifications 
-(return 0 si tout va bien et sinon return les bons codes error)
-
 -> dans fill_pipeline (redirection), gerer les noms de fichiers avec des quotes
 et les expand (fontionne seulement si ce n'est pas un dossier!!!!!!
 bash-5.1$ echo salut > $PWD
@@ -94,6 +87,13 @@ enlever les '\
 refuser les '/'
 
 -> dans fill_pipeline (create_Heredoc) gerer les quotes pour le delimiter
+
+-> changer free_pipeline en passant **pipeline, pour mettre pipeline a NULL
+-> pareil que precedemment pour free_token (+mettre a NULL)
+
+-> 255 = terminaison anormale des processus : voir msg elodie,
+return values, pour gestion exit status, inverser verifications 
+(return 0 si tout va bien et sinon return les bons codes error)
 
 -> pb pour get_env en cas d'echec de strdup : comment differencier
 un echec de strdup et une value non existante ?

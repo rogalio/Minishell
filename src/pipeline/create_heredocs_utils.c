@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 11:38:40 by cabdli            #+#    #+#             */
-/*   Updated: 2024/04/19 14:19:25 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/22 12:53:05 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,28 +37,6 @@ char	*generate_random_name(void)
 	}
 	name[0] = '.';
 	return (close(fd), name);
-}
-
-static int	count_quotes(char *word)
-{
-	int		nb_quotes;
-	int		i;
-	char	quote;
-
-	nb_quotes = 0;
-	i = -1;
-	quote = '\0';
-	while (word[++i])
-	{
-		if (word[i] == '\'' || word[i] == '\"')
-		{
-			quote = word[i++];
-			while (word[i] && !ft_isquote(word[i], quote))
-				i++;
-			nb_quotes += 2;
-		}
-	}
-	return (nb_quotes);
 }
 
 static void	fill_word_minus_quotes(char *new_word, char *prev_word)
