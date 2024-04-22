@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 18:21:17 by cabdli            #+#    #+#             */
-/*   Updated: 2024/04/11 15:17:32 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/22 17:31:08 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
-int	g_exit_signal = 0;
+// int	g_exit_signal = 0;
 
 /*
 Le code 130 est conventionnellement utilisé pour indiquer une

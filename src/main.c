@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 13:02:19 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/22 12:20:36 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/22 17:59:32 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "builtins.h"
 #include "prompt.h"
 
-extern int	g_exit_signal;
+int	g_exit_signal;
 
 void	free_data(t_data **data)
 {
@@ -77,16 +77,10 @@ int	main(int argc, char **argv, char **envp)
 }
 
 /*
--> dans fill_pipeline (redirection), gerer les noms de fichiers avec des quotes
-et les expand (fontionne seulement si ce n'est pas un dossier!!!!!!
-bash-5.1$ echo salut > $PWD
-bash: /mnt/nfs/homes/cabdli/HomeWork/Minishell_GH_rogalio: Is a directory
-caracteres specaux a refuser
-$ fonctionne soit seul soit avec certains expands
-enlever les '\
-refuser les '/'
-
--> dans fill_pipeline (create_Heredoc) gerer les quotes pour le delimiter
+-> Fill_pipeline, redirection :
+* gerer les caracteres speciaux ? = s'ils sont seuls les refuser sinon OK
+* enlever les '\' ?
+* refuser les '/' et les noms de fichier trop longs : OK, open s'en charge
 
 -> changer free_pipeline en passant **pipeline, pour mettre pipeline a NULL
 -> pareil que precedemment pour free_token (+mettre a NULL)

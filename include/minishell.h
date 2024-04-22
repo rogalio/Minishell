@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 12:56:37 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/12 16:47:36 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/22 17:35:01 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@
 # include "pipeline.h"
 # include "error.h"
 
+extern int	g_exit_signal;
+
 typedef struct s_minishell
 {
 	t_data			*data;
@@ -33,5 +35,6 @@ typedef struct s_minishell
 }t_minishell;
 
 void	free_minishell(t_minishell **minishell);
+void	free_resources(t_minishell *minishell);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 16:44:08 by cabdli            #+#    #+#             */
-/*   Updated: 2024/04/22 13:37:47 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/22 14:56:14 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,7 @@ const char *file, t_env *env)
 	(*redirect)->file = ft_strdup(file);
 	if (!(*redirect)->file)
 		return (0);
-	if (expand_quotes((*redirect)->file))
-	{
-		if (!handle_expand_quotes(&((*redirect)->file), env))
-			return (0);
-	}
+	if (!handle_expand_quotes(&((*redirect)->file), env))
+		return (0);
 	return (1);
 }
