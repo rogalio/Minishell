@@ -6,22 +6,11 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 14:15:45 by cabdli            #+#    #+#             */
-/*   Updated: 2024/04/23 15:41:57 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/23 16:27:51 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "heredocs.h"
-
-// int	hdchild_process(t_data *data, t_rdlist *rd)
-// {
-// 	signal(SIGINT, ft_handler_heredoc);
-// 	rd->file = rmhdquotes(rd->file);
-// 	if (!rd->file)
-// 		return (cherr_code(UNKNOWN_ERR));
-// 	while (!rl_heredoc(data, rd))
-// 		;
-// 	return (close(rd->fd), exit_all(data, g_err_code));
-// }
 
 int	read_line(t_heredoc *heredoc, t_minishell *minishell)
 {
