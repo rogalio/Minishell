@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 15:47:29 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/12 14:48:50 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/15 17:10:13 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,5 +36,7 @@ int		cd(t_data *data, t_minishell *minishell);
 int		pwd(t_data *data,	t_minishell *minishell);
 
 int		unset(t_data *data, t_minishell *minishell);
+
+int		export(t_data *data, t_minishell *minishell);
 
 #endif
