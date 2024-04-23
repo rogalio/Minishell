@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 11:38:40 by cabdli            #+#    #+#             */
-/*   Updated: 2024/04/23 16:31:48 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/23 17:14:18 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*generate_random_name(void)
 	i = 6;
 	fd = 0;
 	c = '\0';
-	name = ft_calloc(13, sizeof(char));
+	name = ft_calloc(14, sizeof(char));
 	if (!name)
 		return (NULL);
 	fd = open("/dev/random", O_RDONLY);
