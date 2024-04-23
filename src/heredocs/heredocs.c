@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 14:15:45 by cabdli            #+#    #+#             */
-/*   Updated: 2024/04/22 17:55:49 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/23 15:41:57 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	read_line(t_heredoc *heredoc, t_minishell *minishell)
 	if (!line)
 		return (free(line), 1);
 	if (!ft_strncmp(line, heredoc->delimiter, \
-	ft_strlen(heredoc->delimiter) + 1))
+	(ft_strlen(heredoc->delimiter)+ 1)))
 		return (free(line), 1);
 	f_line = ft_strjoin(line, "\n");
 	free (line);
@@ -55,7 +55,7 @@ int	hdoc_child_process(t_heredoc *heredoc, t_minishell *minishell)
 		;
 	close(heredoc->fd);
 	free_resources(minishell);
-	return (0);
+	exit(0);
 }
 
 int	open_heredoc(t_heredoc *heredoc, t_minishell *minishell)
@@ -71,7 +71,10 @@ int	open_heredoc(t_heredoc *heredoc, t_minishell *minishell)
 		return (close(heredoc->fd), 0);
 	//gerer les signaux heredoc ici;
 	if (pid == 0)
-		return (hdoc_child_process(heredoc, minishell));
+	{
+		hdoc_child_process(heredoc, minishell);
+		// return (hdoc_child_process(heredoc, minishell), 1);
+	}
 	if (waitpid(pid, &childval, 0) == -1)
 		return (close(heredoc->fd), 0);
 	if (WEXITSTATUS(childval) == 130)
@@ -94,8 +97,10 @@ t_minishell *minishell)
 	i = -1;
 	if (!heredoc)
 		return (1);
+	printf("in handle_cmd_heredocs nb_hdocs = %d\n\n", nb_hdocs);
 	while (++i < nb_hdocs)
 	{
+		printf("in handle_cmd_heredocs i = %d\n\n", i);
 		if (!open_heredoc(heredoc[i], minishell))
 			return (0);
 	}
