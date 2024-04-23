@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 14:15:45 by cabdli            #+#    #+#             */
-/*   Updated: 2024/04/23 16:27:51 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/23 18:31:28 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	read_line(t_heredoc *heredoc, t_minishell *minishell)
 	if (!line)
 		return (free(line), 1);
 	if (!ft_strncmp(line, heredoc->delimiter, \
-	(ft_strlen(heredoc->delimiter)+ 1)))
+	(ft_strlen(heredoc->delimiter) + 1)))
 		return (free(line), 1);
 	f_line = ft_strjoin(line, "\n");
 	free (line);
@@ -35,7 +35,6 @@ int	read_line(t_heredoc *heredoc, t_minishell *minishell)
 	free (f_line);
 	return (0);
 }
-
 
 int	hdoc_child_process(t_heredoc *heredoc, t_minishell *minishell)
 {
@@ -60,10 +59,7 @@ int	open_heredoc(t_heredoc *heredoc, t_minishell *minishell)
 		return (close(heredoc->fd), 0);
 	//gerer les signaux heredoc ici;
 	if (pid == 0)
-	{
 		hdoc_child_process(heredoc, minishell);
-		// return (hdoc_child_process(heredoc, minishell), 1);
-	}
 	if (waitpid(pid, &childval, 0) == -1)
 		return (close(heredoc->fd), 0);
 	if (WEXITSTATUS(childval) == 130)
