@@ -24,6 +24,8 @@
     "ostream": "c",
     "stdexcept": "c",
     "streambuf": "c",
-    "functional": "c"
+    "functional": "c",
+    "signals.h": "c",
+    "error.h": "c"
   }
 }

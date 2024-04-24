@@ -6,14 +6,12 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 18:21:17 by cabdli            #+#    #+#             */
-/*   Updated: 2024/04/22 17:31:08 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/24 17:38:36 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "signals.h"
 #include "minishell.h"
-#include <readline/readline.h>
-#include <readline/history.h>
 
 // int	g_exit_signal = 0;
 
@@ -31,15 +29,17 @@ void	sigint_handler(int signum)
 	rl_redisplay();
 }
 
-void	init_signals(void)
-{
-	signal(SIGINT, sigint_handler);
-	signal(SIGQUIT, SIG_IGN);
-}
-
 void	sigint_process_handler(int signum)
 {
 	(void)signum;
+	g_exit_signal = 130;
+	write(STDOUT_FILENO, "\n", 1);
+}
+
+void	sigint_heredoc_handler(int signum)
+{
+	(void)signum;
+	close(0);
 	g_exit_signal = 130;
 	write(STDOUT_FILENO, "\n", 1);
 }
@@ -51,8 +51,21 @@ void	sigquit_process_handler(int signum)
 	write(STDOUT_FILENO, "Quit (core dumped)\n", 19);
 }
 
+void	init_signals(void)
+{
+	signal(SIGINT, sigint_handler);
+	signal(SIGQUIT, SIG_IGN);
+}
+
 void	init_process_signals(void)
 {
 	signal(SIGINT, sigint_process_handler);
 	signal(SIGQUIT, sigquit_process_handler);
+}
+
+
+void	init_heredoc_signals(void)
+{
+	signal(SIGINT, sigint_heredoc_handler);
+	signal(SIGQUIT, SIG_IGN);
 }

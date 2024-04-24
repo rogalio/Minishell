@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 14:15:45 by cabdli            #+#    #+#             */
-/*   Updated: 2024/04/23 18:31:28 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/24 18:41:23 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ int	read_line(t_heredoc *heredoc, t_minishell *minishell)
 	line = NULL;
 	f_line = NULL;
 	line = readline("> ");
-	if (!line)
-		return (free(line), 1);
-	if (!ft_strncmp(line, heredoc->delimiter, \
+	if (!line && g_exit_signal != 130)
+		return (free(line), minishell->error = HDOC_SIGN, print_err_msg(&minishell->error), 2);
+	if (g_exit_signal == 130 || !ft_strncmp(line, heredoc->delimiter, \
 	(ft_strlen(heredoc->delimiter) + 1)))
 		return (free(line), 1);
 	f_line = ft_strjoin(line, "\n");
@@ -32,18 +32,15 @@ int	read_line(t_heredoc *heredoc, t_minishell *minishell)
 	if (!handle_expand_quotes(&f_line, minishell->data->env))
 		return (free(f_line), 1);
 	write(heredoc->fd, f_line, ft_strlen(f_line));
-	free (f_line);
-	return (0);
+	return (free(f_line), 0);
 }
 
 int	hdoc_child_process(t_heredoc *heredoc, t_minishell *minishell)
 {
-	//gerer les ignaux chez l'enfant;
+	init_heredoc_signals();
 	while (!read_line(heredoc, minishell))
 		;
-	close(heredoc->fd);
-	free_resources(minishell);
-	exit(0);
+	return (close(heredoc->fd), exit_process(minishell));
 }
 
 int	open_heredoc(t_heredoc *heredoc, t_minishell *minishell)
@@ -57,7 +54,7 @@ int	open_heredoc(t_heredoc *heredoc, t_minishell *minishell)
 	pid = fork();
 	if (pid == -1)
 		return (close(heredoc->fd), 0);
-	//gerer les signaux heredoc ici;
+	signal(SIGINT, SIG_IGN);
 	if (pid == 0)
 		hdoc_child_process(heredoc, minishell);
 	if (waitpid(pid, &childval, 0) == -1)
@@ -67,8 +64,7 @@ int	open_heredoc(t_heredoc *heredoc, t_minishell *minishell)
 		close(heredoc->fd);
 		if (unlink(heredoc->hdoc_name) == -1)
 			return (0);
-		g_exit_signal = 130;
-		return (0);
+		return (130);
 	}
 	close(heredoc->fd);
 	return (1);
@@ -82,10 +78,8 @@ t_minishell *minishell)
 	i = -1;
 	if (!heredoc)
 		return (1);
-	printf("in handle_cmd_heredocs nb_hdocs = %d\n\n", nb_hdocs);
 	while (++i < nb_hdocs)
 	{
-		printf("in handle_cmd_heredocs i = %d\n\n", i);
 		if (!open_heredoc(heredoc[i], minishell))
 			return (0);
 	}

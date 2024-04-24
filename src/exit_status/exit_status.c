@@ -1,26 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signals.h                                          :+:      :+:    :+:   */
+/*   exit_status.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/11 14:36:54 by cabdli            #+#    #+#             */
-/*   Updated: 2024/04/24 15:31:54 by cabdli           ###   ########.fr       */
+/*   Created: 2024/04/24 17:29:07 by cabdli            #+#    #+#             */
+/*   Updated: 2024/04/24 17:42:33 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SIGNALS_H
-# define SIGNALS_H
+#include "exit_status.h"
 
-# include <signal.h>
-# include <unistd.h>
-# include <readline/readline.h>
-# include <readline/history.h>
+int	exit_process(t_minishell *minishell)
+{
+	int	exit_status;
 
-/* signals.c */
-void	init_signals(void);
-void	init_process_signals(void);
-void	init_heredoc_signals(void);
-
-#endif
+	exit_status = minishell->exit_status;
+	if (g_exit_signal)
+	{
+		exit_status = g_exit_signal;
+		g_exit_signal = 0;
+	}
+	free_resources(minishell);
+	exit(exit_status);
+}

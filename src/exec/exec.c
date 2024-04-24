@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 15:03:34 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/23 18:48:52 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/24 15:58:56 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -222,6 +222,8 @@ bool    execute_builtin(char *cmd, char **args, t_data *data, t_minishell *minis
     int            i;
 
     i = 0;
+	if (cmd == NULL)
+		return (false);
     data->args = args;
     while (builtins[i].name)
     {
@@ -242,6 +244,7 @@ void	redirect_if_needed(t_command *command)
 	int	fd_in;
 	int	fd_out;
 
+	printf("In redirect if needed\n\n");
 	// Gestion de la redirection d'entrée
 	if (command->redirect_in)
 	{
@@ -301,6 +304,11 @@ void	execute_cmd(t_command *command, t_data *data, t_minishell *minishell)
 		exit(EXIT_SUCCESS);
 	}
 	path = find_path(command->args[0]);
+	if (!path && command->heredoc)
+	{
+		free_resources2(minishell);
+		exit(EXIT_FAILURE);
+	}
 	if (!path)
 	{
 		ft_putstr_fd("minishell: ", STDERR_FILENO);
@@ -330,9 +338,9 @@ void	execute_cmdtest(t_command *command, t_data *data, t_minishell *minishell)
 	path = find_path(command->args[0]);
 	if (!path)
 	{
-		ft_putstr_fd("minishell: ", STDERR_FILENO);
-		ft_putstr_fd(command->args[0], STDERR_FILENO);
-		ft_putstr_fd(": command not found\n", STDERR_FILENO);
+		// ft_putstr_fd("minishell: ", STDERR_FILENO);
+		// ft_putstr_fd(command->args[0], STDERR_FILENO);
+		// ft_putstr_fd(": command not found\n", STDERR_FILENO);
 		free_resources2(minishell);
 		exit(EXIT_FAILURE);
 	}
@@ -469,7 +477,7 @@ void execute_single_builtin(t_pipeline *pipeline, t_data *data, t_minishell *min
 bool is_builtins(char *cmd)
 {
 	// Vérifiez si cmd est un builtin utilisant ft_strcmp
-	return (ft_strcmp(cmd, "echo") == 0 || ft_strcmp(cmd, "cd") == 0 || ft_strcmp(cmd, "pwd") == 0 || ft_strcmp(cmd, "export") == 0 || ft_strcmp(cmd, "unset") == 0 || ft_strcmp(cmd, "env") == 0 || ft_strcmp(cmd, "exit") == 0);
+	return (ft_strcmp(cmd, "echo") == 0 || ft_strcmp(cmd, "cd") == 0 || ft_strcmp(cmd, "pwd") == 0 || ft_strcmp(cmd, "export") == 0 || ft_strcmp(cmd, "unset") == 0 || ft_strcmp(cmd, "env") == 0 || ft_strcmp(cmd, "exit") == 0) || cmd == NULL;
 }
 
 // Choix et exécution de la stratégie basée sur le nombre de commandes dans le pipeline
@@ -480,9 +488,9 @@ void	execute_pipeline(t_pipeline *pipeline, t_data *data, t_minishell *minishell
 
 	cmd_count = pipeline->command_count;
 	init_process_signals();
-	if (cmd_count == 1 && is_builtins(pipeline->commands[0]->args[0]))
-		execute = execute_single_builtin;
-	else
+	// if (cmd_count == 1 && is_builtins(pipeline->commands[0]->args[0]))
+	// 	execute = execute_single_builtin;
+	// else
 		execute = execute_commands;
 	execute(pipeline, data, minishell);
 }

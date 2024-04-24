@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 12:47:01 by cabdli            #+#    #+#             */
-/*   Updated: 2024/04/09 13:46:22 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/24 17:03:52 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,23 @@
 
 void	print_err_msg(t_error *error)
 {
+	char	*str;
+	char	*str2;
+
+	str = NULL;
+	str2 = NULL;
 	if (*error == QUOTES)
-		ft_putstr_fd("minishell: error: unclosed quotes\n", STDERR_FILENO);
+		str = "minishell: error: unclosed quotes\n";
 	else if (*error == SYNTAX)
-		ft_putstr_fd("minishell: syntax error near unexpected token\n", \
-		STDERR_FILENO);
+		str = "minishell: syntax error near unexpected token\n";
+	else if (*error == HDOC_SIGN)
+	{
+		str = "minishell: warning: here-document delimited by end-of-file ";
+		str2 = "(wanted: delimiter)\n";
+	}
 	else
-		ft_putstr_fd("minishell: error: malloc failure\n", STDERR_FILENO);
+		str = "minishell: error: malloc failure\n";
+	ft_putstr_fd(str, STDERR_FILENO);
+	if (str2)
+		ft_putstr_fd(str2, STDERR_FILENO);
 }
