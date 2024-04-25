@@ -26,6 +26,7 @@
     "streambuf": "c",
     "functional": "c",
     "signals.h": "c",
-    "error.h": "c"
+    "error.h": "c",
+    "exit_status.h": "c"
   }
 }

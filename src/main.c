@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 13:02:19 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/22 17:59:32 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/25 14:32:01 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,19 +72,10 @@ int	main(int argc, char **argv, char **envp)
 	if (!minishell)
 		return (1);
 	run_shell(minishell);
-	free_minishell(&minishell);
-	return (0);
+	return (exit_all(minishell));
 }
 
 /*
--> Fill_pipeline, redirection :
-* gerer les caracteres speciaux ? = s'ils sont seuls les refuser sinon OK
-* enlever les '\' ?
-* refuser les '/' et les noms de fichier trop longs : OK, open s'en charge
-
--> changer free_pipeline en passant **pipeline, pour mettre pipeline a NULL
--> pareil que precedemment pour free_token (+mettre a NULL)
-
 -> 255 = terminaison anormale des processus : voir msg elodie,
 return values, pour gestion exit status, inverser verifications 
 (return 0 si tout va bien et sinon return les bons codes error)

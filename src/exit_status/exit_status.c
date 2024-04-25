@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 17:29:07 by cabdli            #+#    #+#             */
-/*   Updated: 2024/04/24 17:42:33 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/25 14:24:47 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,4 +24,13 @@ int	exit_process(t_minishell *minishell)
 	}
 	free_resources(minishell);
 	exit(exit_status);
+}
+
+int	exit_all(t_minishell *minishell)
+{
+	int	exit_status;
+
+	exit_status = minishell->exit_status;
+	free_minishell(&minishell);
+	return (exit_status);
 }
