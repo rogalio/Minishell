@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 19:02:05 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/24 15:19:58 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/26 12:22:58 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include "exec.h"
 #include "builtins.h"
 #include "signals.h"
+#include "exit_status.h"
 
 static int	parse_input(t_minishell *minishell, char *input)
 {

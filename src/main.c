@@ -6,13 +6,14 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 13:02:19 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/25 14:32:01 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/26 12:23:13 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "builtins.h"
 #include "prompt.h"
+#include "exit_status.h"
 
 int	g_exit_signal;
 

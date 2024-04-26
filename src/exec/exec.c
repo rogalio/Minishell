@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 15:03:34 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/24 15:58:56 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/26 13:09:39 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -486,8 +486,12 @@ void	execute_pipeline(t_pipeline *pipeline, t_data *data, t_minishell *minishell
 	void	(*execute)(t_pipeline *, t_data *, t_minishell *);
 	int		cmd_count;
 
-	cmd_count = pipeline->command_count;
 	init_process_signals();
+	cmd_count = pipeline->command_count;
+	// if (get_exit_status(pipeline, minishell))
+	// 	;
+	get_exit_status(pipeline, minishell);
+	print_pipeline(pipeline);
 	// if (cmd_count == 1 && is_builtins(pipeline->commands[0]->args[0]))
 	// 	execute = execute_single_builtin;
 	// else

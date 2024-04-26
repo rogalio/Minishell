@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 17:09:40 by cabdli            #+#    #+#             */
-/*   Updated: 2024/04/22 13:12:59 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/26 12:38:34 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,16 +45,10 @@ static void	replace_variable(char **new_word, char *var_value, int *j)
 	}
 }
 
-void	handle_expand(char *word, t_expansion *exp, int *ije)
+void	handle_expand(t_expansion *exp, int *ije)
 {
 	if (ft_strcmp(exp->var_name[ije[2]], "$"))
 		ije[0]++;
-	if (word[ije[0]] == '?')
-	{
-		ije[0]++;
-		exp->new_word[ije[1]++] = '0';
-		return ;
-	}
 	ije[0] += ft_strlen(exp->var_name[ije[2]]);
 	replace_variable(&(exp->new_word), exp->var_value[ije[2]++], &ije[1]);
 }

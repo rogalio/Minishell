@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 13:06:53 by cabdli            #+#    #+#             */
-/*   Updated: 2024/04/22 13:07:45 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/26 12:36:15 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int			len_plus_exp_size(int len, t_expansion *exp);
 
 /* handle_expand.c */
 int			get_nb_expand(char *word);
-void		handle_expand(char *word, t_expansion *exp, int *ije);
+void		handle_expand(t_expansion *exp, int *ije);
 
 /* handle_quotes.c */
 int			count_quotes(char *word);

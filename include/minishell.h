@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 12:56:37 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/25 14:30:28 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/26 12:22:49 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@
 # include "token.h"
 # include "pipeline.h"
 # include "error.h"
-#include "exit_status.h"
 
 extern int	g_exit_signal;
 
