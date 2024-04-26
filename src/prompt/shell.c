@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 19:02:05 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/26 12:22:58 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/26 13:27:27 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ static int	parse_input(t_minishell *minishell, char *input)
 	minishell->token_list = create_token_list(input, &(minishell->error));
 	if (!(minishell->token_list))
 		return (print_err_msg(&(minishell->error)), 0);
-	print_token_list(minishell->token_list);
 	if (!syntax_analyzer(minishell->token_list, &(minishell->error)))
 	{
 		print_err_msg(&(minishell->error));
