@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 19:02:05 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/26 13:27:27 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/26 15:42:25 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,18 +26,20 @@ static int	parse_input(t_minishell *minishell, char *input)
 		return (0);
 	minishell->token_list = create_token_list(input, &(minishell->error));
 	if (!(minishell->token_list))
-		return (print_err_msg(&(minishell->error)), 0);
+		return (print_err_msg(&(minishell->error)), \
+		minishell->exit_status = UNEXPEC_ERR, 0);
 	if (!syntax_analyzer(minishell->token_list, &(minishell->error)))
 	{
 		print_err_msg(&(minishell->error));
+		minishell->exit_status = SYNTAX_ERR;
 		return (free_token_list(&minishell->token_list), 0);
 	}
 	minishell->pipeline = create_pipeline(minishell->token_list, \
 	minishell->data->env, &(minishell->error));
-	print_pipeline(minishell->pipeline);
 	if (!minishell->pipeline)
 	{
 		print_err_msg(&(minishell->error));
+		minishell->exit_status = UNEXPEC_ERR;
 		return (free_token_list(&minishell->token_list), 0);
 	}
 	return (1);
@@ -57,7 +59,7 @@ void	run_shell(t_minishell *minishell)
 	while (1)
 	{
 		init_signals();
-		input = display_and_readline();
+		input = display_and_readline(minishell);
 		if (!input)
 			break ;
 		if (parse_input(minishell, input))

@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 14:36:54 by cabdli            #+#    #+#             */
-/*   Updated: 2024/04/24 15:31:54 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/26 15:09:39 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,19 @@
 # include <unistd.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+#include "minishell.h"
 
-/* signals.c */
+/* init_signals.c */
 void	init_signals(void);
 void	init_process_signals(void);
 void	init_heredoc_signals(void);
+
+/* sigquit.c */
+void	sigquit_process_handler(int signum);
+
+/* sigint.c */
+void	sigint_handler(int signum);
+void	sigint_process_handler(int signum);
+void	sigint_heredoc_handler(int signum);
 
 #endif

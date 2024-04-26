@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 13:02:19 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/26 13:30:56 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/26 15:02:30 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,10 +68,10 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	minishell = NULL;
 	if (argc != 1)
-		return (ft_putstr_fd("Error: too many arguments\n", 2), 1);
+		return (ft_putstr_fd("Error: too many arguments\n", 2), UNEXPEC_ERR);
 	minishell = init_minishell(envp);
 	if (!minishell)
-		return (1);
+		return (UNEXPEC_ERR);
 	run_shell(minishell);
 	return (exit_all(minishell));
 }

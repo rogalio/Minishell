@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 14:15:45 by cabdli            #+#    #+#             */
-/*   Updated: 2024/04/24 18:41:23 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/26 15:49:35 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,8 @@ int	open_heredoc(t_heredoc *heredoc, t_minishell *minishell)
 		close(heredoc->fd);
 		if (unlink(heredoc->hdoc_name) == -1)
 			return (0);
-		return (130);
+		minishell->exit_status = SIGINT_ERR;
+		return (SIGINT_ERR);
 	}
 	close(heredoc->fd);
 	return (1);

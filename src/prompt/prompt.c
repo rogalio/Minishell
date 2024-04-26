@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
+/*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 18:36:27 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/11 18:56:49 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/04/26 15:28:14 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ char	*display_prompt(void)
 	return (prompt);
 }
 
-char	*display_and_readline(void)
+char	*display_and_readline(t_minishell *minishell)
 {
 	char	*prompt;
 	char	*input;
@@ -80,7 +80,8 @@ char	*display_and_readline(void)
 	input = NULL;
 	prompt = display_prompt();
 	if (!prompt)
-		return (ft_putstr_fd("Error: malloc failure\n", STDERR_FILENO), NULL);
+		return (minishell->error = MALLOC, print_err_msg(&minishell->error), \
+		minishell->exit_status = UNEXPEC_ERR, NULL);
 	input = readline(prompt);
 	free(prompt);
 	if (!input)

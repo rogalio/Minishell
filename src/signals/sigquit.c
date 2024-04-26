@@ -1,22 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit_status.h                                      :+:      :+:    :+:   */
+/*   sigquit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/24 17:29:40 by cabdli            #+#    #+#             */
-/*   Updated: 2024/04/26 15:01:21 by cabdli           ###   ########.fr       */
+/*   Created: 2024/04/26 15:06:04 by cabdli            #+#    #+#             */
+/*   Updated: 2024/04/26 15:11:50 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXIT_STATUS_H
-# define EXIT_STATUS_H
+#include "signals.h"
 
-# include "minishell.h"
-
-int	exit_process(t_minishell *minishell);
-int	exit_all(t_minishell *minishell);
-int	get_exit_status(t_pipeline *pipeline, t_minishell *minishell);
-
-#endif
+void	sigquit_process_handler(int signum)
+{
+	(void)signum;
+	g_exit_signal = SIGQUIT_ERR;
+	write(STDOUT_FILENO, "Quit (core dumped)\n", 19);
+}

@@ -6,11 +6,12 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 12:47:01 by cabdli            #+#    #+#             */
-/*   Updated: 2024/04/24 17:03:52 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/26 15:18:50 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "error.h"
+#include "minishell.h"
 
 void	print_err_msg(t_error *error)
 {

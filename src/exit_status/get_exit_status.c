@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 12:42:18 by cabdli            #+#    #+#             */
-/*   Updated: 2024/04/26 13:23:19 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/26 15:26:08 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,11 @@ int	convert_exit_status(char **word, t_minishell *minishell)
 	char	*tmp;
 
 	tmp = *word;
+	if (g_exit_signal)
+	{
+		minishell->exit_status = g_exit_signal;
+		g_exit_signal = 0;
+	}
 	*word = ft_itoa(minishell->exit_status);
 	if (!(*word))
 		return (*word = tmp, 0);

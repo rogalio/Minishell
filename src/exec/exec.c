@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 15:03:34 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/26 13:30:10 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/26 15:59:11 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -284,11 +284,11 @@ void free_token_test(t_token *token)
 }
 
 
-void free_resources2(t_minishell *minishell)
+void	free_resources2(t_minishell *minishell)
 {
-    free_token_list(&minishell->token_list);
-    free_pipeline(&minishell->pipeline);
-    free_minishell(&minishell);
+	free_token_list(&minishell->token_list);
+	free_pipeline(&minishell->pipeline);
+	free_minishell(&minishell);
 }
 
 
@@ -490,11 +490,10 @@ void	execute_pipeline(t_pipeline *pipeline, t_data *data, t_minishell *minishell
 	cmd_count = pipeline->command_count;
 	if (get_exit_status(pipeline, minishell))
 		return ;
-	print_pipeline(pipeline);
 	// if (cmd_count == 1 && is_builtins(pipeline->commands[0]->args[0]))
 	// 	execute = execute_single_builtin;
 	// else
-		execute = execute_commands;
+	execute = execute_commands;
 	execute(pipeline, data, minishell);
 }
 
