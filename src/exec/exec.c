@@ -6,14 +6,11 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 15:03:34 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/30 18:30:01 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/30 19:31:03 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec.h"
-#include "builtins.h"
-#include "signals.h"
-#include "token.h"
 
 void	swap_pipe(t_pipe *pipe1, t_pipe *pipe2)
 {
@@ -58,18 +55,7 @@ char	**ft_split2(char const *s, char c)
 	return (tab);
 }
 
-void	free_tab(char **tab)
-{
-	int	i;
 
-	i = 0;
-	while (tab[i])
-	{
-		free(tab[i]);
-		i++;
-	}
-	free(tab);
-}
 
 char	*ft_strjoin_three(const char *s1, const char *s2, const char *s3)
 {
@@ -92,47 +78,6 @@ char	*ft_strjoin_three(const char *s1, const char *s2, const char *s3)
 	return (new_str);
 }
 
-static char	*check_directories(char **dirs, const char *cmd)
-{
-	char	*path;
-	int		i;
-
-	i = 0;
-	while (dirs[i])
-	{
-		path = ft_strjoin_three(dirs[i], "/", cmd);
-		printf("path = %s\n", path);
-		if (access(path, X_OK) == 0)
-			return (path);
-		free(path);
-		i++;
-	}
-	return (NULL);
-}
-
-static char	**get_search_paths(t_env *env)
-{
-	char	*path_env;
-	char	**paths;
-
-	path_env = get_env_value(env, "PATH");
-	if (!path_env)
-	{
-		free(path_env);
-		return (NULL);
-	}
-	paths = ft_split2(path_env, ':');
-	free(path_env);
-	return (paths);
-}
-
-static char	*search_in_current(const char *cmd)
-{
-	if (access(cmd, X_OK) == 0)
-		return (ft_strdup(cmd));
-	return (NULL);
-}
-
 char	*find_path(const char *cmd, t_minishell *minishell)
 {
 	char	**paths;
@@ -140,8 +85,8 @@ char	*find_path(const char *cmd, t_minishell *minishell)
 
 	if (!cmd || cmd[0] == '\0')
 		return (NULL);
-	if (cmd[0] == '/' || strncmp(cmd, "./", 2) == 0 || \
-	strncmp(cmd, "../", 3) == 0)
+	if (cmd[0] == '/' || ft_strncmp(cmd, "./", 2) == 0 || \
+	ft_strncmp(cmd, "../", 3) == 0)
 		return (search_in_current(cmd));
 	paths = get_search_paths(minishell->data->env);
 	if (!paths)
@@ -179,62 +124,6 @@ char	**env_to_char_array(t_env *env)
 }
 
 
-// {"env", env},
-bool	is_builtins(char *cmd)
-{
-	int			i;
-	t_builtins	builtins[] = {
-	{"echo", echo},
-	{"cd", cd},
-	{"pwd", pwd},
-	{"unset", unset},
-	{"exit", exit_shell},
-	{"export", export},
-	{NULL, NULL}
-	};
-
-	i = 0;
-	if (!cmd)
-		return (false);
-	while (builtins[i].name)
-	{
-		if (strcmp(builtins[i].name, cmd) == 0)
-			return (true);
-		i++;
-	}
-	return (false);
-}
-
-//{"env", env},
-bool	execute_builtin(char *cmd, char **args, t_data *data, \
-t_minishell *minishell)
-{
-	int			i;
-	t_builtins	builtins[] = {
-	{"echo", echo},
-	{"cd", cd},
-	{"pwd", pwd},
-	{"unset", unset},
-	{"exit", exit_shell},
-	{"export", export},
-	{NULL, NULL}
-	};
-
-	i = 0;
-	if (cmd == NULL)
-		return (false);
-	data->args = args;
-	while (builtins[i].name)
-	{
-		if (strcmp(builtins[i].name, cmd) == 0)
-		{
-			builtins[i].func(data, minishell);
-			return (true);
-		}
-		i++;
-	}
-	return (false);
-}
 
 void	free_token_test(t_token *token)
 {
@@ -259,27 +148,6 @@ void	handle_command_not_found(t_command *command, t_minishell *minishell)
 	ft_putstr_fd("\n", STDERR_FILENO);
 	free_resources2(minishell);
 	exit(EXIT_FAILURE);
-}
-
-void	cleanup_and_exit(t_command *command, t_minishell *minishell, int status)
-{
-	if (status == EXIT_FAILURE)
-		perror(command->args[0]);
-	free_resources2(minishell);
-	exit(status);
-}
-
-bool	check_command_args(t_command *command)
-{
-	int	i;
-
-	i = -1;
-	while (command->args[0][++i])
-	{
-		if (command->args[0][i] == ' ')
-			return (true);
-	}
-	return (false);
 }
 
 void	execute_split_cmd(t_command *command, t_data *data, \
@@ -331,7 +199,7 @@ void	execute_regular_cmd(t_command *command, t_data *data, t_minishell *minishel
 
 void	execute_cmd(t_command *command, t_data *data, t_minishell *minishell)
 {
-	if (!redirect_if_needed(command))
+	if (redirect_if_needed(command))
 		cleanup_and_exit(command, minishell, EXIT_FAILURE);
 	if (is_builtins(command->args[0]))
 	{
@@ -359,38 +227,6 @@ void	wait_for_children_to_finish(int command_count)
 	}
 }
 
-// fonction check if pid = -1
-void	check_pid_error(pid_t pid)
-{
-	if (pid == -1)
-	{
-		perror("fork");
-		exit(EXIT_FAILURE);
-	}
-}
-
-// function to check if pid is 0
-bool	is_child_process(pid_t pid)
-{
-	return (pid == 0);
-}
-
-// function to check_is_last_command
-bool	is_last_command(int i, int command_count)
-{
-	return (i == command_count - 1);
-}
-
-// Fonction pour créer un pipe et gérer les erreurs
-int	create_pipe(int pipe_fds[2])
-{
-	if (pipe(pipe_fds) == -1)
-	{
-		perror("pipe");
-		exit(EXIT_FAILURE);
-	}
-	return (0);
-}
 
 // handle child process
 void	handle_child_process(int in_fd, int pipe_fds[2], int i, \
@@ -401,7 +237,7 @@ t_minishell *minishell)
 		dup2(in_fd, STDIN_FILENO);
 		close(in_fd);
 	}
-	if (i < minishell->pipeline->command_count - 1)
+	if (!is_last_command(i, minishell->pipeline->command_count))
 	{
 		close(pipe_fds[0]);
 		dup2(pipe_fds[1], STDOUT_FILENO);
@@ -435,7 +271,7 @@ int get_cmd_count(t_pipeline *pipeline)
 }
 
 // Gère l'exécution de plusieurs commandes avec un pipeline
-void	execute_commands(t_pipeline *pipeline, t_data *data, \
+int	execute_commands(t_pipeline *pipeline, t_data *data, \
 t_minishell *minishell)
 {
 	int		i;
@@ -445,13 +281,14 @@ t_minishell *minishell)
 
 	i = 0;
 	in_fd = 0;
+	(void)data;
 	while (i < pipeline->command_count)
 	{
 		if (!is_last_command(i, pipeline->command_count))
 			create_pipe(pipe_fds);
 		pid = fork();
 		check_pid_error(pid);
-		if (is_child_process(pid))
+		if (pid == 0)
 			handle_child_process(in_fd, pipe_fds, i, minishell);
 		else
 			handle_parent_process(&in_fd, pipe_fds, i, pipeline);
@@ -460,17 +297,7 @@ t_minishell *minishell)
 	wait_for_children_to_finish(pipeline->command_count);
 }
 
-
-
-void	restore_standard_descriptors(int saved_stdout, int saved_stdin)
-{
-	dup2(saved_stdout, STDOUT_FILENO);
-	dup2(saved_stdin, STDIN_FILENO);
-	close(saved_stdout);
-	close(saved_stdin);
-}
-
-void	execute_single_builtin(t_pipeline *pipeline, t_data *data, \
+int	execute_single_builtin(t_pipeline *pipeline, t_data *data, \
 t_minishell *minishell)
 {
 	int	saved_stdout;
@@ -479,28 +306,24 @@ t_minishell *minishell)
 	saved_stdout = dup(STDOUT_FILENO);
 	saved_stdin = dup(STDIN_FILENO);
 	if (!redirect_if_needed(pipeline->commands[0]))
-		/*gerer erreur*/;
-	if (is_builtins(pipeline->commands[0]->args[0]))
-		execute_builtin(pipeline->commands[0]->args[0], \
-		pipeline->commands[0]->args, data, minishell);
-	dup2(saved_stdout, STDOUT_FILENO);
-	dup2(saved_stdin, STDIN_FILENO);
-	close(saved_stdout);
-	close(saved_stdin);
-
+		return (1);
+	execute_builtin(pipeline->commands[0]->args[0], \
+	pipeline->commands[0]->args, data, minishell);
+	restore_standard_descriptors(saved_stdout, saved_stdin);
 }
 
 void	execute_pipeline(t_pipeline *pipeline, t_data *data, \
 t_minishell *minishell)
 {
-	void	(*execute)(t_pipeline *, t_data *, t_minishell *);
-	int		cmd_count;
+	int	(*execute)(t_pipeline *, t_data *, t_minishell *);
+	int	cmd_count;
 
 	cmd_count = pipeline->command_count;
 	if (cmd_count == 1 && is_builtins(pipeline->commands[0]->args[0]))
 		execute = execute_single_builtin;
 	else
 		execute = execute_commands;
-	execute(pipeline, data, minishell);
+	if (execute(pipeline, data, minishell))
+		return ;
 }
 
