@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 13:02:19 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/22 17:59:32 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/23 19:59:52 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ int	main(int argc, char **argv, char **envp)
 		return (1);
 	run_shell(minishell);
 	free_minishell(&minishell);
+
 	return (0);
 }
 
@@ -86,7 +87,7 @@ int	main(int argc, char **argv, char **envp)
 -> pareil que precedemment pour free_token (+mettre a NULL)
 
 -> 255 = terminaison anormale des processus : voir msg elodie,
-return values, pour gestion exit status, inverser verifications 
+return values, pour gestion exit status, inverser verifications
 (return 0 si tout va bien et sinon return les bons codes error)
 
 -> pb pour get_env en cas d'echec de strdup : comment differencier
