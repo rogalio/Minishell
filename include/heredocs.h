@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 14:16:20 by cabdli            #+#    #+#             */
-/*   Updated: 2024/04/24 17:35:40 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/30 14:28:54 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <errno.h>
 # include "minishell.h"
 # include "signals.h"
 # include "exit_status.h"

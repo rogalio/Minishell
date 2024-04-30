@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 12:56:37 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/26 15:42:44 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/30 15:08:35 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ extern int	g_exit_signal;
 # define SUCCESS 0
 # define UNEXPEC_ERR 1
 # define SYNTAX_ERR 2
-# define NOTFOUND_ERR 127
+# define NOTFND_ERR 127
 # define SIGINT_ERR 130
 # define SIGQUIT_ERR 131
 # define PERM_ERR 126

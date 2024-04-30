@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 14:15:45 by cabdli            #+#    #+#             */
-/*   Updated: 2024/04/26 15:49:35 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/30 15:48:43 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,18 +21,22 @@ int	read_line(t_heredoc *heredoc, t_minishell *minishell)
 	f_line = NULL;
 	line = readline("> ");
 	if (!line && g_exit_signal != 130)
-		return (free(line), minishell->error = HDOC_SIGN, print_err_msg(&minishell->error), 2);
+	{
+		minishell->error = HDOC_SIGN;
+		minishell->exit_status = SUCCESS;
+		return (free(line), print_err_msg(&minishell->error), 1);
+	}
 	if (g_exit_signal == 130 || !ft_strncmp(line, heredoc->delimiter, \
 	(ft_strlen(heredoc->delimiter) + 1)))
-		return (free(line), 1);
+		return (free(line), minishell->exit_status = SUCCESS, 1);
 	f_line = ft_strjoin(line, "\n");
 	free (line);
 	if (!f_line)
-		return (1);
+		return (minishell->exit_status = UNEXPEC_ERR, 1);
 	if (!handle_expand_quotes(&f_line, minishell->data->env))
-		return (free(f_line), 1);
+		return (free(f_line), minishell->exit_status = UNEXPEC_ERR, 1);
 	write(heredoc->fd, f_line, ft_strlen(f_line));
-	return (free(f_line), 0);
+	return (free(f_line), SUCCESS);
 }
 
 int	hdoc_child_process(t_heredoc *heredoc, t_minishell *minishell)
@@ -50,39 +54,42 @@ int	open_heredoc(t_heredoc *heredoc, t_minishell *minishell)
 
 	heredoc->fd = open(heredoc->hdoc_name, 578, 0644);
 	if (heredoc->fd == -1)
-		return (0);
+		return (perror("minishell"), 1);
 	pid = fork();
 	if (pid == -1)
-		return (close(heredoc->fd), 0);
+		return (close(heredoc->fd), perror("minishell"), 1);
 	signal(SIGINT, SIG_IGN);
 	if (pid == 0)
 		hdoc_child_process(heredoc, minishell);
 	if (waitpid(pid, &childval, 0) == -1)
-		return (close(heredoc->fd), 0);
-	if (WEXITSTATUS(childval) == 130)
+		return (close(heredoc->fd), perror("minishell"), 1);
+	minishell->exit_status = WEXITSTATUS(childval);
+	if (minishell->exit_status == 130)
 	{
 		close(heredoc->fd);
 		if (unlink(heredoc->hdoc_name) == -1)
-			return (0);
-		minishell->exit_status = SIGINT_ERR;
+			return (perror("minishell"), 1);
 		return (SIGINT_ERR);
 	}
 	close(heredoc->fd);
-	return (1);
+	return (minishell->exit_status);
 }
 
 int	handle_cmd_heredocs(t_heredoc **heredoc, int nb_hdocs, \
 t_minishell *minishell)
 {
 	int	i;
+	int	exit_value;
 
 	i = -1;
+	exit_value = 0;
 	if (!heredoc)
 		return (1);
 	while (++i < nb_hdocs)
 	{
-		if (!open_heredoc(heredoc[i], minishell))
-			return (0);
+		exit_value = open_heredoc(heredoc[i], minishell);
+		if (exit_value)
+			return (minishell->exit_status = exit_value, 0);
 	}
 	return (1);
 }

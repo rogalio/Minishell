@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 15:03:34 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/26 15:59:11 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/30 15:53:39 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -244,7 +244,6 @@ void	redirect_if_needed(t_command *command)
 	int	fd_in;
 	int	fd_out;
 
-	printf("In redirect if needed\n\n");
 	// Gestion de la redirection d'entrée
 	if (command->redirect_in)
 	{

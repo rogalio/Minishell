@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 19:02:05 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/26 16:56:06 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/30 15:53:05 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ static int	parse_input(t_minishell *minishell, char *input)
 	}
 	minishell->pipeline = create_pipeline(minishell->token_list, \
 	minishell->data->env, &(minishell->error));
-	print_pipeline(minishell->pipeline);
 	if (!minishell->pipeline)
 	{
 		print_err_msg(&(minishell->error));
