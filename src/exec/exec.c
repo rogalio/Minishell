@@ -6,7 +6,7 @@
 /*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 15:03:34 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/26 18:30:21 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/04/30 16:42:00 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,9 +152,13 @@ static char **get_search_paths(t_env *env) {
 
     path_env = get_env_value(env, "PATH");
     if (!path_env)
-        return (NULL);
+    {
+			free(path_env);
+			return (NULL);
+		}
     paths = ft_split2(path_env, ':'); // Assurez-vous que ft_split2 gère correctement la mémoire et les erreurs
-    return (paths);
+    free(path_env);
+		return (paths);
 }
 
 static char *search_in_current(const char *cmd) {
@@ -175,7 +179,10 @@ char *find_path(const char *cmd, t_minishell *minishell) {
     // Recherche dans PATH
     paths = get_search_paths(minishell->data->env);
     if (!paths)
-        return (NULL);
+    {
+			free(paths);
+			return (NULL);
+		}
     found_path = check_directories(paths, cmd);
     free_tab(paths); // Assurez-vous que free_tab gère correctement la mémoire
     return (found_path);
@@ -334,6 +341,87 @@ void free_resources2(t_minishell *minishell)
     free_minishell(&minishell);
 }
 
+void handle_command_not_found(t_command *command, t_minishell *minishell)
+{
+		ft_putstr_fd("minishell: command not found: ", STDERR_FILENO);
+    ft_putstr_fd(command->args[0], STDERR_FILENO);
+    ft_putstr_fd("\n", STDERR_FILENO);
+    free_resources2(minishell);
+    exit(EXIT_FAILURE);
+}
+
+void cleanup_and_exit(t_command *command, t_minishell *minishell, int status)
+{
+	if (status == EXIT_FAILURE)
+			perror(command->args[0]);
+	free_resources2(minishell);
+	exit(status);
+}
+
+bool check_command_args(t_command *command)
+{
+		int i;
+
+		i = -1;
+		while (command->args[0][++i])
+		{
+			if (command->args[0][i] == ' ')
+				return (true);
+		}
+		return (false);
+}
+
+void execute_split_cmd(t_command *command, t_data *data, t_minishell *minishell)
+{
+		int 	i;
+    char *path;
+    char **envp;
+		char **split;
+
+		i = 0;
+		split = ft_split2(command->args[0], ' ');
+    path = find_path(split[0], minishell);
+    if (!path)
+   		handle_command_not_found(command, minishell);
+    envp = env_to_char_array(data->env);
+		execve(path, split, envp);
+		free_tab(split);
+    cleanup_and_exit(command, minishell, EXIT_FAILURE);
+}
+
+void execute_cmd2(t_command *command, t_data *data, t_minishell *minishell)
+{
+    char *path;
+    char **envp;
+
+		envp = NULL;
+    path = find_path(command->args[0], minishell);
+    if (!path)
+			handle_command_not_found(command, minishell);
+    envp = env_to_char_array(data->env);
+    execve(path, command->args, envp);
+  cleanup_and_exit(command, minishell, EXIT_FAILURE);
+}
+
+void execute_cmd(t_command *command, t_data *data, t_minishell *minishell)
+{
+	redirect_if_needed(command);
+	if (is_builtins(command->args[0]))
+	{
+		execute_builtin(command->args[0], command->args, data, minishell);
+		cleanup_and_exit(command, minishell, EXIT_SUCCESS);
+	}
+	else
+	{
+		if (check_command_args(command))
+			execute_split_cmd(command, data, minishell);
+		else
+			execute_cmd2(command, data, minishell);
+	}
+}
+
+
+/*
 void execute_cmd(t_command *command, t_data *data, t_minishell *minishell)
 {
     char *path;
@@ -388,6 +476,7 @@ void execute_cmd(t_command *command, t_data *data, t_minishell *minishell)
     free_resources2(minishell);
     exit(EXIT_FAILURE);
 }
+*/
 
 void	wait_for_children_to_finish(int command_count)
 {
