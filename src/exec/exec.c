@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 15:03:34 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/30 17:25:49 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/30 17:40:16 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -334,11 +334,11 @@ void free_token_test(t_token *token)
 }
 
 
-void	free_resources2(t_minishell *minishell)
+void free_resources2(t_minishell *minishell)
 {
-	free_token_list(&minishell->token_list);
-	free_pipeline(&minishell->pipeline);
-	free_minishell(&minishell);
+    free_token_list(&minishell->token_list);
+    free_pipeline(&minishell->pipeline);
+    free_minishell(&minishell);
 }
 
 void handle_command_not_found(t_command *command, t_minishell *minishell)
@@ -381,11 +381,11 @@ void execute_split_cmd(t_command *command, t_data *data, t_minishell *minishell)
 		i = 0;
 		split = ft_split2(command->args[0], ' ');
     path = find_path(split[0], minishell);
-	if (!path && command->heredoc)
-	{
-		free_resources2(minishell);
-		exit(EXIT_SUCCESS);
-	}
+		if (!path && command->heredoc)
+		{
+			free_resources2(minishell);
+			exit(EXIT_SUCCESS);
+		}
     if (!path)
    		handle_command_not_found(command, minishell);
     envp = env_to_char_array(data->env);
@@ -394,18 +394,18 @@ void execute_split_cmd(t_command *command, t_data *data, t_minishell *minishell)
     cleanup_and_exit(command, minishell, EXIT_FAILURE);
 }
 
-void execute_cmd2(t_command *command, t_data *data, t_minishell *minishell)
+void execute_regular_cmd(t_command *command, t_data *data, t_minishell *minishell)
 {
     char *path;
     char **envp;
 
 		envp = NULL;
     path = find_path(command->args[0], minishell);
-	if (!path && command->heredoc)
-	{
-		free_resources2(minishell);
-		exit(EXIT_SUCCESS);
-	}
+		if (!path && command->heredoc)
+		{
+			free_resources2(minishell);
+			exit(EXIT_SUCCESS);
+		}
     if (!path)
 			handle_command_not_found(command, minishell);
     envp = env_to_char_array(data->env);
@@ -426,67 +426,9 @@ void execute_cmd(t_command *command, t_data *data, t_minishell *minishell)
 		if (check_command_args(command))
 			execute_split_cmd(command, data, minishell);
 		else
-			execute_cmd2(command, data, minishell);
+			execute_regular_cmd(command, data, minishell);
 	}
 }
-
-
-/*
-void execute_cmd(t_command *command, t_data *data, t_minishell *minishell)
-{
-    char *path;
-    char **envp;
-		int i = -1;
-
-	//ls, - la
-		char **split;
-
-	split = NULL;
-  	redirect_if_needed(command);
-    if (is_builtins(command->args[0]))
-    {
-        execute_builtin(command->args[0], command->args, data, minishell);
-				free_resources2(minishell);
-				exit(EXIT_SUCCESS);
-    }
-		printf("command->args[0] = %s\n", command->args[0]);
-		while (command->args[0][++i])
-		{
-			if (command->args[0][i] == ' ')
-			{
-				split = ft_split2(command->args[0], ' ');
-				printf("split[0] = %s\n", split[0]);
-				printf("split[1] = %s\n", split[1]);
-				break ;
-			}
-		}
-		if (split)
-    	path = find_path(split[0], minishell);
-		else
-    	path = find_path(command->args[0], minishell);
-    if (!path)
-    {
-        ft_putstr_fd("minishell: command not found: ", STDERR_FILENO);
-        ft_putstr_fd(command->args[0], STDERR_FILENO);
-        ft_putstr_fd("\n", STDERR_FILENO);
-        free_resources2(minishell);
-        exit(EXIT_FAILURE);
-    }
-    envp = env_to_char_array(data->env);
-		if (split)
-		{
-			execve(path, split, envp);
-			while (split[i++])
-				free(split[i]);
-			free(split);
-		}
-		else
-    	execve(path, command->args, envp);
-    perror(command->args[0]);
-    free_resources2(minishell);
-    exit(EXIT_FAILURE);
-}
-*/
 
 void	wait_for_children_to_finish(int command_count)
 {
@@ -634,14 +576,11 @@ void	execute_pipeline(t_pipeline *pipeline, t_data *data, t_minishell *minishell
 	void	(*execute)(t_pipeline *, t_data *, t_minishell *);
 	int		cmd_count;
 
-	init_process_signals();
 	cmd_count = pipeline->command_count;
-	if (get_exit_status(pipeline, minishell))
-		return ;
-	// if (cmd_count == 1 && is_builtins(pipeline->commands[0]->args[0]))
-	// 	execute = execute_single_builtin;
-	// else
-	execute = execute_commands;
+	if (cmd_count == 1 && is_builtins(pipeline->commands[0]->args[0]))
+		execute = execute_single_builtin;
+	else
+		execute = execute_commands;
 	execute(pipeline, data, minishell);
 }
 
