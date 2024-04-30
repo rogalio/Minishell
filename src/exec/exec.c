@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 15:03:34 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/30 15:53:39 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/30 17:25:49 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,6 +137,7 @@ static char *check_directories(char **dirs, const char *cmd) {
     i = 0;
     while (dirs[i]) {
         path = ft_strjoin_three(dirs[i], "/", cmd);
+				printf("path = %s\n", path);
         if (access(path, X_OK) == 0)
             return (path);
         free(path);
@@ -145,15 +146,19 @@ static char *check_directories(char **dirs, const char *cmd) {
     return (NULL);
 }
 
-static char **get_search_paths(void) {
+static char **get_search_paths(t_env *env) {
     char	*path_env;
     char	**paths;
 
-    path_env = getenv("PATH");
+    path_env = get_env_value(env, "PATH");
     if (!path_env)
-        return (NULL);
+    {
+			free(path_env);
+			return (NULL);
+		}
     paths = ft_split2(path_env, ':'); // Assurez-vous que ft_split2 gère correctement la mémoire et les erreurs
-    return (paths);
+    free(path_env);
+		return (paths);
 }
 
 static char *search_in_current(const char *cmd) {
@@ -162,7 +167,7 @@ static char *search_in_current(const char *cmd) {
     return (NULL);
 }
 
-char *find_path(const char *cmd) {
+char *find_path(const char *cmd, t_minishell *minishell) {
     char	**paths;
     char	*found_path;
 
@@ -172,9 +177,12 @@ char *find_path(const char *cmd) {
     if (cmd[0] == '/' || strncmp(cmd, "./", 2) == 0 || strncmp(cmd, "../", 3) == 0)
         return (search_in_current(cmd));
     // Recherche dans PATH
-    paths = get_search_paths();
+    paths = get_search_paths(minishell->data->env);
     if (!paths)
-        return (NULL);
+    {
+			free(paths);
+			return (NULL);
+		}
     found_path = check_directories(paths, cmd);
     free_tab(paths); // Assurez-vous que free_tab gère correctement la mémoire
     return (found_path);
@@ -207,9 +215,10 @@ char	**env_to_char_array(t_env *env)
 	return (envp);
 }
 
-bool    execute_builtin(char *cmd, char **args, t_data *data, t_minishell *minishell)
+
+bool is_builtins(char *cmd)
 {
-    t_builtins    builtins[] = {
+	t_builtins    builtins[] = {
         {"echo", echo},
         {"cd", cd},
         {"pwd", pwd},
@@ -219,31 +228,43 @@ bool    execute_builtin(char *cmd, char **args, t_data *data, t_minishell *minis
 				//{"env", env},
         {NULL, NULL}
     };
-    int            i;
+	int	i;
 
-    i = 0;
-	if (cmd == NULL)
+	i = 0;
+	if (!cmd)
 		return (false);
-    data->args = args;
-    while (builtins[i].name)
-    {
-        if (strcmp(builtins[i].name, cmd) == 0)
-        {
-            builtins[i].func(data, minishell);
-            return (true);
-        }
-        i++;
-    }
-    return (false);
+	while (builtins[i].name)
+	{
+		if (strcmp(builtins[i].name, cmd) == 0)
+			return (true);
+		i++;
+	}
+	return (false);
 }
-
-
-
-void	redirect_if_needed(t_command *command)
+int	redirect_if_needed(t_command *command)
 {
 	int	fd_in;
 	int	fd_out;
+	int i;
 
+	// gestion heredoc
+	if (command->heredoc)
+	{
+		i = 0;
+		while (i < command->nb_heredocs)
+        {
+            fd_in = open(command->heredoc[i]->hdoc_name, O_RDONLY);
+            if (fd_in == -1)
+            {
+                perror("open heredoc file");
+                exit(EXIT_FAILURE);
+            }
+            dup2(fd_in, STDIN_FILENO);
+            close(fd_in);
+            unlink(command->heredoc[i]->hdoc_name);
+            i++;
+        }
+	}
 	// Gestion de la redirection d'entrée
 	if (command->redirect_in)
 	{
@@ -267,12 +288,42 @@ void	redirect_if_needed(t_command *command)
 		}
 		dup2(fd_out, STDOUT_FILENO);
 		close(fd_out);
-	}
-	if (command->heredoc)
-	{
 
 	}
+	return (0);
 }
+
+bool    execute_builtin(char *cmd, char **args, t_data *data, t_minishell *minishell)
+{
+
+	    t_builtins    builtins[] = {
+        {"echo", echo},
+        {"cd", cd},
+        {"pwd", pwd},
+        {"unset", unset},
+        {"exit", exit_shell},
+				{"export", export},
+				//{"env", env},
+        {NULL, NULL}
+    };
+    int            i;
+
+		if (cmd == NULL)
+        return false;
+    i = 0;
+    data->args = args;
+    while (builtins[i].name)
+    {
+        if (strcmp(builtins[i].name, cmd) == 0)
+        {
+            builtins[i].func(data, minishell);
+            return (true);
+        }
+        i++;
+    }
+    return (false);
+}
+
 
 void free_token_test(t_token *token)
 {
@@ -290,67 +341,152 @@ void	free_resources2(t_minishell *minishell)
 	free_minishell(&minishell);
 }
 
-
-
-void	execute_cmd(t_command *command, t_data *data, t_minishell *minishell)
+void handle_command_not_found(t_command *command, t_minishell *minishell)
 {
-	char	*path;
-	char	**envp;
+		ft_putstr_fd("minishell: command not found: ", STDERR_FILENO);
+    ft_putstr_fd(command->args[0], STDERR_FILENO);
+    ft_putstr_fd("\n", STDERR_FILENO);
+    free_resources2(minishell);
+    exit(EXIT_FAILURE);
+}
 
-	if (execute_builtin(command->args[0], command->args, data, minishell))
-	{
-		free_resources2(minishell);
-		exit(EXIT_SUCCESS);
-	}
-	path = find_path(command->args[0]);
+void cleanup_and_exit(t_command *command, t_minishell *minishell, int status)
+{
+	if (status == EXIT_FAILURE)
+			perror(command->args[0]);
+	free_resources2(minishell);
+	exit(status);
+}
+
+bool check_command_args(t_command *command)
+{
+		int i;
+
+		i = -1;
+		while (command->args[0][++i])
+		{
+			if (command->args[0][i] == ' ')
+				return (true);
+		}
+		return (false);
+}
+
+void execute_split_cmd(t_command *command, t_data *data, t_minishell *minishell)
+{
+		int 	i;
+    char *path;
+    char **envp;
+		char **split;
+
+		i = 0;
+		split = ft_split2(command->args[0], ' ');
+    path = find_path(split[0], minishell);
 	if (!path && command->heredoc)
 	{
 		free_resources2(minishell);
-		exit(EXIT_FAILURE);
+		exit(EXIT_SUCCESS);
 	}
-	if (!path)
-	{
-		ft_putstr_fd("minishell: ", STDERR_FILENO);
-		ft_putstr_fd(command->args[0], STDERR_FILENO);
-		ft_putstr_fd(": command not found\n", STDERR_FILENO);
-		free_resources2(minishell);
-		exit(EXIT_FAILURE);
-	}
-	envp = env_to_char_array(data->env);
-	redirect_if_needed(command);
-	//free_resources2(minishell);
-	execve(path, command->args, envp);
-	perror("execve");
-	exit(EXIT_FAILURE);
+    if (!path)
+   		handle_command_not_found(command, minishell);
+    envp = env_to_char_array(data->env);
+		execve(path, split, envp);
+		free_tab(split);
+    cleanup_and_exit(command, minishell, EXIT_FAILURE);
 }
 
-void	execute_cmdtest(t_command *command, t_data *data, t_minishell *minishell)
+void execute_cmd2(t_command *command, t_data *data, t_minishell *minishell)
 {
-	char	*path;
-	char	**envp;
+    char *path;
+    char **envp;
 
-	if (execute_builtin(command->args[0], command->args, data, minishell))
+		envp = NULL;
+    path = find_path(command->args[0], minishell);
+	if (!path && command->heredoc)
 	{
 		free_resources2(minishell);
 		exit(EXIT_SUCCESS);
 	}
-	path = find_path(command->args[0]);
-	if (!path)
-	{
-		// ft_putstr_fd("minishell: ", STDERR_FILENO);
-		// ft_putstr_fd(command->args[0], STDERR_FILENO);
-		// ft_putstr_fd(": command not found\n", STDERR_FILENO);
-		free_resources2(minishell);
-		exit(EXIT_FAILURE);
-	}
-	envp = env_to_char_array(data->env);
-	redirect_if_needed(command);
-	//free_resources2(minishell);
-	execve(path, command->args, envp);
-	perror("execve");
-	exit(EXIT_FAILURE);
+    if (!path)
+			handle_command_not_found(command, minishell);
+    envp = env_to_char_array(data->env);
+    execve(path, command->args, envp);
+  cleanup_and_exit(command, minishell, EXIT_FAILURE);
 }
 
+void execute_cmd(t_command *command, t_data *data, t_minishell *minishell)
+{
+	redirect_if_needed(command);
+	if (is_builtins(command->args[0]))
+	{
+		execute_builtin(command->args[0], command->args, data, minishell);
+		cleanup_and_exit(command, minishell, EXIT_SUCCESS);
+	}
+	else
+	{
+		if (check_command_args(command))
+			execute_split_cmd(command, data, minishell);
+		else
+			execute_cmd2(command, data, minishell);
+	}
+}
+
+
+/*
+void execute_cmd(t_command *command, t_data *data, t_minishell *minishell)
+{
+    char *path;
+    char **envp;
+		int i = -1;
+
+	//ls, - la
+		char **split;
+
+	split = NULL;
+  	redirect_if_needed(command);
+    if (is_builtins(command->args[0]))
+    {
+        execute_builtin(command->args[0], command->args, data, minishell);
+				free_resources2(minishell);
+				exit(EXIT_SUCCESS);
+    }
+		printf("command->args[0] = %s\n", command->args[0]);
+		while (command->args[0][++i])
+		{
+			if (command->args[0][i] == ' ')
+			{
+				split = ft_split2(command->args[0], ' ');
+				printf("split[0] = %s\n", split[0]);
+				printf("split[1] = %s\n", split[1]);
+				break ;
+			}
+		}
+		if (split)
+    	path = find_path(split[0], minishell);
+		else
+    	path = find_path(command->args[0], minishell);
+    if (!path)
+    {
+        ft_putstr_fd("minishell: command not found: ", STDERR_FILENO);
+        ft_putstr_fd(command->args[0], STDERR_FILENO);
+        ft_putstr_fd("\n", STDERR_FILENO);
+        free_resources2(minishell);
+        exit(EXIT_FAILURE);
+    }
+    envp = env_to_char_array(data->env);
+		if (split)
+		{
+			execve(path, split, envp);
+			while (split[i++])
+				free(split[i]);
+			free(split);
+		}
+		else
+    	execve(path, command->args, envp);
+    perror(command->args[0]);
+    free_resources2(minishell);
+    exit(EXIT_FAILURE);
+}
+*/
 
 void	wait_for_children_to_finish(int command_count)
 {
@@ -438,11 +574,6 @@ int get_cmd_count(t_pipeline *pipeline)
 	return (i);
 }
 
-
-
-
-
-
 // Gère l'exécution de plusieurs commandes avec un pipeline
 void	execute_commands(t_pipeline *pipeline, t_data *data, t_minishell *minishell)
 {
@@ -468,16 +599,34 @@ void	execute_commands(t_pipeline *pipeline, t_data *data, t_minishell *minishell
 	wait_for_children_to_finish(pipeline->command_count);
 }
 
-void execute_single_builtin(t_pipeline *pipeline, t_data *data, t_minishell *minishell)
+
+
+void restore_standard_descriptors(int saved_stdout, int saved_stdin)
 {
-	execute_builtin(pipeline->commands[0]->args[0], pipeline->commands[0]->args, data, minishell);
+    dup2(saved_stdout, STDOUT_FILENO);
+    dup2(saved_stdin, STDIN_FILENO);
+    close(saved_stdout);
+    close(saved_stdin);
 }
 
-bool is_builtins(char *cmd)
+void execute_single_builtin(t_pipeline *pipeline, t_data *data, t_minishell *minishell)
 {
-	// Vérifiez si cmd est un builtin utilisant ft_strcmp
-	return (ft_strcmp(cmd, "echo") == 0 || ft_strcmp(cmd, "cd") == 0 || ft_strcmp(cmd, "pwd") == 0 || ft_strcmp(cmd, "export") == 0 || ft_strcmp(cmd, "unset") == 0 || ft_strcmp(cmd, "env") == 0 || ft_strcmp(cmd, "exit") == 0) || cmd == NULL;
+    int saved_stdout;
+    int saved_stdin;
+
+		saved_stdout = dup(STDOUT_FILENO);
+		saved_stdin = dup(STDIN_FILENO);
+    redirect_if_needed(pipeline->commands[0]);
+    if (is_builtins(pipeline->commands[0]->args[0]))
+        execute_builtin(pipeline->commands[0]->args[0], pipeline->commands[0]->args, data, minishell);
+    dup2(saved_stdout, STDOUT_FILENO);
+    dup2(saved_stdin, STDIN_FILENO);
+    close(saved_stdout);
+    close(saved_stdin);
+
 }
+
+
 
 // Choix et exécution de la stratégie basée sur le nombre de commandes dans le pipeline
 void	execute_pipeline(t_pipeline *pipeline, t_data *data, t_minishell *minishell)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_pipeline.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 20:04:04 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/18 11:11:31 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/26 17:06:39 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	*print_command(t_command *cmd)
 		return (printf("Empty command\n"), NULL);
 	printf("Command with %d argument(s):\n", cmd->args_count);
 	while (cmd->args && cmd->args[++i])
-		printf("Argument %d: %s\n", i + 1, cmd->args[i]);
+		printf("Argument %d: %s$\n", i + 1, cmd->args[i]);
 	print_redirection_in(cmd->redirect_in);
 	print_redirection_out(cmd->redirect_out);
 	print_heredoc(cmd->heredoc, cmd->nb_heredocs);

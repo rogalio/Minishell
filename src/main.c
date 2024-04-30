@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 13:02:19 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/26 15:02:30 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/04/30 17:19:20 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int	main(int argc, char **argv, char **envp)
 
 /*
 -> 255 = terminaison anormale des processus : voir msg elodie,
-return values, pour gestion exit status, inverser verifications 
+return values, pour gestion exit status, inverser verifications
 (return 0 si tout va bien et sinon return les bons codes error)
 
 -> pb pour get_env en cas d'echec de strdup : comment differencier
