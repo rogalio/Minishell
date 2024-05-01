@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 18:37:23 by rogalio           #+#    #+#             */
-/*   Updated: 2024/05/01 16:01:17 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/01 17:37:42 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ typedef struct s_env
 {
 	char			*name;
 	char			*value;
-	int				check_equal;
 	struct s_env	*next;
 }t_env;
 

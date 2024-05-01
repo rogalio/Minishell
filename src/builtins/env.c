@@ -1,12 +1,12 @@
 /* ************************************************************************** */
-/*                                                                            */
+/*	                                                                        */
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 15:50:14 by rogalio           #+#    #+#             */
-/*   Updated: 2024/05/01 16:33:14 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/01 17:36:27 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,12 @@ int	env(t_data *data, t_minishell *minishell)
 			printf("%s=%s\n", env->name, env->value);
 		else
 		{
-			if (!env->check_equal)
+			if (ft_strchr(env->name, '='))
 				printf("%s\n", env->name);
 		}
 		env = env->next;
 	}
-	return (0);
+	return (SUCCESS);
 }
 
 void	free_env(t_env **env)

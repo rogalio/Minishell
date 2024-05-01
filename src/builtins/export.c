@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:08:16 by rogalio           #+#    #+#             */
-/*   Updated: 2024/05/01 16:23:38 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/01 17:39:30 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,39 +28,30 @@
 #include "data.h"
 #include "exp_quotes.h"
 
-bool	check_equal(char *arg)
-{
-	int	i;
-
-	i = -1;
-	while (arg[++i])
-	{
-		if (arg[i] == '=')
-			return (true);
-	}
-	return (false);
-}
-
 // Splits the input on the first '=' encountered that isn't within quotes
 static int	parse_export_arg(char *arg, char **name, char **value)
 {
-	int i = 0;
-	int in_quote = 0;
+	int	i;
+	int	in_quote;
 
-	printf("arg = %s\n", arg);
-	while (arg[i] && (arg[i] != '=' || in_quote))
+	i = 0;
+	in_quote = 0;
+	while (arg[i])
 	{
 		if (arg[i] == '"' && in_quote == 0)
 			in_quote = 1;
 		else if (arg[i] == '"' && in_quote == 1)
 			in_quote = 0;
+		else if (arg[i] == '=' && !in_quote)
+			break ;
 		i++;
 	}
-	if (arg[i] != '=' || i == 0) // No '=' or malformed input
-		return (-1);
 	*name = ft_strndup(arg, i);
-	*value = ft_strdup(arg + i + 1);
-	if (!*name || !*value)
+	if (arg[i] == '=')
+		*value = ft_strdup(arg + i + 1);
+	else
+		*value = NULL;
+	if (!*name)
 		return (-1);
 	return (0);
 }
@@ -68,17 +59,18 @@ static int	parse_export_arg(char *arg, char **name, char **value)
 // Add or update an environment variable
 static void	update_or_add_env(t_data *data, char *name, char *value)
 {
-	t_env	*env = data->env;
+	t_env	*env;
 	t_env	*new;
-	t_env	*prev = NULL;
+	t_env	*prev;
 
+	env = data->env;
+	new = NULL;
+	prev = NULL;
 	while (env)
 	{
 		if (!ft_strcmp(env->name, name))
 		{
 			free(env->value);
-			free(env->name);
-			env->name = name;
 			env->value = value;
 			return ;
 		}
@@ -97,8 +89,7 @@ static void	update_or_add_env(t_data *data, char *name, char *value)
 		prev->next = new;
 }
 
-//print export
-void print_export(t_env *env)
+void	print_export(t_env *env)
 {
 	while (env)
 	{
@@ -115,7 +106,7 @@ void print_export(t_env *env)
 	}
 }
 
-static int validate_and_split_arg(char *arg, char **name, char **value)
+static int	validate_and_split_arg(char *arg, char **name, char **value)
 {
 	if (parse_export_arg(arg, name, value) == -1)
 		return (-1);
@@ -131,12 +122,13 @@ static int validate_and_split_arg(char *arg, char **name, char **value)
 	return (0);
 }
 
-
-static int process_export_argument(t_data *data, char *arg)
+static int	process_export_argument(t_data *data, char *arg)
 {
-	char *name = NULL;
-	char *value = NULL;
+	char	*name;
+	char	*value;
 
+	name = NULL;
+	value = NULL;
 	if (validate_and_split_arg(arg, &name, &value) == -1)
 	{
 		ft_putstr_fd("export: `", 2);
@@ -144,20 +136,17 @@ static int process_export_argument(t_data *data, char *arg)
 		ft_putstr_fd("': not a valid identifier\n", 2);
 		return (-1);
 	}
-
 	update_or_add_env(data, name, value);
 	return (0);
 }
 
-
-// Main export function
 int	export(t_data *data, t_minishell *minishell)
 {
-	char	**args;
 	int		i;
+	char	**args;
 
-	args = minishell->pipeline->commands[0]->args;
 	i = 1;
+	args = minishell->pipeline->commands[0]->args;
 	if (!args[i])
 	{
 		print_export(data->env);
@@ -171,3 +160,15 @@ int	export(t_data *data, t_minishell *minishell)
 	}
 	return (0);
 }
+
+/*
+bash-5.1$ export tata=
+bash-5.1$ export | grep tata
+export tata=""
+bash-5.1$ env | grep tata
+tata=
+bash-5.1$ export wewe
+bash-5.1$ export | grep wewe
+export wewe
+bash-5.1$ env | grep wewe
+*/
