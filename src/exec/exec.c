@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 15:03:34 by rogalio           #+#    #+#             */
-/*   Updated: 2024/05/01 16:11:41 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/01 18:20:36 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ t_minishell *minishell)
 	saved_stdin = dup(STDIN_FILENO);
 	if (redirect_if_needed(pipeline->commands[0]))
 		return (1);
-	printf("TEST\n");
 	execute_builtin(pipeline->commands[0]->args[0], \
 	pipeline->commands[0]->args, data, minishell);
 	restore_standard_descriptors(saved_stdout, saved_stdin);

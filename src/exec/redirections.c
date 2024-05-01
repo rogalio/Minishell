@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 17:51:29 by cabdli            #+#    #+#             */
-/*   Updated: 2024/05/01 13:42:08 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/01 18:18:44 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,10 @@ static int	redirect_heredocs(t_command *command)
 	{
 		fd = open(command->heredoc[i]->hdoc_name, O_RDONLY);
 		if (fd == -1)
-			return (perror("open heredoc file"), 1);
+		{
+			ft_putstr_fd("minishell:", STDERR_FILENO);
+			return (perror(command->heredoc[i]->hdoc_name), 1);
+		}
 		dup2(fd, STDIN_FILENO);
 		close(fd);
 		unlink(command->heredoc[i]->hdoc_name);
@@ -39,7 +42,10 @@ static int	redirect_in(t_command *command)
 	fd = 0;
 	fd = open(command->redirect_in->file, O_RDONLY);
 	if (fd == -1)
-		return (perror("open input file"), 1);
+	{
+		ft_putstr_fd("minishell:", STDERR_FILENO);
+		return (perror(command->redirect_in->file), 1);
+	}
 	dup2(fd, STDIN_FILENO);
 	close(fd);
 	return (0);
@@ -48,12 +54,20 @@ static int	redirect_in(t_command *command)
 static int	redirect_out(t_command *command)
 {
 	int	fd;
+	int	flag;
 
 	fd = 0;
-	fd = open(command->redirect_out->file, O_WRONLY | O_CREAT | O_TRUNC, \
-	0644);
+	flag = O_WRONLY | O_CREAT;
+	if (!ft_strcmp(command->redirect_out->type, ">>"))
+		flag |= O_APPEND;
+	else
+		flag |= O_TRUNC;
+	fd = open(command->redirect_out->file, flag, 0644);
 	if (fd == -1)
-		return (perror("open output file"), 1);
+	{
+		ft_putstr_fd("minishell:", STDERR_FILENO);
+		return (perror(command->redirect_out->file), 1);
+	}
 	dup2(fd, STDOUT_FILENO);
 	close(fd);
 	return (0);
