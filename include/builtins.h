@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
+/*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 15:47:29 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/15 17:10:13 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/05/01 13:34:07 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,9 @@ typedef struct s_builtins
 	int		(*func)(t_data *, t_minishell *);
 }t_builtins;
 
+/* exit.c */
+void	free_minishell(t_minishell **minishell);
+void	free_resources(t_minishell *minishell);
 int		exit_shell(t_data *data, t_minishell *minishell);
 
 int		echo(t_data *data, t_minishell *minishell);

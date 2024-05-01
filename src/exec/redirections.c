@@ -6,13 +6,13 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 17:51:29 by cabdli            #+#    #+#             */
-/*   Updated: 2024/04/30 19:01:54 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/01 13:42:08 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec.h"
 
-int	redirect_heredocs(t_command *command)
+static int	redirect_heredocs(t_command *command)
 {
 	int	i;
 	int	fd;
@@ -32,7 +32,7 @@ int	redirect_heredocs(t_command *command)
 	return (0);
 }
 
-int	redirect_in(t_command *command)
+static int	redirect_in(t_command *command)
 {
 	int	fd;
 
@@ -45,7 +45,7 @@ int	redirect_in(t_command *command)
 	return (0);
 }
 
-int	redirect_out(t_command *command)
+static int	redirect_out(t_command *command)
 {
 	int	fd;
 

@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 13:02:19 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/30 17:19:20 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/01 13:33:08 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,24 +16,6 @@
 #include "exit_status.h"
 
 int	g_exit_signal;
-
-void	free_data(t_data **data)
-{
-	if (!data || !*data)
-		return ;
-	free_env(&(*data)->env);
-	free(*data);
-	*data = NULL;
-}
-
-void	free_minishell(t_minishell **minishell)
-{
-	if (!minishell || !*minishell)
-		return ;
-	free_data(&(*minishell)->data);
-	free(*minishell);
-	*minishell = NULL;
-}
 
 static t_data	*init_data(char **envp)
 {

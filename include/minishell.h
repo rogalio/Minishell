@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 12:56:37 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/30 15:08:35 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/01 13:33:46 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,5 @@ typedef struct s_minishell
 	int				exit_status;
 	t_error			error;
 }t_minishell;
-
-void	free_minishell(t_minishell **minishell);
-void	free_resources(t_minishell *minishell);
 
 #endif

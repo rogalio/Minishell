@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 19:17:24 by cabdli            #+#    #+#             */
-/*   Updated: 2024/04/30 19:31:10 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/01 13:36:01 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,7 @@ void	check_pid_error(pid_t pid)
 	}
 }
 
-void	cleanup_and_exit(t_command *command, t_minishell *minishell, int status)
-{
-	if (status == EXIT_FAILURE)
-		perror(command->args[0]);
-	free_resources2(minishell);
-	exit(status);
-}
+
 
 void	free_tab(char **tab)
 {
@@ -78,43 +72,85 @@ bool	check_command_args(t_command *command)
 	return (false);
 }
 
-static char	*search_in_current(const char *cmd)
+void	handle_command_not_found(t_command *command, t_minishell *minishell)
 {
-	if (access(cmd, X_OK) == 0)
-		return (ft_strdup(cmd));
-	return (NULL);
+	ft_putstr_fd("minishell: command not found: ", STDERR_FILENO);
+	ft_putstr_fd(command->args[0], STDERR_FILENO);
+	ft_putstr_fd("\n", STDERR_FILENO);
+	free_resources(minishell);
+	exit(EXIT_FAILURE);
 }
 
-static char	**get_search_paths(t_env *env)
+char	**env_to_char_array(t_env *env)
 {
-	char	*path_env;
-	char	**paths;
-
-	path_env = get_env_value(env, "PATH");
-	if (!path_env)
-	{
-		free(path_env);
-		return (NULL);
-	}
-	paths = ft_split2(path_env, ':');
-	free(path_env);
-	return (paths);
-}
-
-static char	*check_directories(char **dirs, const char *cmd)
-{
-	char	*path;
 	int		i;
+	char	**envp;
+	t_env	*tmp;
 
 	i = 0;
-	while (dirs[i])
+	tmp = env;
+	while (tmp)
 	{
-		path = ft_strjoin_three(dirs[i], "/", cmd);
-		printf("path = %s\n", path);
-		if (access(path, X_OK) == 0)
-			return (path);
-		free(path);
 		i++;
+		tmp = tmp->next;
 	}
-	return (NULL);
+	envp = ft_calloc((i + 1), sizeof(char *));
+	i = 0;
+	tmp = env;
+	while (tmp)
+	{
+		envp[i] = ft_strjoin(tmp->name, "=");
+		envp[i] = ft_strjoin(envp[i], tmp->value);
+		i++;
+		tmp = tmp->next;
+	}
+	envp[i] = NULL;
+	return (envp);
 }
+
+void	cleanup_and_exit(t_command *command, t_minishell *minishell, int status)
+{
+	if (status == EXIT_FAILURE)
+		perror(command->args[0]);
+	free_resources(minishell);
+	exit(status);
+}
+
+char	*ft_strjoin_three(const char *s1, const char *s2, const char *s3)
+{
+	char	*new_str;
+	size_t	total_length;
+	size_t	s1_len;
+	size_t	s2_len;
+
+	if (!s1 || !s2 || !s3)
+		return (NULL);
+	s1_len = ft_strlen(s1);
+	s2_len = ft_strlen(s2);
+	total_length = s1_len + ft_strlen(s2) + ft_strlen(s3);
+	new_str = (char *)malloc(sizeof(char) * (total_length + 1));
+	if (!new_str)
+		return (NULL);
+	ft_strlcpy(new_str, s1, s1_len + 1);
+	ft_strlcat(new_str, s2, s1_len + s2_len + 1);
+	ft_strlcat(new_str, s3, total_length + 1);
+	return (new_str);
+}
+
+// void	swap_pipe(t_pipe *pipe1, t_pipe *pipe2)
+// {
+// 	t_pipe	tmp;
+
+// 	tmp = *pipe1;
+// 	*pipe1 = *pipe2;
+// 	*pipe2 = tmp;
+// }
+
+
+// void	free_token_test(t_token *token)
+// {
+// 	if (!token)
+// 		return ;
+// 	free(token->value);
+// 	free(token);
+// }
