@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
+/*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 15:24:29 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/11 15:35:32 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/05/01 18:31:46 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,8 @@ int	cd(t_data *data, t_minishell *minishell)
 {
 	char	*path;
 	char	*cwd;
-	(void)minishell;
 
+	(void)minishell;
 	if (!get_path(data, &path))
 		return (1);
 	if (chdir(path) == -1)

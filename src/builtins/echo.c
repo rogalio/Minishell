@@ -3,73 +3,64 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
+/*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 15:34:43 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/24 18:00:59 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/05/01 18:35:06 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 #include "pipeline.h"
 
-static int is_valid_n_option(char *arg)
+static int	is_valid_n_option(char *arg)
 {
-    int j;
+	int	j;
 
-    if (strncmp(arg, "-n", 2) != 0)
-        return 0;
-    j = 2;
-    while (arg[j] != '\0')
-    {
-        if (arg[j] != 'n')
-            return 0;
-        j++;
-    }
-    return 1;
+	if (strncmp(arg, "-n", 2) != 0)
+		return (0);
+	j = 2;
+	while (arg[j] != '\0')
+	{
+		if (arg[j] != 'n')
+			return (0);
+		j++;
+	}
+	return (1);
 }
 
-
-
-
-static void print_arguments(char **args, int start_index, int print_newline)
+static void	print_arguments(char **args, int start_index, int print_newline)
 {
-    int i;
+	int	i;
 
-    i = start_index;
-    while (args[i] != NULL)
-    {
-        ft_putstr_fd(args[i], STDOUT_FILENO);
-        if (args[i + 1] != NULL)
-            write(STDOUT_FILENO, " ", 1);
-        i++;
-    }
-    if (print_newline)
-        write(STDOUT_FILENO, "\n", 1);
+	i = start_index;
+	while (args[i] != NULL)
+	{
+		ft_putstr_fd(args[i], STDOUT_FILENO);
+		if (args[i + 1] != NULL)
+			write(STDOUT_FILENO, " ", 1);
+		i++;
+	}
+	if (print_newline)
+		write(STDOUT_FILENO, "\n", 1);
 }
 
-
-
-int echo(t_data *data, t_minishell *minishell)
+int	echo(t_data *data, t_minishell *minishell)
 {
-    int i;
-    int n_option;
+	int	i;
+	int	n_option;
 
-    (void)minishell;
-    i = 1;
-    n_option = 0;
-    while (data->args[i] != NULL && is_valid_n_option(data->args[i]))
-    {
-        i++;
-        n_option = 1;
-    }
-
-    print_arguments(data->args, i, !n_option);
-    return 0;
+	i = 1;
+	n_option = 0;
+	(void)minishell;
+	while (data->args[i] != NULL && is_valid_n_option(data->args[i]))
+	{
+		i++;
+		n_option = 1;
+	}
+	print_arguments(data->args, i, !n_option);
+	return (0);
 }
-
-
-
 
 /*
 int	echo(t_data *data, t_minishell *minishell)

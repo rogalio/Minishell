@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 14:59:58 by rogalio           #+#    #+#             */
-/*   Updated: 2024/05/01 15:45:20 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/01 18:40:33 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ t_minishell *minishell);
 /* parent_process.c */
 void	handle_parent_process(int *in_fd, int pipe_fds[2], int i, \
 t_pipeline *pipeline);
-
 
 /* utils.c */
 bool	is_last_command(int i, int command_count);
