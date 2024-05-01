@@ -6,83 +6,23 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 15:03:34 by rogalio           #+#    #+#             */
-/*   Updated: 2024/05/01 13:47:47 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/01 15:04:48 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec.h"
 
-char	**ft_split2(char const *s, char c)
+static int	create_pipe(int pipe_fds[2])
 {
-	char	**tab;
-	int		i;
-	int		j;
-	int		k;
-
-	i = 0;
-	j = 0;
-	if (!s)
-		return (0);
-	tab = ft_calloc((ft_strlen(s) + 1), sizeof(char *));
-	if (!tab)
-		return (0);
-	while (s[i])
+	if (pipe(pipe_fds) == -1)
 	{
-		while (s[i] == c)
-			i++;
-		k = i;
-		while (s[i] && s[i] != c)
-			i++;
-		if (i > k)
-		{
-			tab[j] = ft_calloc((i - k + 1), sizeof(char));
-			if (!tab[j])
-				return (0);
-			ft_strlcpy(tab[j], s + k, i - k + 1);
-			j++;
-		}
+		perror("pipe");
+		exit(EXIT_FAILURE);
 	}
-	tab[j] = 0;
-	return (tab);
+	return (0);
 }
 
-
-
-
-
-
-
-
-
-void	wait_for_children_to_finish(int command_count)
-{
-	int	i;
-
-	i = 0;
-	while (i < command_count)
-	{
-		wait(NULL);
-		i++;
-	}
-}
-
-
-
-
-// handle parent process
-void	handle_parent_process(int *in_fd, int pipe_fds[2], int i, \
-t_pipeline *pipeline)
-{
-	if (*in_fd != 0)
-		close(*in_fd);
-	if (i < pipeline->command_count - 1)
-	{
-		*in_fd = pipe_fds[0];
-		close(pipe_fds[1]);
-	}
-}
-
-int	execute_commands(t_pipeline *pipeline, t_data *data, \
+static int	execute_commands(t_pipeline *pipeline, t_data *data, \
 t_minishell *minishell)
 {
 	int		i;
@@ -108,7 +48,15 @@ t_minishell *minishell)
 	wait_for_children_to_finish(pipeline->command_count);
 }
 
-int	execute_single_builtin(t_pipeline *pipeline, t_data *data, \
+static void	restore_standard_descriptors(int saved_stdout, int saved_stdin)
+{
+	dup2(saved_stdout, STDOUT_FILENO);
+	dup2(saved_stdin, STDIN_FILENO);
+	close(saved_stdout);
+	close(saved_stdin);
+}
+
+static int	execute_single_builtin(t_pipeline *pipeline, t_data *data, \
 t_minishell *minishell)
 {
 	int	saved_stdout;
@@ -137,4 +85,3 @@ t_minishell *minishell)
 	if (execute(pipeline, data, minishell))
 		return ;
 }
-

@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 14:59:58 by rogalio           #+#    #+#             */
-/*   Updated: 2024/05/01 13:49:32 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/01 15:19:07 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,24 +48,30 @@ t_minishell *minishell);
 /* find_paths.c */
 char	*find_path(const char *cmd, t_minishell *minishell);
 
-
 /* child_process.c */
 void	handle_child_process(int in_fd, int pipe_fds[2], int i, \
 t_minishell *minishell);
 
+/* child_process_utils.c */
+bool	check_command_args(t_command *command);
+char	**env_to_char_array(t_env *env);
+
+/* parent_process.c */
+void	handle_parent_process(int *in_fd, int pipe_fds[2], int i, \
+t_pipeline *pipeline);
+
+
 /* utils.c */
-void	restore_standard_descriptors(int saved_stdout, int saved_stdin);
 bool	is_last_command(int i, int command_count);
-int		create_pipe(int pipe_fds[2]);
 void	check_pid_error(pid_t pid);
+void	handle_command_not_found(t_command *command, t_minishell *minishell);
 void	cleanup_and_exit(t_command *command, t_minishell *minishell, \
 int status);
-void	free_tab(char **tab);
-bool	check_command_args(t_command *command);
+void	wait_for_children_to_finish(int command_count);
 
-void	handle_command_not_found(t_command *command, t_minishell *minishell);
-char	**env_to_char_array(t_env *env);
-void	cleanup_and_exit(t_command *command, t_minishell *minishell, int status);
+/* utils2.c */
+void	free_tab(char **tab);
 char	*ft_strjoin_three(const char *s1, const char *s2, const char *s3);
+char	**ft_split2(char const *s, char c);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 13:46:26 by cabdli            #+#    #+#             */
-/*   Updated: 2024/05/01 13:49:02 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/01 15:09:26 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ t_minishell *minishell)
 	execve(path, command->args, envp);
 	cleanup_and_exit(command, minishell, EXIT_FAILURE);
 }
+
+
 
 static void	execute_cmd(t_command *command, t_data *data, \
 t_minishell *minishell)
