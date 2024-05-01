@@ -6,22 +6,31 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 15:50:14 by rogalio           #+#    #+#             */
-/*   Updated: 2024/05/01 13:26:32 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/01 16:33:14 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "data.h"
+#include "minishell.h"
+#include "builtins.h"
 
-void	print_env(t_env *env)
+int	env(t_data *data, t_minishell *minishell)
 {
+	t_env	*env;
+
+	(void)minishell;
+	env = data->env;
 	while (env)
 	{
 		if (env->value)
 			printf("%s=%s\n", env->name, env->value);
 		else
-			printf("%s\n", env->name);
+		{
+			if (!env->check_equal)
+				printf("%s\n", env->name);
+		}
 		env = env->next;
 	}
+	return (0);
 }
 
 void	free_env(t_env **env)

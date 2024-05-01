@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 15:14:59 by cabdli            #+#    #+#             */
-/*   Updated: 2024/05/01 15:16:47 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/01 15:41:59 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,33 @@ char	*ft_strjoin_three(const char *s1, const char *s2, const char *s3)
 	ft_strlcat(new_str, s2, s1_len + s2_len + 1);
 	ft_strlcat(new_str, s3, total_length + 1);
 	return (new_str);
+}
+
+char	**env_to_char_array(t_env *env)
+{
+	int		i;
+	char	**envp;
+	t_env	*tmp;
+
+	i = 0;
+	tmp = env;
+	while (tmp)
+	{
+		i++;
+		tmp = tmp->next;
+	}
+	envp = ft_calloc((i + 1), sizeof(char *));
+	i = 0;
+	tmp = env;
+	while (tmp)
+	{
+		envp[i] = ft_strjoin(tmp->name, "=");
+		envp[i] = ft_strjoin(envp[i], tmp->value);
+		i++;
+		tmp = tmp->next;
+	}
+	envp[i] = NULL;
+	return (envp);
 }
 
 char	**ft_split2(char const *s, char c)

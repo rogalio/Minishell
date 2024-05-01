@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 13:46:26 by cabdli            #+#    #+#             */
-/*   Updated: 2024/05/01 15:09:26 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/01 15:41:10 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,18 @@ t_minishell *minishell)
 	cleanup_and_exit(command, minishell, EXIT_FAILURE);
 }
 
+static bool	check_command_args(t_command *command)
+{
+	int	i;
 
+	i = -1;
+	while (command->args[0][++i])
+	{
+		if (command->args[0][i] == ' ')
+			return (true);
+	}
+	return (false);
+}
 
 static void	execute_cmd(t_command *command, t_data *data, \
 t_minishell *minishell)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
+/*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:08:16 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/17 17:23:18 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/05/01 16:23:38 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,19 @@
 #include "signals.h"
 #include "token.h"
 #include "data.h"
+#include "exp_quotes.h"
 
-// Checks if the character is part of a valid environment variable name
-static int	is_valid_env_char(int c)
+bool	check_equal(char *arg)
 {
-	return (ft_isalnum(c) || c == '_');
+	int	i;
+
+	i = -1;
+	while (arg[++i])
+	{
+		if (arg[i] == '=')
+			return (true);
+	}
+	return (false);
 }
 
 // Splits the input on the first '=' encountered that isn't within quotes
@@ -39,6 +47,7 @@ static int	parse_export_arg(char *arg, char **name, char **value)
 	int i = 0;
 	int in_quote = 0;
 
+	printf("arg = %s\n", arg);
 	while (arg[i] && (arg[i] != '=' || in_quote))
 	{
 		if (arg[i] == '"' && in_quote == 0)
@@ -106,13 +115,12 @@ void print_export(t_env *env)
 	}
 }
 
-
 static int validate_and_split_arg(char *arg, char **name, char **value)
 {
 	if (parse_export_arg(arg, name, value) == -1)
 		return (-1);
 
-	if (!is_valid_env_char((*name)[0]))
+	if (!is_valid_variable_char((*name)[0]))
 	{
 		free(*name);
 		free(*value);

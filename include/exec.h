@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 14:59:58 by rogalio           #+#    #+#             */
-/*   Updated: 2024/05/01 15:19:07 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/01 15:45:20 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,6 @@ char	*find_path(const char *cmd, t_minishell *minishell);
 void	handle_child_process(int in_fd, int pipe_fds[2], int i, \
 t_minishell *minishell);
 
-/* child_process_utils.c */
-bool	check_command_args(t_command *command);
-char	**env_to_char_array(t_env *env);
-
 /* parent_process.c */
 void	handle_parent_process(int *in_fd, int pipe_fds[2], int i, \
 t_pipeline *pipeline);
@@ -72,6 +68,7 @@ void	wait_for_children_to_finish(int command_count);
 /* utils2.c */
 void	free_tab(char **tab);
 char	*ft_strjoin_three(const char *s1, const char *s2, const char *s3);
+char	**env_to_char_array(t_env *env);
 char	**ft_split2(char const *s, char c);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 15:47:29 by rogalio           #+#    #+#             */
-/*   Updated: 2024/05/01 13:34:07 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/01 16:03:01 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,11 @@ typedef struct s_builtins
 void	free_minishell(t_minishell **minishell);
 void	free_resources(t_minishell *minishell);
 int		exit_shell(t_data *data, t_minishell *minishell);
+
+/* env.c */
+int	env(t_data *data, t_minishell *minishell);
+t_env	*init_env(char **envp);
+void	free_env(t_env **env);
 
 int		echo(t_data *data, t_minishell *minishell);
 

@@ -6,11 +6,12 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 17:29:07 by cabdli            #+#    #+#             */
-/*   Updated: 2024/04/30 17:12:42 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/01 16:05:22 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exit_status.h"
+#include "builtins.h"
 
 int	exit_process(t_minishell *minishell)
 {
