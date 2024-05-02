@@ -27,13 +27,24 @@ int	check_pid_error(pid_t pid)
 	return (0);
 }
 
-void	handle_command_not_found(t_command *command, t_minishell *minishell)
+void	handle_command_not_found(t_command *command, t_minishell *minishell, char **split)
 {
-	ft_putstr_fd("minishell: command not found: ", STDERR_FILENO);
-	ft_putstr_fd(command->args[0], STDERR_FILENO);
-	ft_putstr_fd("\n", STDERR_FILENO);
-	free_resources(minishell);
-	exit(EXIT_FAILURE);
+	if (command->heredoc && !(command->args[0]))
+	{
+		free_resources(minishell);
+		exit(EXIT_SUCCESS);
+	}
+	else
+	{
+		ft_putstr_fd("minishell: command not found: ", STDERR_FILENO);
+		if (split)
+			ft_putstr_fd(split[0], STDERR_FILENO);
+		else
+			ft_putstr_fd(command->args[0], STDERR_FILENO);
+		ft_putstr_fd("\n", STDERR_FILENO);
+		free_resources(minishell);
+		exit(EXIT_FAILURE);
+	}
 }
 
 void	cleanup_and_exit(t_command *command, t_minishell *minishell, int status)

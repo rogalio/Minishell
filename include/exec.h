@@ -60,7 +60,7 @@ t_pipeline *pipeline);
 /* utils.c */
 bool	is_last_command(int i, int command_count);
 int		check_pid_error(pid_t pid);
-void	handle_command_not_found(t_command *command, t_minishell *minishell);
+void	handle_command_not_found(t_command *command, t_minishell *minishell, char **split);
 void	cleanup_and_exit(t_command *command, t_minishell *minishell, \
 int status);
 int		wait_for_children_to_finish(int command_count, t_pipeline *pipeline);

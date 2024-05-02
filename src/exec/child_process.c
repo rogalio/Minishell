@@ -25,13 +25,8 @@ t_minishell *minishell)
 	if (!split)
 		cleanup_and_exit(command, minishell, UNEXPEC_ERR);
 	path = find_path(split[0], minishell);
-	if (!path && command->heredoc)
-	{
-		free_resources(minishell);
-		exit(EXIT_SUCCESS);
-	}
 	if (!path)
-		handle_command_not_found(command, minishell);
+		handle_command_not_found(command, minishell, split);
 	envp = env_to_char_array(data->env);
 	execve(path, split, envp);
 	free_tab(split);
@@ -46,13 +41,8 @@ t_minishell *minishell)
 
 	envp = NULL;
 	path = find_path(command->args[0], minishell);
-	if (!path && command->heredoc)
-	{
-		free_resources(minishell);
-		exit(EXIT_SUCCESS);
-	}
 	if (!path)
-		handle_command_not_found(command, minishell);
+		handle_command_not_found(command, minishell, NULL);
 	envp = env_to_char_array(data->env);
 	execve(path, command->args, envp);
 	cleanup_and_exit(command, minishell, EXIT_FAILURE);

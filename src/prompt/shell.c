@@ -43,6 +43,7 @@ static int	parse_input(t_minishell *minishell, char *input)
 		minishell->exit_status = UNEXPEC_ERR;
 		return (free_token_list(&minishell->token_list), 0);
 	}
+	print_pipeline(minishell->pipeline);
 	return (1);
 }
 
