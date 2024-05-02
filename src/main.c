@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 13:02:19 by rogalio           #+#    #+#             */
-/*   Updated: 2024/05/01 13:33:08 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/02 14:53:54 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,18 +59,7 @@ int	main(int argc, char **argv, char **envp)
 }
 
 /*
--> 255 = terminaison anormale des processus : voir msg elodie,
-return values, pour gestion exit status, inverser verifications
-(return 0 si tout va bien et sinon return les bons codes error)
 
--> pb pour get_env en cas d'echec de strdup : comment differencier
-un echec de strdup et une value non existante ?
-create_node :
-else
-	{
-		node->name = strdup(env_entry);
-		node->value = NULL;
-	}
 
 get_exit_stat -> print error message et changer la valeur de l'exit_status
 */
