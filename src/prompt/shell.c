@@ -28,6 +28,7 @@ static int	parse_input(t_minishell *minishell, char *input)
 	if (!(minishell->token_list))
 		return (print_err_msg(&(minishell->error)), \
 		minishell->exit_status = UNEXPEC_ERR, 0);
+	print_token_list(minishell->token_list);
 	if (!syntax_analyzer(minishell->token_list, &(minishell->error)))
 	{
 		print_err_msg(&(minishell->error));

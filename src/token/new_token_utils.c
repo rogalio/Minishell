@@ -58,7 +58,7 @@ char	*handle_rest(const char *str, t_error *error)
 	word2 = NULL;
 	tmp = NULL;
 	while (str[i] && !ft_isspace(str[i]) && \
-	!ft_isquote(str[i], '\'') && !ft_isquote(str[i], '\"'))
+	!ft_isquote(str[i], '\'') && !ft_isquote(str[i], '\"') && str[i] != '|' && str[i] != '<' && str[i] != '>')
 		i++;
 	word = ft_strndup(str, i);
 	if (str[i] && !ft_isspace(str[i]))
