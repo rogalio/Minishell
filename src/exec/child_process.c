@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 13:46:26 by cabdli            #+#    #+#             */
-/*   Updated: 2024/05/02 19:09:13 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/02 22:39:18 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,10 @@
 static void	execute_split_cmd(t_command *command, t_data *data, \
 t_minishell *minishell)
 {
-	int		i;
 	char	*path;
 	char	**envp;
 	char	**split;
 
-	i = 0;
 	path = NULL;
 	envp = NULL;
 	split = ft_split2(command->args[0], ' ');

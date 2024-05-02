@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 15:10:25 by cabdli            #+#    #+#             */
-/*   Updated: 2024/04/18 11:24:14 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/02 22:40:26 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,6 @@ void	free_redirection(t_redirection *redirection)
 
 void	free_hdoc(t_heredoc *heredoc)
 {
-	int	i;
-
-	i = -1;
 	if (!heredoc)
 		return ;
 	if (heredoc->delimiter)
