@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 14:59:58 by rogalio           #+#    #+#             */
-/*   Updated: 2024/05/02 16:18:35 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/02 18:38:45 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int		check_pid_error(pid_t pid);
 void	handle_command_not_found(t_command *command, t_minishell *minishell);
 void	cleanup_and_exit(t_command *command, t_minishell *minishell, \
 int status);
-int		wait_for_children_to_finish(int command_count);
+int		wait_for_children_to_finish(int command_count, t_pipeline *pipeline);
 
 /* utils2.c */
 void	free_tab(char **tab);

@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 18:03:55 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/22 13:37:02 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/02 18:37:50 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ typedef struct s_command
 	t_redirection	*redirect_out;
 	t_heredoc		**heredoc;
 	int				nb_heredocs;
+	int				pid;
 }t_command;
 
 typedef struct s_pipeline

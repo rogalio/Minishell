@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 19:17:24 by cabdli            #+#    #+#             */
-/*   Updated: 2024/05/02 15:40:07 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/02 19:09:25 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,18 +40,29 @@ void	cleanup_and_exit(t_command *command, t_minishell *minishell, int status)
 {
 	if (status == EXIT_FAILURE)
 		perror(command->args[0]);
+	if (g_exit_signal)
+	{
+		status = g_exit_signal;
+		g_exit_signal = 0;
+	}
 	free_resources(minishell);
 	exit(status);
 }
 
-int	wait_for_children_to_finish(int pid)
+int	wait_for_children_to_finish(int command_count, t_pipeline *pipeline)
 {
 	int	childval;
 	int	exit_stat;
+	int	i;
 
 	childval = 0;
-	if (waitpid(pid, &childval, 0) == -1)
-		return (perror("minishell"), 1);
+	exit_stat = 0;
+	i = -1;
+	while (++i < command_count)
+	{
+		if (waitpid(pipeline->commands[i]->pid, &childval, 0) == -1)
+			return (perror("minishell"), 1);
+	}
 	//print msg erreur
 	exit_stat = WEXITSTATUS(childval);
 	return (exit_stat);

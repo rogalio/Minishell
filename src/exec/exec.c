@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 15:03:34 by rogalio           #+#    #+#             */
-/*   Updated: 2024/05/02 16:18:18 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/02 18:40:12 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,10 @@ t_minishell *minishell)
 	int		in_fd;
 	int		pipe_fds[2];
 
-	i = 0;
+	i = -1;
 	in_fd = 0;
 	(void)data;
-	while (i < pipeline->command_count)
+	while (++i < pipeline->command_count)
 	{
 		if (!is_last_command(i, pipeline->command_count))
 		{
@@ -41,14 +41,14 @@ t_minishell *minishell)
 				return (minishell->exit_status = UNEXPEC_ERR, 1);
 		}
 		pid = fork();
+		pipeline->commands[i]->pid = pid;
 		if (check_pid_error(pid))
 			return (minishell->exit_status = UNEXPEC_ERR, 1);
 		if (pid == 0)
 			handle_child_process(in_fd, pipe_fds, i, minishell);
 		handle_parent_process(&in_fd, pipe_fds, i, pipeline);
-		minishell->exit_status = wait_for_children_to_finish(pid);
-		i++;
 	}
+	minishell->exit_status = wait_for_children_to_finish(pipeline->command_count, pipeline);
 	return (0);
 }
 
