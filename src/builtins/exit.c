@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 16:20:13 by rogalio           #+#    #+#             */
-/*   Updated: 2024/05/01 18:52:13 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/02 13:43:45 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,5 +79,5 @@ int	exit_shell(t_data *data, t_minishell *minishell)
 		exit(exit_code);
 	}
 	free_resources(minishell);
-	exit(EXIT_SUCCESS);
+	exit(SUCCESS);
 }

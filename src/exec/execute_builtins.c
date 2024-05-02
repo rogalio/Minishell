@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin.c                                          :+:      :+:    :+:   */
+/*   execute_builtins.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 18:49:34 by cabdli            #+#    #+#             */
-/*   Updated: 2024/04/30 19:14:04 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/02 13:31:19 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ t_minishell *minishell)
 	{
 		if (strcmp(builtins[i].name, cmd) == 0)
 		{
-			builtins[i].func(data, minishell);
+			minishell->exit_status = builtins[i].func(data, minishell);
 			return (true);
 		}
 		i++;

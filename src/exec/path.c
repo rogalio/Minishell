@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   find_path.c                                        :+:      :+:    :+:   */
+/*   path.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 13:19:56 by cabdli            #+#    #+#             */
-/*   Updated: 2024/05/01 13:39:22 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/02 13:41:33 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ static char	*check_directories(char **dirs, const char *cmd)
 	while (dirs[i])
 	{
 		path = ft_strjoin_three(dirs[i], "/", cmd);
-		printf("path = %s\n", path);
 		if (access(path, X_OK) == 0)
 			return (path);
 		free(path);

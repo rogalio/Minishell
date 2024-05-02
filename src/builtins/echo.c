@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 15:34:43 by rogalio           #+#    #+#             */
-/*   Updated: 2024/05/01 18:35:06 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/02 13:42:34 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static int	is_valid_n_option(char *arg)
 {
 	int	j;
 
-	if (strncmp(arg, "-n", 2) != 0)
+	if (ft_strncmp(arg, "-n", 2) != 0)
 		return (0);
 	j = 2;
 	while (arg[j] != '\0')
@@ -59,7 +59,7 @@ int	echo(t_data *data, t_minishell *minishell)
 		n_option = 1;
 	}
 	print_arguments(data->args, i, !n_option);
-	return (0);
+	return (SUCCESS);
 }
 
 /*

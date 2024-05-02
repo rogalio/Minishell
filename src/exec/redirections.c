@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 17:51:29 by cabdli            #+#    #+#             */
-/*   Updated: 2024/05/01 18:18:44 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/02 13:23:12 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,12 @@ static int	redirect_heredocs(t_command *command)
 		if (fd == -1)
 		{
 			ft_putstr_fd("minishell:", STDERR_FILENO);
-			return (perror(command->heredoc[i]->hdoc_name), 1);
+			return (perror(command->heredoc[i]->hdoc_name), UNEXPEC_ERR);
 		}
 		dup2(fd, STDIN_FILENO);
 		close(fd);
-		unlink(command->heredoc[i]->hdoc_name);
+		if (unlink(command->heredoc[i]->hdoc_name) == -1)
+			return (perror("minishell"), UNEXPEC_ERR);
 		i++;
 	}
 	return (0);
@@ -44,7 +45,7 @@ static int	redirect_in(t_command *command)
 	if (fd == -1)
 	{
 		ft_putstr_fd("minishell:", STDERR_FILENO);
-		return (perror(command->redirect_in->file), 1);
+		return (perror(command->redirect_in->file), UNEXPEC_ERR);
 	}
 	dup2(fd, STDIN_FILENO);
 	close(fd);
@@ -66,7 +67,7 @@ static int	redirect_out(t_command *command)
 	if (fd == -1)
 	{
 		ft_putstr_fd("minishell:", STDERR_FILENO);
-		return (perror(command->redirect_out->file), 1);
+		return (perror(command->redirect_out->file), UNEXPEC_ERR);
 	}
 	dup2(fd, STDOUT_FILENO);
 	close(fd);

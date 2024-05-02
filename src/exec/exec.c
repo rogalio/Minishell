@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 15:03:34 by rogalio           #+#    #+#             */
-/*   Updated: 2024/05/01 18:20:36 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/02 13:24:50 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,16 +60,13 @@ static void	restore_standard_descriptors(int saved_stdout, int saved_stdin)
 static int	execute_single_builtin(t_pipeline *pipeline, t_data *data, \
 t_minishell *minishell)
 {
-	int	saved_stdout;
-	int	saved_stdin;
-
-	saved_stdout = dup(STDOUT_FILENO);
-	saved_stdin = dup(STDIN_FILENO);
+	minishell->fd_out = dup(STDOUT_FILENO);
+	minishell->fd_in = dup(STDIN_FILENO);
 	if (redirect_if_needed(pipeline->commands[0]))
-		return (1);
+		return (minishell->exit_status = UNEXPEC_ERR, 1);
 	execute_builtin(pipeline->commands[0]->args[0], \
 	pipeline->commands[0]->args, data, minishell);
-	restore_standard_descriptors(saved_stdout, saved_stdin);
+	restore_standard_descriptors(minishell->fd_out, minishell->fd_in);
 	return (0);
 }
 
@@ -84,6 +81,5 @@ t_minishell *minishell)
 		execute = execute_single_builtin;
 	else
 		execute = execute_commands;
-	if (execute(pipeline, data, minishell))
-		return ;
+	execute(pipeline, data, minishell);
 }
