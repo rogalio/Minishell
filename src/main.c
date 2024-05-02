@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 13:02:19 by rogalio           #+#    #+#             */
-/*   Updated: 2024/05/02 14:53:54 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/02 15:02:49 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,3 @@ int	main(int argc, char **argv, char **envp)
 	run_shell(minishell);
 	return (exit_all(minishell));
 }
-
-/*
-
-
-get_exit_stat -> print error message et changer la valeur de l'exit_status
-*/

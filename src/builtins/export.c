@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:08:16 by rogalio           #+#    #+#             */
-/*   Updated: 2024/05/01 17:39:30 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/02 16:09:38 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,6 @@ static int	validate_and_split_arg(char *arg, char **name, char **value)
 {
 	if (parse_export_arg(arg, name, value) == -1)
 		return (-1);
-
 	if (!is_valid_variable_char((*name)[0]))
 	{
 		free(*name);
@@ -150,15 +149,15 @@ int	export(t_data *data, t_minishell *minishell)
 	if (!args[i])
 	{
 		print_export(data->env);
-		return (0);
+		return (SUCCESS);
 	}
 	while (args[i])
 	{
 		if (process_export_argument(data, args[i]) == -1)
-			return (1);
+			return (UNEXPEC_ERR);
 		i++;
 	}
-	return (0);
+	return (SUCCESS);
 }
 
 /*

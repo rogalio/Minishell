@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 14:59:58 by rogalio           #+#    #+#             */
-/*   Updated: 2024/05/01 18:40:33 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/02 16:18:35 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,14 @@ typedef struct s_pipe
 /* exec.c */
 void	execute_pipeline(t_pipeline *pipeline, t_data *data, \
 t_minishell *minishell);
+void	restore_standard_descriptors(int saved_stdout, int saved_stdin);
 
 /* redirections.c */
 int		redirect_if_needed(t_command *command);
 
 /* builtins.c */
 bool	is_builtins(char *cmd);
-bool	execute_builtin(char *cmd, char **args, t_data *data, \
+int		execute_builtin(char *cmd, char **args, t_data *data, \
 t_minishell *minishell);
 
 /* find_paths.c */
@@ -58,11 +59,11 @@ t_pipeline *pipeline);
 
 /* utils.c */
 bool	is_last_command(int i, int command_count);
-void	check_pid_error(pid_t pid);
+int		check_pid_error(pid_t pid);
 void	handle_command_not_found(t_command *command, t_minishell *minishell);
 void	cleanup_and_exit(t_command *command, t_minishell *minishell, \
 int status);
-void	wait_for_children_to_finish(int command_count);
+int		wait_for_children_to_finish(int command_count);
 
 /* utils2.c */
 void	free_tab(char **tab);

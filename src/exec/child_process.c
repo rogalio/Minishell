@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 13:46:26 by cabdli            #+#    #+#             */
-/*   Updated: 2024/05/01 15:41:10 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/02 15:54:07 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_minishell *minishell)
 	envp = NULL;
 	split = ft_split2(command->args[0], ' ');
 	if (!split)
-		//gerer erreur
+		cleanup_and_exit(command, minishell, UNEXPEC_ERR);
 	path = find_path(split[0], minishell);
 	if (!path && command->heredoc)
 	{
@@ -81,7 +81,7 @@ t_minishell *minishell)
 	if (is_builtins(command->args[0]))
 	{
 		execute_builtin(command->args[0], command->args, data, minishell);
-		cleanup_and_exit(command, minishell, EXIT_SUCCESS);
+		cleanup_and_exit(command, minishell, minishell->exit_status);
 	}
 	else
 	{
@@ -107,5 +107,5 @@ t_minishell *minishell)
 		close(pipe_fds[1]);
 	}
 	execute_cmd(minishell->pipeline->commands[i], minishell->data, minishell);
-	exit(EXIT_SUCCESS);
+	exit(EXIT_FAILURE);
 }

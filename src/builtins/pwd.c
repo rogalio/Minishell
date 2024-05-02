@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
+/*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 15:44:00 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/11 15:36:23 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/05/02 15:13:09 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ int	pwd(t_data *data, t_minishell *minishell)
 	(void)minishell;
 	cwd = getcwd(NULL, 0);
 	if (check_current_directory(cwd))
-		return (1);
+		return (UNEXPEC_ERR);
 	ft_putstr_fd(cwd, STDOUT_FILENO);
 	ft_putchar_fd('\n', STDOUT_FILENO);
 	free(cwd);
-	return (0);
+	return (SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 12:42:18 by cabdli            #+#    #+#             */
-/*   Updated: 2024/04/26 15:26:08 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/02 15:02:10 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	convert_exit_status(char **word, t_minishell *minishell)
 	}
 	*word = ft_itoa(minishell->exit_status);
 	if (!(*word))
-		return (*word = tmp, 0);
+		return (*word = tmp, minishell->error = MALLOC, 0);
 	free(tmp);
 	return (1);
 }
@@ -45,7 +45,10 @@ int	get_exit_status(t_pipeline *pipeline, t_minishell *minishell)
 			{
 				if (!convert_exit_status(&(pipeline->commands[i]->args[j]), \
 				minishell))
-					return (1);
+				{
+					minishell->exit_status = UNEXPEC_ERR;
+					return (print_err_msg(&(minishell->error)), UNEXPEC_ERR);
+				}
 			}
 		}
 	}

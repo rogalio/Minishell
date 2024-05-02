@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 15:03:34 by rogalio           #+#    #+#             */
-/*   Updated: 2024/05/02 13:24:50 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/02 16:18:18 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ static int	create_pipe(int pipe_fds[2])
 {
 	if (pipe(pipe_fds) == -1)
 	{
-		perror("pipe");
-		exit(EXIT_FAILURE);
+		perror("minishell");
+		return (1);
 	}
 	return (0);
 }
@@ -36,20 +36,23 @@ t_minishell *minishell)
 	while (i < pipeline->command_count)
 	{
 		if (!is_last_command(i, pipeline->command_count))
-			create_pipe(pipe_fds);
+		{
+			if (create_pipe(pipe_fds))
+				return (minishell->exit_status = UNEXPEC_ERR, 1);
+		}
 		pid = fork();
-		check_pid_error(pid);
+		if (check_pid_error(pid))
+			return (minishell->exit_status = UNEXPEC_ERR, 1);
 		if (pid == 0)
 			handle_child_process(in_fd, pipe_fds, i, minishell);
-		else
-			handle_parent_process(&in_fd, pipe_fds, i, pipeline);
+		handle_parent_process(&in_fd, pipe_fds, i, pipeline);
+		minishell->exit_status = wait_for_children_to_finish(pid);
 		i++;
 	}
-	wait_for_children_to_finish(pipeline->command_count);
 	return (0);
 }
 
-static void	restore_standard_descriptors(int saved_stdout, int saved_stdin)
+void	restore_standard_descriptors(int saved_stdout, int saved_stdin)
 {
 	dup2(saved_stdout, STDOUT_FILENO);
 	dup2(saved_stdin, STDIN_FILENO);
@@ -77,6 +80,9 @@ t_minishell *minishell)
 	int	cmd_count;
 
 	cmd_count = pipeline->command_count;
+	init_process_signals();
+	if (get_exit_status(pipeline, minishell))
+		return ;
 	if (cmd_count == 1 && is_builtins(pipeline->commands[0]->args[0]))
 		execute = execute_single_builtin;
 	else

@@ -6,11 +6,12 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 16:20:13 by rogalio           #+#    #+#             */
-/*   Updated: 2024/05/02 14:47:53 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/02 16:20:31 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
+#include "exec.h"
 
 int	ft_isnumber(char *str)
 {
@@ -65,9 +66,10 @@ int	exit_shell(t_data *data, t_minishell *minishell)
 		{
 			ft_putstr_fd("minishell: exit: ", 2);
 			ft_putstr_fd(data->args[1], 2);
-			ft_putstr_fd(": numeric argument required\n", 2);
+			ft_putstr_fd(": exit numeric argument required\n", 2);
+			restore_standard_descriptors(minishell->fd_out, minishell->fd_in);
 			free_resources(minishell);
-			exit(EXIT_FAILURE);
+			exit(SYNTAX_ERR);
 		}
 		if (data->args[2])
 		{
@@ -75,9 +77,11 @@ int	exit_shell(t_data *data, t_minishell *minishell)
 			return (1);
 		}
 		exit_code = ft_atoi(data->args[1]);
+		restore_standard_descriptors(minishell->fd_out, minishell->fd_in);
 		free_resources(minishell);
 		exit(exit_code);
 	}
+	restore_standard_descriptors(minishell->fd_out, minishell->fd_in);
 	free_resources(minishell);
 	exit(minishell->exit_status);
 }

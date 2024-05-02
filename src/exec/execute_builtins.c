@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 18:49:34 by cabdli            #+#    #+#             */
-/*   Updated: 2024/05/02 13:31:19 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/02 15:49:27 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ bool	is_builtins(char *cmd)
 }
 
 //{"env", env},
-bool	execute_builtin(char *cmd, char **args, t_data *data, \
+int	execute_builtin(char *cmd, char **args, t_data *data, \
 t_minishell *minishell)
 {
 	int					i;
@@ -61,7 +61,7 @@ t_minishell *minishell)
 		if (strcmp(builtins[i].name, cmd) == 0)
 		{
 			minishell->exit_status = builtins[i].func(data, minishell);
-			return (true);
+			return (minishell->exit_status);
 		}
 		i++;
 	}

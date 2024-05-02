@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 19:17:24 by cabdli            #+#    #+#             */
-/*   Updated: 2024/05/01 15:16:56 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/02 15:40:07 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,14 @@ bool	is_last_command(int i, int command_count)
 	return (i == command_count - 1);
 }
 
-void	check_pid_error(pid_t pid)
+int	check_pid_error(pid_t pid)
 {
 	if (pid == -1)
 	{
-		perror("fork");
-		exit(EXIT_FAILURE);
+		perror("minishell");
+		return (1);
 	}
+	return (0);
 }
 
 void	handle_command_not_found(t_command *command, t_minishell *minishell)
@@ -43,14 +44,15 @@ void	cleanup_and_exit(t_command *command, t_minishell *minishell, int status)
 	exit(status);
 }
 
-void	wait_for_children_to_finish(int command_count)
+int	wait_for_children_to_finish(int pid)
 {
-	int	i;
+	int	childval;
+	int	exit_stat;
 
-	i = 0;
-	while (i < command_count)
-	{
-		wait(NULL);
-		i++;
-	}
+	childval = 0;
+	if (waitpid(pid, &childval, 0) == -1)
+		return (perror("minishell"), 1);
+	//print msg erreur
+	exit_stat = WEXITSTATUS(childval);
+	return (exit_stat);
 }
