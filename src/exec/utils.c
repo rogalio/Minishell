@@ -43,7 +43,7 @@ void	handle_command_not_found(t_command *command, t_minishell *minishell, char *
 			ft_putstr_fd(command->args[0], STDERR_FILENO);
 		ft_putstr_fd("\n", STDERR_FILENO);
 		free_resources(minishell);
-		exit(EXIT_FAILURE);
+		exit(NOTFND_ERR);
 	}
 }
 
