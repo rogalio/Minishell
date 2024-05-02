@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 15:08:14 by cabdli            #+#    #+#             */
-/*   Updated: 2024/05/02 22:41:03 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/02 22:47:22 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	sigint_handler(int signum)
 	g_exit_signal = SIGINT_ERR;
 	write(STDOUT_FILENO, "\n", 1);
 	rl_on_new_line();
-	//rl_replace_line("", 0);
+	rl_replace_line("", 0);
 	rl_redisplay();
 }
 
