@@ -17,4 +17,4 @@ minishell
 .nfs0000000008d6b5850000015b
 filetest.c
 
-tester/
+/tester
