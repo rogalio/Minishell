@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:08:16 by rogalio           #+#    #+#             */
-/*   Updated: 2024/05/03 17:06:47 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/03 17:45:02 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,61 @@ static int	parse_export_arg(char *arg, char **name, char **value)
 	return (0);
 }
 
+static t_env *find_env_var(t_env *env, char *name)
+{
+    while (env)
+		{
+        if (!ft_strcmp(env->name, name))
+						return env;
+        env = env->next;
+    }
+    return NULL;
+}
+
+static t_env *create_env_var(char *name, char *value)
+{
+    t_env *new;
+		new = malloc(sizeof(t_env));
+    if (!new)
+        return NULL;
+    new->name = name;
+    new->value = value;
+    new->next = NULL;
+    return new;
+}
+
+
+static void update_or_add_env(t_data *data, char *name, char *value)
+{
+    t_env *env;
+		t_env *new;
+		t_env *last;
+
+		env = find_env_var(data->env, name);
+    if (env)
+		{
+        free(name);
+        free(env->value);
+        env->value = value;
+    } else
+		{
+        new = create_env_var(name, value);
+        if (!new) return; // Handle memory allocation failure
+
+        if (!data->env)
+            data->env = new;
+        else
+				{
+          	last = data->env;
+            while (last->next)
+							last = last->next;
+            last->next = new;
+        }
+    }
+}
+
 // Add or update an environment variable
+/*
 static void	update_or_add_env(t_data *data, char *name, char *value)
 {
 	t_env	*env;
@@ -88,8 +142,8 @@ static void	update_or_add_env(t_data *data, char *name, char *value)
 		data->env = new;
 	else
 		prev->next = new;
-	// free(name);
 }
+*/
 
 void	print_export(t_env *env)
 {
