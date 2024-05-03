@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 19:02:05 by rogalio           #+#    #+#             */
-/*   Updated: 2024/05/03 14:31:27 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/03 17:42:08 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,16 @@
 #include "signals.h"
 #include "exit_status.h"
 
+static int	skip_whitespace2(char **str)
+{
+	while (ft_isspace(**str))
+		(*str)++;
+	return (**str);
+}
+
 static int	parse_input(t_minishell *minishell, char *input)
 {
-	if (!*input)
+	if (!*input || skip_whitespace2(&input) == 0)
 		return (0);
 	minishell->token_list = create_token_list(input, &(minishell->error));
 	if (!(minishell->token_list))
