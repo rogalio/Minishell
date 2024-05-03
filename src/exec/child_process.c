@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 13:46:26 by cabdli            #+#    #+#             */
-/*   Updated: 2024/05/02 22:39:18 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/03 12:55:24 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,9 @@ static bool	check_command_args(t_command *command)
 	int	i;
 
 	i = -1;
-	while (command->args[0][++i])
+	if (!(command->args[0]))
+		return (false);
+	while (command->args[0] && command->args[0][++i])
 	{
 		if (command->args[0][i] == ' ')
 			return (true);

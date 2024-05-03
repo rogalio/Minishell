@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 19:17:24 by cabdli            #+#    #+#             */
-/*   Updated: 2024/05/02 22:38:24 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/03 12:54:06 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,17 +31,18 @@ void	handle_command_not_found(t_command *command, t_minishell *minishell, char *
 {
 	if (command->heredoc && !(command->args[0]))
 	{
+		printf("TEST\n");
 		free_resources(minishell);
 		exit(EXIT_SUCCESS);
 	}
 	else
 	{
-		ft_putstr_fd("minishell: command not found: ", STDERR_FILENO);
+		ft_putstr_fd("minishell: ", STDERR_FILENO);
 		if (split)
 			ft_putstr_fd(split[0], STDERR_FILENO);
 		else
 			ft_putstr_fd(command->args[0], STDERR_FILENO);
-		ft_putstr_fd("\n", STDERR_FILENO);
+		ft_putstr_fd(": command not found\n", STDERR_FILENO);
 		free_resources(minishell);
 		exit(NOTFND_ERR);
 	}
