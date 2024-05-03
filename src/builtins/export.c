@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:08:16 by rogalio           #+#    #+#             */
-/*   Updated: 2024/05/02 16:09:38 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/03 15:15:57 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ static int	process_export_argument(t_data *data, char *arg)
 	value = NULL;
 	if (validate_and_split_arg(arg, &name, &value) == -1)
 	{
-		ft_putstr_fd("export: `", 2);
+		ft_putstr_fd("minishell: export: `", 2);
 		ft_putstr_fd(arg, 2);
 		ft_putstr_fd("': not a valid identifier\n", 2);
 		return (-1);

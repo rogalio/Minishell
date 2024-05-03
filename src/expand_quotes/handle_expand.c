@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 17:09:40 by cabdli            #+#    #+#             */
-/*   Updated: 2024/04/26 12:38:34 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/03 15:51:08 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,20 +16,29 @@ int	get_nb_expand(char *word)
 {
 	int	i;
 	int	expand;
+	int	dble_quote;
 
 	i = -1;
 	expand = 0;
+	dble_quote = 0;
 	while (word[++i])
 	{
-		if (word[i] == '\'')
+		if (word[i] == '\'' && !dble_quote)
 		{
-			i++;
-			while (word[i] && !ft_isquote(word[i], '\''))
-				i++;
+			while (word[++i] && !ft_isquote(word[i], '\''))
+				;
+		}
+		if (word[i] == '\"')
+		{
+			if (!dble_quote)
+				dble_quote = 1;
+			else
+				dble_quote = 0;
 		}
 		if (word[i] == '$')
 			expand++;
 	}
+	printf("NB_EXPAND = %d\n", expand);
 	return (expand);
 }
 
