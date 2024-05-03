@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 19:17:24 by cabdli            #+#    #+#             */
-/*   Updated: 2024/05/03 15:09:42 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/03 18:15:17 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int	wait_for_children_to_finish(int command_count, t_pipeline *pipeline)
 			return (perror("minishell"), 1);
 	}
 	exit_stat = WEXITSTATUS(childval);
-	if (g_exit_signal)
-		g_exit_signal = 0;
+	// if (g_exit_signal)
+	// 	g_exit_signal = 0;
 	return (exit_stat);
 }
