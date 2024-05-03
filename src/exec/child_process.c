@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 13:46:26 by cabdli            #+#    #+#             */
-/*   Updated: 2024/05/03 15:06:26 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/03 15:09:18 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static void	execute_cmd(t_command *command, t_data *data, \
 t_minishell *minishell)
 {
 	if (redirect_if_needed(command))
-		cleanup_and_exit(command, minishell, 1, -1);
+		cleanup_and_exit(command, minishell, 1, 0);
 	if (is_builtins(command->args[0]))
 	{
 		execute_builtin(command->args[0], command->args, data, minishell);

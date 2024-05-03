@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 19:17:24 by cabdli            #+#    #+#             */
-/*   Updated: 2024/05/03 15:03:12 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/03 15:09:42 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,8 @@ char **split)
 	}
 }
 
-void	cleanup_and_exit(t_command *command, t_minishell *minishell, int status, \
-int perr)
+void	cleanup_and_exit(t_command *command, t_minishell *minishell, \
+int status, int perr)
 {
 	if (perr == 1)
 		perror(command->args[0]);
