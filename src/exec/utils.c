@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 19:17:24 by cabdli            #+#    #+#             */
-/*   Updated: 2024/05/03 14:28:41 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/03 15:03:12 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	check_pid_error(pid_t pid)
 void	handle_command_not_found(t_command *command, t_minishell *minishell, \
 char **split)
 {
-	if (command->heredoc && !(command->args[0]))
+	if ((command->heredoc || command->redirect_out) && !(command->args[0]))
 	{
 		free_resources(minishell);
 		exit(EXIT_SUCCESS);
@@ -51,9 +51,10 @@ char **split)
 	}
 }
 
-void	cleanup_and_exit(t_command *command, t_minishell *minishell, int status)
+void	cleanup_and_exit(t_command *command, t_minishell *minishell, int status, \
+int perr)
 {
-	if (status == EXIT_FAILURE)
+	if (perr == 1)
 		perror(command->args[0]);
 	if (g_exit_signal)
 	{

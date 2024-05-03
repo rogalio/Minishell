@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 13:46:26 by cabdli            #+#    #+#             */
-/*   Updated: 2024/05/03 12:55:24 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/03 15:06:26 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,14 @@ t_minishell *minishell)
 	envp = NULL;
 	split = ft_split2(command->args[0], ' ');
 	if (!split)
-		cleanup_and_exit(command, minishell, UNEXPEC_ERR);
+		cleanup_and_exit(command, minishell, UNEXPEC_ERR, 1);
 	path = find_path(split[0], minishell);
 	if (!path)
 		handle_command_not_found(command, minishell, split);
 	envp = env_to_char_array(data->env);
 	execve(path, split, envp);
 	free_tab(split);
-	cleanup_and_exit(command, minishell, EXIT_FAILURE);
+	cleanup_and_exit(command, minishell, EXIT_FAILURE, 1);
 }
 
 static void	execute_regular_cmd(t_command *command, t_data *data, \
@@ -45,7 +45,7 @@ t_minishell *minishell)
 		handle_command_not_found(command, minishell, NULL);
 	envp = env_to_char_array(data->env);
 	execve(path, command->args, envp);
-	cleanup_and_exit(command, minishell, EXIT_FAILURE);
+	cleanup_and_exit(command, minishell, EXIT_FAILURE, 1);
 }
 
 static bool	check_command_args(t_command *command)
@@ -67,11 +67,11 @@ static void	execute_cmd(t_command *command, t_data *data, \
 t_minishell *minishell)
 {
 	if (redirect_if_needed(command))
-		cleanup_and_exit(command, minishell, EXIT_FAILURE);
+		cleanup_and_exit(command, minishell, 1, -1);
 	if (is_builtins(command->args[0]))
 	{
 		execute_builtin(command->args[0], command->args, data, minishell);
-		cleanup_and_exit(command, minishell, minishell->exit_status);
+		cleanup_and_exit(command, minishell, minishell->exit_status, 0);
 	}
 	else
 	{
