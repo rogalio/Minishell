@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:08:16 by rogalio           #+#    #+#             */
-/*   Updated: 2024/05/03 15:15:57 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/03 17:06:47 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ static void	update_or_add_env(t_data *data, char *name, char *value)
 	{
 		if (!ft_strcmp(env->name, name))
 		{
+			free(name);
 			free(env->value);
 			env->value = value;
 			return ;
@@ -87,6 +88,7 @@ static void	update_or_add_env(t_data *data, char *name, char *value)
 		data->env = new;
 	else
 		prev->next = new;
+	// free(name);
 }
 
 void	print_export(t_env *env)
