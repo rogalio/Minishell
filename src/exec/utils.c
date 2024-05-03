@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 19:17:24 by cabdli            #+#    #+#             */
-/*   Updated: 2024/05/03 14:26:29 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/03 14:28:41 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ int	check_pid_error(pid_t pid)
 	return (0);
 }
 
-void	handle_command_not_found(t_command *command, t_minishell *minishell, char **split)
+void	handle_command_not_found(t_command *command, t_minishell *minishell, \
+char **split)
 {
 	if (command->heredoc && !(command->args[0]))
 	{
@@ -77,7 +78,6 @@ int	wait_for_children_to_finish(int command_count, t_pipeline *pipeline)
 		if (waitpid(pipeline->commands[i]->pid, &childval, 0) == -1)
 			return (perror("minishell"), 1);
 	}
-	//print msg erreur
 	exit_stat = WEXITSTATUS(childval);
 	if (g_exit_signal)
 		g_exit_signal = 0;
