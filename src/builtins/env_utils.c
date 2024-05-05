@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 19:17:00 by cabdli            #+#    #+#             */
-/*   Updated: 2024/05/05 20:40:05 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/05 22:03:28 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,25 @@
 
 //dans set_shlvl si shlvl = 1 exporter FIRST_LAUNCH
 //verifier si shlvl est la sinon l'exporter
+
+void	change_shlvl_value(t_env *env, char *char_shlvl_nb)
+{
+	char *tmp;
+
+	tmp = NULL;
+	while (env)
+	{
+		if (!ft_strncmp(env->name, "SHLVL", (ft_strlen("SHLVL") + 1)))
+		{
+			tmp = env->value;
+			env->value = char_shlvl_nb;
+			free(tmp);
+			return ;
+		}
+		env = env->next;
+	}
+	return ;
+}
 
 int	set_shlvl(t_env *env, int shlvl_nb)
 {
@@ -25,7 +44,7 @@ int	set_shlvl(t_env *env, int shlvl_nb)
 	char_shlvl_nb = ft_itoa(shlvl_nb);
 	if  (!char_shlvl_nb)
 		return (0);
-	if (shlvl == 1)
+	if (shlvl_nb == 1)
 	{
 		if (!add_to_env_list(&env, "FIRST_LAUNCH=lauched"))
 			return (0);
@@ -36,6 +55,7 @@ int	set_shlvl(t_env *env, int shlvl_nb)
 		if (!add_to_env_list(&env, "SHLVL="))
 			return (0);
 	}
+	change_shlvl_value(env, char_shlvl_nb);
 	return (1);
 }
 

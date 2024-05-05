@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 15:47:29 by rogalio           #+#    #+#             */
-/*   Updated: 2024/05/05 20:36:18 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/05 22:04:30 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int		add_to_env_list(t_env **head, char *envp);
 t_env	*init_env(char **envp);
 
 /* env_utils.c */
-int		init_shlvl(t_env env_list);
+int		init_shlvl(t_env *env_list);
 
 int		echo(t_data *data, t_minishell *minishell);
 

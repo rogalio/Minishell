@@ -109,7 +109,7 @@ t_env	*init_env(char **envp)
 
 	i = -1;
 	env_list = NULL;
-	if (!envp)
+	//if (!envp)
 		//fonction initilaisant un env basique avec SHLVL = 1
 	while (envp[++i])
 	{
