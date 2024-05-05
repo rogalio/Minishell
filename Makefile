@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+         #
+#    By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/08/27 16:09:01 by asoursou          #+#    #+#              #
-#    Updated: 2024/04/23 19:09:23 by rogalio          ###   ########.fr        #
+#    Updated: 2024/05/05 23:33:26 by cabdli           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,18 +53,21 @@ SRC		:= $(SRC:src/%=%)
 DEP		:= $(SRC:%.c=$(BUILD)/%.d)
 OBJ		:= $(SRC:%.c=$(BUILD)/%.o)
 
+all: $(NAME)
+	@./start_minishell.sh
+
 $(NAME): $(OBJ)
 	@echo "$(PURPLE)Making minishell...$(RESET)"
 	@make --no-print-directory -j -C $(FT)
 	@$(CC) $(CFLAGS) $(IFLAGS) $^ -o $@ $(LDFLAGS)
 	@echo "$(GREEN)Minishell done !$(RESET)"
-	@./start_minishell.sh
-
-all: $(NAME)
 
 # Cible pour exécuter le script de démarrage
 run_minishell:
-	./start_minishell.sh
+	@./start_minishell.sh
+
+valgrind: $(NAME)
+	@./start_minishell.sh valgrind
 
 bonus: all
 
