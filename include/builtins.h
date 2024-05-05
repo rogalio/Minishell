@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 15:47:29 by rogalio           #+#    #+#             */
-/*   Updated: 2024/05/05 22:04:30 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/05 22:30:07 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,19 @@ t_env	*init_env(char **envp);
 /* env_utils.c */
 int		init_shlvl(t_env *env_list);
 
+/* echo.c */
 int		echo(t_data *data, t_minishell *minishell);
 
+/* cd.c */
 int		cd(t_data *data, t_minishell *minishell);
 
+/* pwd.c */
 int		pwd(t_data *data,	t_minishell *minishell);
 
+/* unset.c */
 int		unset(t_data *data, t_minishell *minishell);
 
+/* export.c */
 int		export(t_data *data, t_minishell *minishell);
 
 #endif
