@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 15:03:34 by rogalio           #+#    #+#             */
-/*   Updated: 2024/05/06 12:38:21 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/06 12:58:30 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ t_minishell *minishell)
 	int	cmd_count;
 
 	cmd_count = pipeline->command_count;
-	init_process_signals();
+	// init_process_signals();
 	if (get_exit_status(pipeline, minishell))
 		return ;
 	if (cmd_count == 1 && is_builtins(pipeline->commands[0]->args[0]))
