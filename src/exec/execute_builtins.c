@@ -6,13 +6,12 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 18:49:34 by cabdli            #+#    #+#             */
-/*   Updated: 2024/05/02 15:49:27 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/06 12:48:05 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec.h"
 
-// {"env", env},
 bool	is_builtins(char *cmd)
 {
 	int					i;
@@ -23,6 +22,7 @@ bool	is_builtins(char *cmd)
 	{"unset", unset},
 	{"exit", exit_shell},
 	{"export", export},
+	{"env", env},
 	{NULL, NULL}};
 
 	i = 0;
@@ -37,7 +37,6 @@ bool	is_builtins(char *cmd)
 	return (false);
 }
 
-//{"env", env},
 int	execute_builtin(char *cmd, char **args, t_data *data, \
 t_minishell *minishell)
 {
@@ -49,6 +48,7 @@ t_minishell *minishell)
 	{"unset", unset},
 	{"exit", exit_shell},
 	{"export", export},
+	{"env", env},
 	{NULL, NULL}
 	};
 

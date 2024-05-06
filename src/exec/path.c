@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 13:19:56 by cabdli            #+#    #+#             */
-/*   Updated: 2024/05/02 13:41:33 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/06 17:47:49 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ char	*find_path(const char *cmd, t_minishell *minishell)
 	if (cmd[0] == '/' || ft_strncmp(cmd, "./", 2) == 0 || \
 	ft_strncmp(cmd, "../", 3) == 0)
 		return (search_in_current(cmd));
+	if (ft_strncmp(cmd, ".", 2) == 0)
+		return (NULL);
 	paths = get_search_paths(minishell->data->env);
 	if (!paths)
 		return (free(paths), NULL);

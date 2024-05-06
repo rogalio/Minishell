@@ -20,4 +20,9 @@ echo -e "\033[0;35m\
 \n"
 
 # Lancer le programme minishell
-./minishell
+# Vérifier l'argument de la ligne de commande
+if [ "$1" == "valgrind" ]; then
+	valgrind --suppressions=readline.supp --track-fds=yes --leak-check=full --show-leak-kinds=all --track-origins=yes --trace-children=yes ./minishell
+else
+	./minishell
+fi

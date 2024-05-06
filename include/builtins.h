@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 15:47:29 by rogalio           #+#    #+#             */
-/*   Updated: 2024/05/06 18:00:46 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/06 18:08:01 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,16 +35,26 @@ int		exit_shell(t_data *data, t_minishell *minishell);
 /* env.c */
 int		env(t_data *data, t_minishell *minishell);
 void	free_env(t_env **env);
+int		add_to_env_list(t_env **head, char *envp);
 t_env	*init_env(char **envp);
 
+/* env_utils.c */
+int		init_shlvl(t_env *env_list);
+int		init_basic_env(t_env **env);
+
+/* echo.c */
 int		echo(t_data *data, t_minishell *minishell);
 
+/* cd.c */
 int		cd(t_data *data, t_minishell *minishell);
 
+/* pwd.c */
 int		pwd(t_data *data,	t_minishell *minishell);
 
+/* unset.c */
 int		unset(t_data *data, t_minishell *minishell);
 
+/* export.c */
 int		export(t_data *data, t_minishell *minishell);
 
 int		parse_export_arg(char *arg, char **name, char **value);

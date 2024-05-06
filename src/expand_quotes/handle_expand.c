@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 17:09:40 by cabdli            #+#    #+#             */
-/*   Updated: 2024/05/03 15:51:08 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/06 12:49:10 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ int	get_nb_expand(char *word)
 		if (word[i] == '$')
 			expand++;
 	}
-	printf("NB_EXPAND = %d\n", expand);
 	return (expand);
 }
 

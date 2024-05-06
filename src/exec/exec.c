@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 15:03:34 by rogalio           #+#    #+#             */
-/*   Updated: 2024/05/02 18:40:12 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/06 14:38:59 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ static int	create_pipe(int pipe_fds[2])
 	return (0);
 }
 
+//add launch comand function
 static int	execute_commands(t_pipeline *pipeline, t_data *data, \
 t_minishell *minishell)
 {
@@ -80,7 +81,7 @@ t_minishell *minishell)
 	int	cmd_count;
 
 	cmd_count = pipeline->command_count;
-	init_process_signals();
+	// init_process_signals();
 	if (get_exit_status(pipeline, minishell))
 		return ;
 	if (cmd_count == 1 && is_builtins(pipeline->commands[0]->args[0]))
