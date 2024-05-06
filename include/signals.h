@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 14:36:54 by cabdli            #+#    #+#             */
-/*   Updated: 2024/04/30 18:52:58 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/06 12:25:56 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 void	init_signals(void);
 void	init_process_signals(void);
 void	init_heredoc_signals(void);
+void	mute_parent_signals(void);
 
 /* sigquit.c */
 void	sigquit_process_handler(int signum);
