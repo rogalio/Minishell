@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 19:17:00 by cabdli            #+#    #+#             */
-/*   Updated: 2024/05/06 16:56:56 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/06 17:39:53 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,6 @@ int	init_shlvl(t_env *env)
 	return (1);
 }
 
-//fonction initilaisant un env basique avec SHLVL = 1
 int	init_basic_env(t_env **env)
 {
 	int		i;
