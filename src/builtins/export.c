@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
+/*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:08:16 by rogalio           #+#    #+#             */
-/*   Updated: 2024/05/03 17:45:02 by rogalio          ###   ########.fr       */
+/*   Updated: 2024/05/06 18:00:58 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,85 +28,34 @@
 #include "data.h"
 #include "exp_quotes.h"
 
-// Splits the input on the first '=' encountered that isn't within quotes
-static int	parse_export_arg(char *arg, char **name, char **value)
+static void	update_or_add_env(t_data *data, char *name, char *value)
 {
-	int	i;
-	int	in_quote;
+	t_env	*env;
+	t_env	*new;
+	t_env	*last;
 
-	i = 0;
-	in_quote = 0;
-	while (arg[i])
+	env = find_env_var(data->env, name);
+	if (env)
 	{
-		if (arg[i] == '"' && in_quote == 0)
-			in_quote = 1;
-		else if (arg[i] == '"' && in_quote == 1)
-			in_quote = 0;
-		else if (arg[i] == '=' && !in_quote)
-			break ;
-		i++;
+		free(name);
+		free(env->value);
+		env->value = value;
 	}
-	*name = ft_strndup(arg, i);
-	if (arg[i] == '=')
-		*value = ft_strdup(arg + i + 1);
 	else
-		*value = NULL;
-	if (!*name)
-		return (-1);
-	return (0);
-}
-
-static t_env *find_env_var(t_env *env, char *name)
-{
-    while (env)
+	{
+		new = create_env_var(name, value);
+		if (!new)
+			return ;
+		if (!data->env)
+			data->env = new;
+		else
 		{
-        if (!ft_strcmp(env->name, name))
-						return env;
-        env = env->next;
-    }
-    return NULL;
-}
-
-static t_env *create_env_var(char *name, char *value)
-{
-    t_env *new;
-		new = malloc(sizeof(t_env));
-    if (!new)
-        return NULL;
-    new->name = name;
-    new->value = value;
-    new->next = NULL;
-    return new;
-}
-
-
-static void update_or_add_env(t_data *data, char *name, char *value)
-{
-    t_env *env;
-		t_env *new;
-		t_env *last;
-
-		env = find_env_var(data->env, name);
-    if (env)
-		{
-        free(name);
-        free(env->value);
-        env->value = value;
-    } else
-		{
-        new = create_env_var(name, value);
-        if (!new) return; // Handle memory allocation failure
-
-        if (!data->env)
-            data->env = new;
-        else
-				{
-          	last = data->env;
-            while (last->next)
-							last = last->next;
-            last->next = new;
-        }
-    }
+			last = data->env;
+			while (last->next)
+				last = last->next;
+			last->next = new;
+		}
+	}
 }
 
 // Add or update an environment variable

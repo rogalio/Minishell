@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 15:47:29 by rogalio           #+#    #+#             */
-/*   Updated: 2024/05/01 17:23:17 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/06 18:00:46 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,5 +46,9 @@ int		pwd(t_data *data,	t_minishell *minishell);
 int		unset(t_data *data, t_minishell *minishell);
 
 int		export(t_data *data, t_minishell *minishell);
+
+int		parse_export_arg(char *arg, char **name, char **value);
+t_env	*find_env_var(t_env *env, char *name);
+t_env	*create_env_var(char *name, char *value);
 
 #endif
