@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:57:33 by cabdli            #+#    #+#             */
-/*   Updated: 2024/05/06 18:00:40 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/06 18:28:56 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,4 +66,18 @@ t_env	*create_env_var(char *name, char *value)
 	new->value = value;
 	new->next = NULL;
 	return (new);
+}
+
+static void	update_env_var(t_env *env, char *value)
+{
+	free(env->value);
+	env->value = value;
+}
+
+static void	add_env_var(t_data *data, t_env *new, t_env *last)
+{
+	if (!data->env)
+		data->env = new;
+	else
+		last->next = new;
 }
