@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 13:46:26 by cabdli            #+#    #+#             */
-/*   Updated: 2024/05/06 12:54:16 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/06 15:41:27 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ t_minishell *minishell)
 void	handle_child_process(int in_fd, int pipe_fds[2], int i, \
 t_minishell *minishell)
 {
+	init_process_signals();
 	if (in_fd != 0)
 	{
 		dup2(in_fd, STDIN_FILENO);

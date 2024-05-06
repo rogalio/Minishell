@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 14:59:58 by rogalio           #+#    #+#             */
-/*   Updated: 2024/05/03 15:04:36 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/06 15:03:17 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ t_minishell *minishell);
 /* parent_process.c */
 void	handle_parent_process(int *in_fd, int pipe_fds[2], int i, \
 t_pipeline *pipeline);
+int		wait_for_children_to_finish(int command_count, t_pipeline *pipeline);
 
 /* utils.c */
 bool	is_last_command(int i, int command_count);
@@ -64,7 +65,6 @@ void	handle_command_not_found(t_command *command, \
 t_minishell *minishell, char **split);
 void	cleanup_and_exit(t_command *command, t_minishell *minishell, \
 int status, int perr);
-int		wait_for_children_to_finish(int command_count, t_pipeline *pipeline);
 
 /* utils2.c */
 void	free_tab(char **tab);
