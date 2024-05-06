@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 14:52:34 by cabdli            #+#    #+#             */
-/*   Updated: 2024/05/06 15:48:37 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/06 15:58:57 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,16 +39,20 @@ int	wait_for_children_to_finish(int command_count, t_pipeline *pipeline)
 	{
 		if (waitpid(pipeline->commands[i]->pid, &childval, 0) == -1)
 			return (perror("minishell"), 1);
+		if (WIFSIGNALED(childval))
+		{
+			exit_stat = WTERMSIG(childval);
+			if (exit_stat == SIGTERM)
+				write(STDOUT_FILENO, "\n", 1);
+			else if (exit_stat == SIGINT)
+				write(STDOUT_FILENO, "\n", 1);
+			else if (exit_stat == SIGQUIT)
+				write(STDERR_FILENO, "Quit (core dumped)\n", 19);
+		}
 	}
 	if (WIFSIGNALED(childval))
 	{
 		exit_stat = WTERMSIG(childval);
-		if (exit_stat == SIGTERM)
-			write(STDOUT_FILENO, "\n", 1);
-		else if (exit_stat == SIGINT)
-			write(STDOUT_FILENO, "\n", 1);
-		else if (exit_stat == SIGQUIT)
-			write(STDERR_FILENO, "Quit (core dumped)\n", 19);
 		return (exit_stat + 128);
 	}
 	else if (WIFEXITED(childval))
