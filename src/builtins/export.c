@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rogalio <rmouchel@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:08:16 by rogalio           #+#    #+#             */
-/*   Updated: 2024/05/06 18:00:58 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/06 18:29:10 by rogalio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,61 +38,19 @@ static void	update_or_add_env(t_data *data, char *name, char *value)
 	if (env)
 	{
 		free(name);
-		free(env->value);
-		env->value = value;
+		update_env_var(env, value);
 	}
 	else
 	{
 		new = create_env_var(name, value);
 		if (!new)
 			return ;
-		if (!data->env)
-			data->env = new;
-		else
-		{
-			last = data->env;
-			while (last->next)
-				last = last->next;
-			last->next = new;
-		}
+		last = data->env;
+		while (last->next)
+			last = last->next;
+		add_env_var(data, new, last);
 	}
 }
-
-// Add or update an environment variable
-/*
-static void	update_or_add_env(t_data *data, char *name, char *value)
-{
-	t_env	*env;
-	t_env	*new;
-	t_env	*prev;
-
-	env = data->env;
-	new = NULL;
-	prev = NULL;
-	while (env)
-	{
-		if (!ft_strcmp(env->name, name))
-		{
-			free(name);
-			free(env->value);
-			env->value = value;
-			return ;
-		}
-		prev = env;
-		env = env->next;
-	}
-	new = malloc(sizeof(t_env));
-	if (!new)
-		return ;
-	new->name = name;
-	new->value = value;
-	new->next = NULL;
-	if (!data->env)
-		data->env = new;
-	else
-		prev->next = new;
-}
-*/
 
 void	print_export(t_env *env)
 {
