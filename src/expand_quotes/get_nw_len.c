@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 14:25:13 by cabdli            #+#    #+#             */
-/*   Updated: 2024/04/22 13:24:09 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/06 18:35:39 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ static int	get_nw_len_expand(int len, t_expansion *exp)
 {
 	len = len_minus_var_name(len, exp->nb_expand, exp->var_name);
 	len = len_plus_value_size(len, exp->nb_expand, exp->var_value);
-
 	return (len);
 }
 

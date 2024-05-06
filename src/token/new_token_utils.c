@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 19:16:58 by cabdli            #+#    #+#             */
-/*   Updated: 2024/04/22 14:49:49 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/06 18:26:12 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,9 @@ char	*handle_rest(const char *str, t_error *error)
 	word = NULL;
 	word2 = NULL;
 	tmp = NULL;
-	while (str[i] && !ft_isspace(str[i]) && \
-	!ft_isquote(str[i], '\'') && !ft_isquote(str[i], '\"') && str[i] != '|' && str[i] != '<' && str[i] != '>')
+	while (str[i] && !ft_isspace(str[i]) && !ft_isquote(str[i], '\'') \
+	&& !ft_isquote(str[i], '\"') && str[i] != '|' \
+	&& str[i] != '<' && str[i] != '>')
 		i++;
 	word = ft_strndup(str, i);
 	if (str[i] && !ft_isspace(str[i]))

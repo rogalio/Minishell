@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 15:03:34 by rogalio           #+#    #+#             */
-/*   Updated: 2024/05/06 14:38:59 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/06 18:48:14 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,7 @@ static int	create_pipe(int pipe_fds[2])
 	return (0);
 }
 
-//add launch comand function
-static int	execute_commands(t_pipeline *pipeline, t_data *data, \
-t_minishell *minishell)
+static int	execute_commands(t_pipeline *pipeline, t_minishell *minishell)
 {
 	int		i;
 	pid_t	pid;
@@ -33,7 +31,6 @@ t_minishell *minishell)
 
 	i = -1;
 	in_fd = 0;
-	(void)data;
 	while (++i < pipeline->command_count)
 	{
 		if (!is_last_command(i, pipeline->command_count))
@@ -49,7 +46,8 @@ t_minishell *minishell)
 			handle_child_process(in_fd, pipe_fds, i, minishell);
 		handle_parent_process(&in_fd, pipe_fds, i, pipeline);
 	}
-	minishell->exit_status = wait_for_children_to_finish(pipeline->command_count, pipeline);
+	minishell->exit_status = wait_for_children_to_finish \
+	(pipeline->command_count, pipeline);
 	return (0);
 }
 
@@ -77,16 +75,13 @@ t_minishell *minishell)
 void	execute_pipeline(t_pipeline *pipeline, t_data *data, \
 t_minishell *minishell)
 {
-	int	(*execute)(t_pipeline *, t_data *, t_minishell *);
 	int	cmd_count;
 
 	cmd_count = pipeline->command_count;
-	// init_process_signals();
 	if (get_exit_status(pipeline, minishell))
 		return ;
 	if (cmd_count == 1 && is_builtins(pipeline->commands[0]->args[0]))
-		execute = execute_single_builtin;
+		execute_single_builtin(pipeline, data, minishell);
 	else
-		execute = execute_commands;
-	execute(pipeline, data, minishell);
+		execute_commands(pipeline, minishell);
 }

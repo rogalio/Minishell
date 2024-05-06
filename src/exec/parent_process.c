@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 14:52:34 by cabdli            #+#    #+#             */
-/*   Updated: 2024/05/06 16:02:43 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/06 18:40:51 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,20 @@ t_pipeline *pipeline)
 	}
 }
 
+void	handle_child_signals(int childval)
+{
+	int	exit_stat;
+
+	exit_stat = 0;
+	exit_stat = WTERMSIG(childval);
+	if (exit_stat == SIGTERM)
+		write(STDOUT_FILENO, "\n", 1);
+	else if (exit_stat == SIGINT)
+		write(STDOUT_FILENO, "\n", 1);
+	else if (exit_stat == SIGQUIT)
+		write(STDERR_FILENO, "Quit (core dumped)\n", 19);
+}
+
 int	wait_for_children_to_finish(int command_count, t_pipeline *pipeline)
 {
 	int	childval;
@@ -39,15 +53,7 @@ int	wait_for_children_to_finish(int command_count, t_pipeline *pipeline)
 		if (waitpid(pipeline->commands[i]->pid, &childval, 0) == -1)
 			return (perror("minishell"), 1);
 		if (WIFSIGNALED(childval))
-		{
-			exit_stat = WTERMSIG(childval);
-			if (exit_stat == SIGTERM)
-				write(STDOUT_FILENO, "\n", 1);
-			else if (exit_stat == SIGINT)
-				write(STDOUT_FILENO, "\n", 1);
-			else if (exit_stat == SIGQUIT)
-				write(STDERR_FILENO, "Quit (core dumped)\n", 19);
-		}
+			handle_child_signals(childval);
 	}
 	if (WIFSIGNALED(childval))
 	{

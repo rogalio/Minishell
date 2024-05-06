@@ -6,11 +6,21 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 11:38:40 by cabdli            #+#    #+#             */
-/*   Updated: 2024/04/30 17:26:41 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/06 18:51:13 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipeline.h"
+
+void	fill_name_tmp(char *name)
+{
+	name[0] = '/';
+	name[1] = 't';
+	name[2] = 'm';
+	name[3] = 'p';
+	name[4] = '/';
+	name[5] = '.';
+}
 
 char	*generate_random_name(void)
 {
@@ -25,15 +35,10 @@ char	*generate_random_name(void)
 	name = ft_calloc(14, sizeof(char));
 	if (!name)
 		return (NULL);
+	fill_name_tmp(name);
 	fd = open("/dev/random", O_RDONLY);
 	if (fd == -1)
 		return (free(name), NULL);
-	name[0] = '/';
-	name[1] = 't';
-	name[2] = 'm';
-	name[3] = 'p';
-	name[4] = '/';
-	name[5] = '.';
 	while (i < 13)
 	{
 		if (read(fd, &c, 1) == -1)

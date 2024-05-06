@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 16:20:13 by rogalio           #+#    #+#             */
-/*   Updated: 2024/05/03 17:57:04 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/06 18:33:53 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,7 @@ int	exit_shell(t_data *data, t_minishell *minishell)
 	{
 		if (!ft_isnumber(data->args[1]))
 		{
-			ft_putstr_fd("minishell: exit: ", 2);
-			ft_putstr_fd(data->args[1], 2);
-			ft_putstr_fd(": numeric argument required\n", 2);
-			restore_standard_descriptors(minishell->fd_out, minishell->fd_in);
-			free_resources(minishell);
+			print_numeric_arg_error(data->args[1], minishell);
 			exit(SYNTAX_ERR);
 		}
 		if (data->args[2])

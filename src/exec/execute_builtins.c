@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 18:49:34 by cabdli            #+#    #+#             */
-/*   Updated: 2024/05/06 12:48:05 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/06 18:36:49 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,18 +52,17 @@ t_minishell *minishell)
 	{NULL, NULL}
 	};
 
-	i = 0;
+	i = -1;
 	if (cmd == NULL)
 		return (false);
 	data->args = args;
-	while (builtins[i].name)
+	while (builtins[++i].name)
 	{
 		if (strcmp(builtins[i].name, cmd) == 0)
 		{
 			minishell->exit_status = builtins[i].func(data, minishell);
 			return (minishell->exit_status);
 		}
-		i++;
 	}
 	return (false);
 }

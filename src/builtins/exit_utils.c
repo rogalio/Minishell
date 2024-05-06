@@ -1,25 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit_status.h                                      :+:      :+:    :+:   */
+/*   exit_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/24 17:29:40 by cabdli            #+#    #+#             */
-/*   Updated: 2024/05/06 18:22:16 by cabdli           ###   ########.fr       */
+/*   Created: 2024/05/06 18:29:58 by cabdli            #+#    #+#             */
+/*   Updated: 2024/05/06 18:34:01 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXIT_STATUS_H
-# define EXIT_STATUS_H
+#include "builtins.h"
+#include "exec.h"
 
-# include "minishell.h"
-
-/* exit_status.c */
-int	exit_process(t_minishell *minishell);
-int	exit_all(t_minishell *minishell);
-
-/* get_exit_status.c */
-int	get_exit_status(t_pipeline *pipeline, t_minishell *minishell);
-
-#endif
+void	print_numeric_arg_error(char *arg, t_minishell *minishell)
+{
+	ft_putstr_fd("minishell: exit: ", 2);
+	ft_putstr_fd(arg, 2);
+	ft_putstr_fd(": numeric argument required\n", 2);
+	restore_standard_descriptors(minishell->fd_out, minishell->fd_in);
+	free_resources(minishell);
+}
