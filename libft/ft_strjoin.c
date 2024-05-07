@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 17:20:21 by cabdli            #+#    #+#             */
-/*   Updated: 2023/10/09 21:34:56 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/07 11:19:58 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	*ft_strjoin(char *s1, char *s2)
 	if (s1 == NULL && s2 == NULL)
 		return (NULL);
 	len = (ft_strlen(s1) + ft_strlen(s2));
-	str = (char *)malloc((len + 1) * sizeof(char));
+	str = (char *)ft_calloc((len + 1), sizeof(char));
 	if (!str)
 		return (NULL);
 	while (s1 && s1[i])

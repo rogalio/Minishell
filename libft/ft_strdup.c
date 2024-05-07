@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 14:22:41 by cabdli            #+#    #+#             */
-/*   Updated: 2023/10/09 22:04:24 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/07 11:18:17 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*ft_strdup(const char *str)
 	int		i;
 
 	str_len = ft_strlen((char *)str);
-	ptr = (char *)malloc((str_len + 1) * sizeof(char));
+	ptr = (char *)ft_calloc((str_len + 1), sizeof(char));
 	if (!ptr)
 		return (NULL);
 	i = 0;
