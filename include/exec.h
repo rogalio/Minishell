@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 14:59:58 by rogalio           #+#    #+#             */
-/*   Updated: 2024/05/07 10:21:28 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/07 11:48:00 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include <sys/wait.h>
 # include <fcntl.h>
 # include <stdio.h>
-# include "libft.h"
+# include "../libft/libft.h"
 # include "minishell.h"
 # include "pipeline.h"
 # include "builtins.h"

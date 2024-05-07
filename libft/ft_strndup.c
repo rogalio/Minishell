@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 10:48:22 by cabdli            #+#    #+#             */
-/*   Updated: 2024/05/07 10:50:07 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/07 11:50:17 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*ft_strndup(const char *s1, size_t n)
 	new_str = (char *)ft_calloc(len + 1, sizeof(char));
 	if (new_str == NULL)
 		return (NULL);
-	while (++i < len)
+	while (++i < (int)len)
 		new_str[i] = s1[i];
 	return (new_str);
 }

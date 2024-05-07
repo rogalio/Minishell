@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 16:43:08 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/18 18:35:11 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/07 11:47:25 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include <stdlib.h>
 # include <stdio.h>
 # include <unistd.h>
-# include "libft.h"
+# include "../libft/libft.h"
 # include "error.h"
 
 typedef enum e_token_type

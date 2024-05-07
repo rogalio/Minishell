@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 15:47:29 by rogalio           #+#    #+#             */
-/*   Updated: 2024/05/06 19:03:27 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/07 11:46:50 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include <stdlib.h>
 # include <string.h>
 # include <unistd.h>
-# include "libft.h"
+# include "../libft/libft.h"
 # include "data.h"
 # include "minishell.h"
 

@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 13:06:53 by cabdli            #+#    #+#             */
-/*   Updated: 2024/04/26 12:36:15 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/07 11:47:52 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include <string.h>
 # include <stdlib.h>
 # include <stdio.h>
-# include "libft.h"
+# include "../libft/libft.h"
 # include "data.h"
 # include "token.h"
 

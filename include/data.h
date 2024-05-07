@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 18:37:23 by rogalio           #+#    #+#             */
-/*   Updated: 2024/05/01 17:37:42 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/07 11:47:07 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include <stdio.h>
 # include <string.h>
 # include <stdlib.h>
-# include "libft.h"
+# include "../libft/libft.h"
 
 typedef struct s_env
 {

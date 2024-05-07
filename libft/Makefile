@@ -6,7 +6,7 @@
 #    By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/14 19:31:50 by cabdli            #+#    #+#              #
-#    Updated: 2024/05/07 10:53:58 by cabdli           ###   ########.fr        #
+#    Updated: 2024/05/07 11:45:25 by cabdli           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -88,7 +88,7 @@ $(NAME): $(OBJS) libft.h
 	@echo "$(YELLOW)Libft done !$(RESET)"
 
 %.o: %.c
-	$(CC) $(FLAGS) -c $< -o $@
+	@$(CC) $(FLAGS) -c $< -o $@
 
 all: $(NAME)
 

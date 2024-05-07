@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 14:15:45 by cabdli            #+#    #+#             */
-/*   Updated: 2024/05/02 13:21:49 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/07 13:19:08 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ int	read_line(t_heredoc *heredoc, t_minishell *minishell)
 int	hdoc_child_process(t_heredoc *heredoc, t_minishell *minishell)
 {
 	init_heredoc_signals();
+	g_exit_signal = 0;
 	while (!read_line(heredoc, minishell))
 		;
 	return (close(heredoc->fd), exit_process(minishell));

@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 12:45:16 by cabdli            #+#    #+#             */
-/*   Updated: 2024/05/06 18:22:42 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/07 11:47:33 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define ERROR_H
 
 # include <unistd.h>
-# include "libft.h"
+# include "../libft/libft.h"
 
 typedef enum s_error
 {

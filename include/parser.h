@@ -6,14 +6,14 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 19:40:36 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/05 12:59:10 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/07 11:49:41 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSER_H
 # define PARSER_H
 
-# include "libft.h"
+# include "../libft/libft.h"
 # include "token.h"
 
 /*

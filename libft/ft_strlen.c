@@ -6,13 +6,13 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 01:31:59 by cabdli            #+#    #+#             */
-/*   Updated: 2023/10/09 21:37:18 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/07 11:49:14 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-size_t	ft_strlen(char *str)
+size_t	ft_strlen(const char *str)
 {
 	size_t	i;
 

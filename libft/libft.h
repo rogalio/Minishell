@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 01:09:22 by cabdli            #+#    #+#             */
-/*   Updated: 2024/05/07 10:53:44 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/07 11:49:24 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void			*ft_memmove(void *dest, const void *src, size_t len);
 void			*ft_memchr(const void *str, int c, size_t n);
 int				ft_memcmp(const void *s1, const void *s2, size_t n);
 void			ft_bzero(void *str, size_t n);
-size_t			ft_strlen(char *str);
+size_t			ft_strlen(const char *str);
 size_t			ft_strlcpy(char *dest, const char *src, size_t destsize);
 size_t			ft_strlcat(char *dest, const char *src, size_t destsize);
 char			*ft_strchr(char *str, int c);

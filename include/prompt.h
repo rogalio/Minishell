@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 18:36:47 by rogalio           #+#    #+#             */
-/*   Updated: 2024/04/26 15:12:25 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/07 11:49:52 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # include <sys/wait.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-# include "libft.h"
+# include "../libft/libft.h"
 # include "minishell.h"
 
 /* prompt.c */
