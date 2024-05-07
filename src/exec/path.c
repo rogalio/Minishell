@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 13:19:56 by cabdli            #+#    #+#             */
-/*   Updated: 2024/05/06 17:47:49 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/07 10:21:50 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static char	**get_search_paths(t_env *env)
 		free(path_env);
 		return (NULL);
 	}
-	paths = ft_split2(path_env, ':');
+	paths = ft_split(path_env, ':');
 	free(path_env);
 	return (paths);
 }

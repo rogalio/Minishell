@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 14:59:58 by rogalio           #+#    #+#             */
-/*   Updated: 2024/05/06 15:03:17 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/07 10:21:28 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,6 @@ int status, int perr);
 void	free_tab(char **tab);
 char	*ft_strjoin_three(const char *s1, const char *s2, const char *s3);
 char	**env_to_char_array(t_env *env);
-char	**ft_split2(char const *s, char c);
+// char	**ft_split2(char const *s, char c);
 
 #endif

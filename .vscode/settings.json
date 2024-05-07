@@ -27,6 +27,7 @@
     "functional": "c",
     "signals.h": "c",
     "error.h": "c",
-    "exit_status.h": "c"
+    "exit_status.h": "c",
+    "libft.h": "c"
   }
 }

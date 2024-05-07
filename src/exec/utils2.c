@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 15:14:59 by cabdli            #+#    #+#             */
-/*   Updated: 2024/05/01 15:41:59 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/07 10:22:00 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,36 +73,36 @@ char	**env_to_char_array(t_env *env)
 	return (envp);
 }
 
-char	**ft_split2(char const *s, char c)
-{
-	char	**tab;
-	int		i;
-	int		j;
-	int		k;
+// char	**ft_split2(char const *s, char c)
+// {
+// 	char	**tab;
+// 	int		i;
+// 	int		j;
+// 	int		k;
 
-	i = 0;
-	j = 0;
-	if (!s)
-		return (0);
-	tab = ft_calloc((ft_strlen(s) + 1), sizeof(char *));
-	if (!tab)
-		return (0);
-	while (s[i])
-	{
-		while (s[i] == c)
-			i++;
-		k = i;
-		while (s[i] && s[i] != c)
-			i++;
-		if (i > k)
-		{
-			tab[j] = ft_calloc((i - k + 1), sizeof(char));
-			if (!tab[j])
-				return (0);
-			ft_strlcpy(tab[j], s + k, i - k + 1);
-			j++;
-		}
-	}
-	tab[j] = 0;
-	return (tab);
-}
+// 	i = 0;
+// 	j = 0;
+// 	if (!s)
+// 		return (0);
+// 	tab = ft_calloc((ft_strlen(s) + 1), sizeof(char *));
+// 	if (!tab)
+// 		return (0);
+// 	while (s[i])
+// 	{
+// 		while (s[i] == c)
+// 			i++;
+// 		k = i;
+// 		while (s[i] && s[i] != c)
+// 			i++;
+// 		if (i > k)
+// 		{
+// 			tab[j] = ft_calloc((i - k + 1), sizeof(char));
+// 			if (!tab[j])
+// 				return (0);
+// 			ft_strlcpy(tab[j], s + k, i - k + 1);
+// 			j++;
+// 		}
+// 	}
+// 	tab[j] = 0;
+// 	return (tab);
+// }

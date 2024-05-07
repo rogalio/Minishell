@@ -6,7 +6,7 @@
 /*   By: cabdli <cabdli@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 13:46:26 by cabdli            #+#    #+#             */
-/*   Updated: 2024/05/06 15:41:27 by cabdli           ###   ########.fr       */
+/*   Updated: 2024/05/07 10:21:41 by cabdli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_minishell *minishell)
 
 	path = NULL;
 	envp = NULL;
-	split = ft_split2(command->args[0], ' ');
+	split = ft_split(command->args[0], ' ');
 	if (!split)
 		cleanup_and_exit(command, minishell, UNEXPEC_ERR, 1);
 	path = find_path(split[0], minishell);
